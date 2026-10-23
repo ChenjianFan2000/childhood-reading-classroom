@@ -2,7 +2,11 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const vm = require('node:vm');
 const flow = require('../scripts/story-flow.js');
+const reading = require('../scripts/reading-data.js');
 
 const cueCounts = {
   haulers: 1,
@@ -10,9 +14,11 @@ const cueCounts = {
   r2repair: 1,
   r3repair: 1,
   share: 3,
-  annewish: 1,
-  yamen: 1,
-  varvara: 1,
+  annecontext: 1,
+  annehelp: 0,
+  annewish: 2,
+  yamen: 2,
+  varvara: 2,
   pressure: 1
 };
 
@@ -27,16 +33,18 @@ test('only scenes with narration cues consume additional steps before changing s
   }
 });
 
-test('material closing, wish gestures, pressure, and recording have distinct cue kinds', () => {
+test('reading pages precede material closing and wish gestures, while other cues retain their roles', () => {
   const kinds = {
-    haulers: 'art-close',
-    r1repair: 'record', r2repair: 'record', r3repair: 'record', share: 'record',
-    annewish: 'wishes',
-    yamen: 'material-close', varvara: 'material-close',
-    pressure: 'pressure'
+    haulers: ['art-close'],
+    r1repair: ['record'], r2repair: ['record'], r3repair: ['record'],
+    share: ['record', 'record', 'record'],
+    annecontext: ['read-page'], annehelp: [],
+    annewish: ['read-page', 'wishes'],
+    yamen: ['read-page', 'material-close'], varvara: ['read-page', 'material-close'],
+    pressure: ['pressure']
   };
-  for (const [id, kind] of Object.entries(kinds)) {
-    assert.ok(flow.stepsFor(id).every(cue => cue.kind === kind), id + ' has its intended narration action');
+  for (const [id, expected] of Object.entries(kinds)) {
+    assert.deepEqual(flow.stepsFor(id).map(cue => cue.kind), expected, id + ' has its intended narration sequence');
   }
 });
 
@@ -115,7 +123,7 @@ test('resume ignores unrelated or legacy state, preserves records, and never ski
   assert.equal(flow.resumeStep('r2repair', records), 0);
   assert.equal(flow.resumeStep('r3repair', records), 1);
   assert.equal(flow.resumeStep('share', records), 1);
-  for (const id of ['haulers', 'annewish', 'yamen', 'varvara', 'pressure', 'parallel', 'unknown-scene']) {
+  for (const id of ['haulers', 'annecontext', 'annehelp', 'annewish', 'yamen', 'varvara', 'pressure', 'parallel', 'unknown-scene']) {
     assert.equal(flow.resumeStep(id, records), 0, id + ' begins with its narration');
   }
   assert.equal(JSON.stringify(records), before, 'Resume inspection does not change classroom records');
@@ -129,4 +137,83 @@ test('the flow is stateless so keyboard, canvas clicks, and record buttons can s
   assert.deepEqual(flow.next('share', 1), { type: 'cue', step: 2, cue: flow.stepsFor('share')[1] });
   assert.equal(JSON.stringify(flow.stepsFor('share')), before, 'Navigation does not mutate the cue definitions');
   assert.deepEqual(flow.next('haulers', 0), { type: 'cue', step: 1, cue: flow.stepsFor('haulers')[0] });
+});
+
+test('each reading page remains open until another action and all data pages are reachable in order', () => {
+  for (const [id, material] of Object.entries(reading.scenes)) {
+    const pageCount = material.pages.length;
+    assert.equal(flow.stepsFor(id).filter(cue => cue.kind === 'read-page').length, pageCount - 1, id);
+    for (let pageIndex = 0; pageIndex < pageCount; pageIndex++) {
+      const expected = { pageIndex, pageCount, closed: false, wishes: false };
+      assert.deepEqual(flow.readingState(id, pageIndex), expected, id + ' page ' + pageIndex);
+      assert.deepEqual(flow.readingState(id, pageIndex), expected, 'Reading state does not advance itself');
+      if (pageIndex < pageCount - 1) {
+        const next = flow.next(id, pageIndex);
+        assert.equal(next.type, 'cue');
+        assert.equal(next.cue.kind, 'read-page');
+        assert.equal(next.cue.pageIndex, pageIndex + 1);
+        assert.equal(next.cue.duration, 520);
+      }
+    }
+    assert.equal(flow.resumeStep(id, { groupOne: true, evidenceOne: true, yamen: true, annewish: true }), 0,
+      'Saved classroom records never skip a reading page');
+  }
+});
+
+test('a story closes only after its final page and reversing the close reopens that last page', () => {
+  for (const id of ['yamen', 'varvara']) {
+    const pageCount = reading.scenes[id].pages.length;
+    const close = flow.next(id, pageCount - 1);
+    assert.equal(close.cue.kind, 'material-close');
+    assert.deepEqual(flow.readingState(id, close.step), {
+      pageIndex: pageCount - 1, pageCount, closed: true, wishes: false
+    });
+    assert.deepEqual(flow.next(id, close.step), { type: 'scene', delta: 1 });
+    const reopen = flow.previous(id, close.step);
+    assert.deepEqual(flow.readingState(id, reopen.step), {
+      pageIndex: pageCount - 1, pageCount, closed: false, wishes: false
+    });
+    const firstPage = flow.previous(id, reopen.step);
+    assert.equal(flow.readingState(id, firstPage.step).pageIndex, 0);
+    assert.equal(flow.readingState(id, -1).closed, false);
+    assert.equal(flow.readingState(id, 999).closed, true);
+    assert.equal(flow.readingState(id, NaN).pageIndex, 0);
+  }
+  assert.deepEqual(flow.readingState('unknown-scene', 99), {
+    pageIndex: 0, pageCount: 0, closed: false, wishes: false
+  });
+});
+
+test('Anne reads the final diary page before wishes appear, and reversing wishes keeps the diary open', () => {
+  const pageCount = reading.scenes.annewish.pages.length;
+  const wishes = flow.next('annewish', pageCount - 1);
+  assert.equal(wishes.cue.kind, 'wishes');
+  assert.deepEqual(flow.readingState('annewish', wishes.step), {
+    pageIndex: pageCount - 1, pageCount, closed: false, wishes: true
+  });
+  const back = flow.previous('annewish', wishes.step);
+  assert.deepEqual(flow.readingState('annewish', back.step), {
+    pageIndex: pageCount - 1, pageCount, closed: false, wishes: false
+  });
+  assert.deepEqual(flow.next('annewish', wishes.step), { type: 'scene', delta: 1 });
+  assert.equal(flow.stepsFor('pressure')[0].kind, 'pressure', 'Final gathering remains a separate scene action');
+});
+
+test('browser flow derives longer reading sequences from the supplied pages instead of fixed page counts', () => {
+  const pages = Array.from({ length: 4 }, (_, index) => ({ title: 'Page ' + (index + 1) }));
+  const browser = { window: { LESSON_READING: { scenes: { yamen: { pages } } } } };
+  vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../scripts/story-flow.js'), 'utf8'), browser);
+  const browserFlow = browser.window.StoryFlow;
+  for (let page = 0; page < pages.length - 1; page++) {
+    assert.equal(browserFlow.next('yamen', page).cue.kind, 'read-page');
+    assert.equal(browserFlow.readingState('yamen', page + 1).pageIndex, page + 1);
+    assert.equal(browserFlow.readingState('yamen', page + 1).closed, false);
+  }
+  assert.equal(browserFlow.next('yamen', 3).cue.kind, 'material-close');
+  assert.equal(browserFlow.readingState('yamen', 4).closed, true);
+  for (let step = 4; step > 0; step--) {
+    const back = browserFlow.previous('yamen', step);
+    assert.equal(browserFlow.readingState('yamen', back.step).pageIndex, step - 1);
+    assert.equal(browserFlow.readingState('yamen', back.step).closed, false);
+  }
 });

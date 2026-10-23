@@ -200,7 +200,7 @@ window.LESSON_SCENES=[
     "id": "annecontext",
     "title": "安妮的藏身生活",
     "phase": "23—27分钟",
-    "time": "23:00—23:35",
+    "time": "23:00—24:00",
     "type": "context"
   },
   {
@@ -208,7 +208,7 @@ window.LESSON_SCENES=[
     "id": "annehelp",
     "title": "送进来的帮助",
     "phase": "23—27分钟",
-    "time": "23:35—24:00",
+    "time": "24:00—24:40",
     "type": "context"
   },
   {
@@ -216,7 +216,7 @@ window.LESSON_SCENES=[
     "id": "annewish",
     "title": "普通的愿望",
     "phase": "23—27分钟",
-    "time": "24:00—25:50",
+    "time": "24:40—26:10",
     "type": "reading"
   },
   {
@@ -224,7 +224,7 @@ window.LESSON_SCENES=[
     "id": "annetwist",
     "title": "为什么只能是愿望",
     "phase": "23—27分钟",
-    "time": "25:50—27:00",
+    "time": "26:10—27:00",
     "type": "question"
   },
   {
@@ -247,7 +247,7 @@ window.LESSON_SCENES=[
     "index": 29,
     "id": "author",
     "title": "为什么写下这些事",
-    "phase": "35—38分钟",
+    "phase": "35:00—40:30",
     "time": "35:00—36:00",
     "type": "reading"
   },
@@ -255,7 +255,7 @@ window.LESSON_SCENES=[
     "index": 30,
     "id": "revise",
     "title": "回到最初的判断",
-    "phase": "35—38分钟",
+    "phase": "35:00—40:30",
     "time": "36:00—36:30",
     "type": "question"
   },
@@ -263,7 +263,7 @@ window.LESSON_SCENES=[
     "index": 31,
     "id": "bubbles",
     "title": "看见更多孩子",
-    "phase": "35—38分钟",
+    "phase": "35:00—40:30",
     "time": "36:30—36:35",
     "type": "bubbles"
   },
@@ -271,64 +271,64 @@ window.LESSON_SCENES=[
     "index": 32,
     "id": "yamen",
     "title": "回到学校",
-    "phase": "35—38分钟",
-    "time": "36:35—36:50",
+    "phase": "35:00—40:30",
+    "time": "36:35—38:05",
     "type": "documentary"
   },
   {
     "index": 33,
     "id": "varvara",
     "title": "灯亮着的夜晚",
-    "phase": "35—38分钟",
-    "time": "36:50—37:05",
+    "phase": "35:00—40:30",
+    "time": "38:05—39:35",
     "type": "documentary"
   },
   {
     "index": 34,
     "id": "pressure",
     "title": "什么正在压着孩子",
-    "phase": "35—38分钟",
-    "time": "37:05—37:30",
+    "phase": "35:00—40:30",
+    "time": "39:35—40:00",
     "type": "pressure"
   },
   {
     "index": 35,
     "id": "daily",
     "title": "把目光带回身边",
-    "phase": "35—38分钟",
-    "time": "37:30—38:00",
+    "phase": "35:00—40:30",
+    "time": "40:00—40:30",
     "type": "question"
   },
   {
     "index": 36,
     "id": "exit",
     "title": "留下自己的三句话",
-    "phase": "38—40分钟",
-    "time": "38:00—39:30",
+    "phase": "40:30—42:30",
+    "time": "40:30—42:00",
     "type": "writing"
   },
   {
     "index": 37,
     "id": "support",
     "title": "共同撑开一点空间",
-    "phase": "38—40分钟",
-    "time": "39:30—39:38",
+    "phase": "40:30—42:30",
+    "time": "42:00—42:08",
     "type": "ending"
   },
   {
     "index": 38,
     "id": "ending",
     "title": "普通愿望 普通生活",
-    "phase": "38—40分钟",
-    "time": "39:38—39:52",
+    "phase": "40:30—42:30",
+    "time": "42:08—42:22",
     "type": "ending"
   },
   {
     "index": 39,
     "id": "homework",
     "title": "把阅读继续下去",
-    "phase": "38—40分钟",
-    "time": "39:52—40:00",
+    "phase": "40:30—42:30",
+    "time": "42:22—42:30",
     "type": "homework"
   }
 ];
@@ -502,7 +502,7 @@ window.LESSON_NARRATION=[
     "id": "cover",
     "teacher": "同学们，请把《童年》、阅读本和笔放在手边。今天，我们会回到阿廖沙的生活，也会遇见另外几位孩子。请带着自己的判断来，也准备让新的文字改变这个判断。",
     "action": "课前停在手绘画本的封面，检查投影边缘与文字大小。学生就绪后按右方向键或空格进入校园小路；全屏时也可点击无交互控件的空白处或使用右键推进。封面文字周围保留纸面留白，不提前展示结论。",
-    "hold": "课前准备，不占40分钟。画面可以停留；不提前展示三个问题的结论。",
+    "hold": "课前准备，不占42分30秒。画面可以停留；不提前展示三个问题的结论。",
     "optional": "若有学生未读完：今天共同读到的片段也能成为证据，不必等读完整本书才参与。",
     "timing": "课前"
   },
@@ -565,7 +565,7 @@ window.LESSON_NARRATION=[
   {
     "id": "haulers",
     "teacher": "请看画中人的肩背，还有绷紧的纤绳。你看见了一个怎样的细节？\n这是列宾的《伏尔加河上的纤夫》。它帮助我们理解沉重的劳动；画中人并不是阿廖沙的外祖父。现在，把目光接回他的讲述。",
-    "action": "进入本幕时，画作从书页中展开，先停在完整原画上。教师可选择肩背或纤绳，让局部缓慢放大并停稳，也可回到全图。讲完“把目光接回他的讲述”，按下一步将画作收回书页；再按下一步进入外祖父的原文。不得改变画中人物动作，也不把某一位纤夫标成外祖父。",
+    "action": "进入本幕时，以全屏画面展示原画，保留完整构图。教师可选择肩背或纤绳，让局部缓慢放大并停稳，也可回到全图。讲完“把目光接回他的讲述”，按下一步将画作收回书页；再按下一步进入外祖父的原文。不得改变画中人物动作，也不把某一位纤夫标成外祖父。",
     "hold": "40秒以内：约12秒观察，1人用约8秒指出可见细节，其余时间教师说明与转场。不展开美术赏析。",
     "optional": "若学生说“他们很痛苦”：请指向一个你确实看到的姿态或细节，再说明你的感受。",
     "timing": "10:00—10:40"
@@ -684,35 +684,35 @@ window.LESSON_NARRATION=[
   },
   {
     "id": "annecontext",
-    "teacher": "这位少女叫安妮·弗兰克。第二次世界大战期间，纳粹迫害犹太人。为了躲避迫害，她和家人在荷兰阿姆斯特丹藏匿起来。窗外仍有街道和日常生活，可对藏身的人来说，走出去意味着危险。请先记住这个处境，再读她的文字。",
-    "action": "镜头进入手绘藏身空间，窄窗、书与生活物件退到四周，中央留白呈现背景文字。此幕没有安妮人物动画，教师用讲述交代人物与历史处境；文字落定后保持静止。",
-    "hold": "35秒，背景与人物关系一次交代清楚；不增加战争历史问答，不补述遇害结局。",
+    "teacher": "请静读两页，留意藏身生活的限制。\n再看看，帮助怎样来到房间里。",
+    "action": "镜头进入手绘藏身空间，阅读区先显示“窗外的街道，不能走出去”。给学生静读时间后按下一步，进入“一天，从保持安静开始”；两页落定后均保持静止。读完第二页，教师只说一句连接，再按下一步进入帮助。背景整理与安妮短引文分开呈现，不将背景当作日记原文。",
+    "hold": "60秒：两页各约25秒独立静读，余下约10秒用于指令、短连接与推进。教师不逐句读屏，不增加历史问答，不补述遇害结局。",
     "optional": "若学生询问后来发生什么：今天先把目光放在这段日记写下的生活与愿望，课后可以继续了解她的完整经历。",
-    "timing": "23:00—23:35"
+    "timing": "23:00—24:00"
   },
   {
     "id": "annehelp",
-    "teacher": "他们并不孤立无援。帮助者把食物、衣物和书报送进来，让生活能够继续。这些人冒着风险关心他们，善意有了具体的重量。可是，送进房间的帮助，还不能让迫害停止。",
-    "action": "手绘食物包裹、衣物与书报依次轻轻落定，旁边保留清楚的文字名称，动作总长不超过6秒。窄窗仍在背景，中央文字说明帮助的价值与仍然缺少的自由，随后画面停住。",
-    "hold": "25秒。承认帮助的实际价值，再进入愿望；不把帮助者设成已经解决一切的英雄。",
+    "teacher": "请静读，找出帮助者做了什么。\n这些帮助支持了生活，窗外仍有危险。",
+    "action": "显示一页“帮助，怎样来到房间里”，食物、衣物与书报在页边依次落定，动作总长不超过6秒。学生阅读背景整理时，正文与镜头保持静止。读完后教师说一句连接，按下一步进入愿望阅读。",
+    "hold": "40秒：约30秒独立静读，约10秒用于指令、一句连接和推进。不把帮助者设成已经解决一切的英雄。",
     "optional": "",
-    "timing": "23:35—24:00"
+    "timing": "24:00—24:40"
   },
   {
     "id": "annewish",
-    "teacher": "1943年12月24日，安妮写下这些愿望。请安静读一读，她渴望做哪些普通的事？\n请一位同学读给大家听。其他同学圈出其中一项，你平时也可能做的事。\n再请两位同学各指出一项。先说文字，不急着判断她是不是幸福。\n我们刚刚看见的那些活动，现在只映在玻璃上。对安妮来说，它们还没有成为能够走进去的生活。请把这些普通愿望，和我们刚才知道的处境放在一起。",
-    "action": "日记文字先在中央纸面稳定显示，教师可按学生指认突出愿望。静读、朗读与两次指认完成后，按下一步展开骑车、跳舞、吹口哨的轻淡剪影，随后讲“我们刚刚看见的那些活动，现在只映在玻璃上”。剪影短暂运动后停住；这些是愿望，安妮仍在室内。讲述结束再按下一步，进入限制处境的追问。",
-    "hold": "110秒：静读约20秒，一人朗读约15秒，两人各用约12秒指认，教师讲述及停顿合计约50秒。",
+    "teacher": "请静读两页，圈出一个普通愿望。\n窗外的日常，仍是她难以实现的愿望。",
+    "action": "先显示“安静，并不总是安宁”，静读后按下一步，进入1943年12月24日的愿望短引。学生读完并指认一项愿望后，教师可点亮对应词语；再按下一步才展开骑车、跳舞、吹口哨的玻璃剪影。随后说连接句，剪影短暂运动后停住，安妮仍在室内。再按下一步进入限制处境的追问。",
+    "hold": "90秒：第一页约40秒、第二页约30秒静读与圈画，一人约8秒指认愿望，其余约12秒用于短指令、剪影回应与连接。不逐句读屏。",
     "optional": "如果学生说这些太普通：正因为普通，才请再想它需要什么条件，才能从纸上的愿望变成一天中的事情。\n若学生提到自己的烦恼：我们的困难也值得被听见；这里是在理解她为什么不能得到这些日常。",
-    "timing": "24:00—25:50"
+    "timing": "24:40—26:10"
   },
   {
     "id": "annetwist",
-    "teacher": "有人爱她，也有人帮助她，为什么她连骑车、吹口哨，都只能写成愿望？\n现在，把小茨冈的保护与安妮的愿望放在一起。幸福的童年，最不能缺少什么？请小组先说孩子已经得到什么，再说仍缺什么，用《童年》和安妮材料各一处证据，形成一项主张。选一项优先论证，不表示别的需要就可以取消。两人分别查两份证据，一人质疑，一人记录并发言，五分钟后交流。",
+    "teacher": "有人爱她、帮助她，为什么这些普通愿望仍难以实现？\n请小组提出一项最不能缺少的条件：先说孩子得到什么、仍缺什么，再用《童年》和安妮材料各一处证据支持。选一项论证，不表示取消其他需要。两人查证据，一人质疑，一人记录发言，五分钟后交流。",
     "action": "镜头从日记移向中央留白，愿望剪影退到玻璃边，关键问句出现后停住。教师停顿并口述任务、分工；小组任务和表达支架在下一幕证据总览才显示。进入下一幕后再开始五分钟计时。",
-    "hold": "70秒：第一问后静候5—8秒；其余用于任务说明、看清分工和前后相邻座位转向，不在此处先展开讨论。",
+    "hold": "50秒：第一问后静候约5秒，其余用于任务、分工与相邻座位转向。不在此处提前讨论；27:00进入下一幕后才开始完整五分钟计时。",
     "optional": "并读的是孩子受到的支持及还需要的条件。阿廖沙的家庭暴力与安妮遭遇的纳粹迫害，成因并不相同。",
-    "timing": "25:50—27:00"
+    "timing": "26:10—27:00"
   },
   {
     "id": "group",
@@ -756,19 +756,19 @@ window.LESSON_NARRATION=[
   },
   {
     "id": "yamen",
-    "teacher": "2024年9月10日的报道里，亚门的妈妈尽力教他功课。可他还要取水、拾柴，仍需要学校和同伴。",
-    "action": "进入本幕时，亚门的照片与报道从记忆中展开，在居中阅读空间落定并停止移动。图像保持纪实原貌，不叠加虚构年龄或人物对白。讲完本句后按下一步，将资料收回透明泡泡；再按下一步才进入并展开瓦尔瓦拉资料。",
-    "hold": "15秒。只讲一个明确区别：家人的支持确实存在，学校与同伴仍然重要。屏幕不增加资料问答。",
+    "teacher": "请静读这份2024年9月10日的报道，留意家庭支持和学校的作用。\n妈妈的帮助真实存在，孩子仍需要学校与同伴。",
+    "action": "进入本幕时展开亚门照片与第一页“他想回到学校”，落定后静读。按下一步进入“有人教他，学校仍然重要”；采访短引与报道整理分别显示。读完第二页，教师说一句连接，再按下一步将资料收回泡泡；再按才进入瓦尔瓦拉。照片保持纪实原貌，图中成人是父亲，不补写年龄或虚构对白。",
+    "hold": "90秒：两页各约35秒独立静读，余下20秒用于简短指令、一句连接与收回。教师不逐句读屏，不增加资料问答。",
     "optional": "该报道发表于2024年9月10日，不能当作今天的实时状况。来源未提供可靠年龄，不能补写年龄。",
-    "timing": "36:35—36:50"
+    "timing": "36:35—38:05"
   },
   {
     "id": "varvara",
-    "teacher": "2022年12月19日的报道里，七岁的瓦尔瓦拉在烛光下读书。停电、寒冷，让安稳睡觉也变得困难。",
-    "action": "进入本幕时，瓦尔瓦拉的报道与母女照片展开，落定后保持静止。照片本身不是烛光场景；烛光阅读、停电与寒冷来自报道文字，教师结合正文讲述。讲完本句后按下一步，将资料收回透明泡泡；再按下一步回到安静房间，准备处境汇聚。",
-    "hold": "15秒。“七岁”指报道当时的年龄；不当作她现在的年龄，也不虚构她说过的话。",
+    "teacher": "请静读这份2022年12月19日的报道，瓦尔瓦拉当时七岁。\n母亲点亮蜡烛，孩子仍需要温暖、安全和安稳的夜晚。",
+    "action": "进入本幕时展开母女照片与第一页“妈妈点亮了蜡烛”，落定后静读。按下一步进入“她还需要一个安稳的夜晚”；采访短引与报道整理分别显示。照片本身不是烛光阅读现场。读完第二页，教师说一句连接，再按下一步将资料收回泡泡；再按才回到安静房间，准备记忆汇聚。",
+    "hold": "90秒：两页各约35秒独立静读，余下20秒用于简短指令、一句连接与收回。“七岁”是报道时的年龄，不当作现在的年龄。",
     "optional": "把“灯亮着的夜晚”解释为本课对生活条件的概括，不给它加引号冒充儿童原话。",
-    "timing": "36:50—37:05"
+    "timing": "38:05—39:35"
   },
   {
     "id": "pressure",
@@ -776,23 +776,23 @@ window.LESSON_NARRATION=[
     "action": "进入本幕先停在安静房间。讲到“房间一点点变窄”，按下一步，让《童年》、安妮与两份现实材料的记忆同时汇聚，随后灰影逼近、木梁与边界压缩空间，小人收肩停步。中央问句保持可读，整段动作约6秒后停住；压力来自处境，不将儿童照片砸向人物。说完其余旁白、保留短暂停顿后，再按下一步进入日常连接。",
     "hold": "25秒，问句为教师讲述中的追问，不等待举手作答。说完后保留短暂静止，进入日常连接。",
     "optional": "若学生明显难受，可提前进入桌前画面；用一句“这些处境需要被改变，孩子也需要被支持”承接，不扩展刺激性事实。",
-    "timing": "37:05—37:30"
+    "timing": "39:35—40:00"
   },
   {
     "id": "daily",
     "teacher": "把目光带回身边。一个人被误解时，有人肯听他说完；遇到困难时，能找到可信赖的大人。你最想守住的条件，也应当落在这样的日常里。请独立写三句话：你的判断，一处《童年》的证据，以及它在生活中怎样体现。六十到九十字，按自己的理解写。",
-    "action": "镜头平稳回到书桌，纸面中央呈现两个日常例子与联系生活的提问，周围点缀停住。退出卡三个句式在下一幕才出现；教师可以在本幕先口述写作指令，并在38:00前讲完。",
+    "action": "镜头平稳回到书桌，纸面中央呈现两个日常例子与联系生活的提问，周围点缀停住。退出卡三个句式在下一幕才出现；教师可以在本幕先口述写作指令，并在40:30前讲完。",
     "hold": "30秒，只作日常连接与写作说明，不再征集口头例子。",
     "optional": "可使用学校、家里或虚构的小情境，不要求学生讲述私人创伤。行动落在尊重、倾听与求助，不要求儿童承担解决战争的责任。",
-    "timing": "37:30—38:00"
+    "timing": "40:00—40:30"
   },
   {
     "id": "exit",
     "teacher": "",
     "action": "镜头停在三句话提示与静止书桌上，中央纸面保留充分书写提示空间。启动90秒计时；人物、泡泡、灰影与周围点缀均停止运动。教师不重播动画，不打开资料面板。",
-    "hold": "38:00—39:30完整90秒独立书写。教师保持安静，不补讲、不要求临时展示。学生写完可自行检查：判断、原著证据、日常体现是否都有。",
+    "hold": "40:30—42:00完整90秒独立书写。教师保持安静，不补讲、不要求临时展示。学生写完可自行检查：判断、原著证据、日常体现是否都有。",
     "optional": "",
-    "timing": "38:00—39:30"
+    "timing": "40:30—42:00"
   },
   {
     "id": "support",
@@ -800,7 +800,7 @@ window.LESSON_NARRATION=[
     "action": "确认90秒书写结束后推进，镜头回到房间，支撑动作随入幕自动开始。成年人双手共同支撑木梁；房间只缓缓恢复一点空间，边缘仍留阴影。动作约6秒，与本句旁白同步，不把所有困难瞬间消除。",
     "hold": "8秒，旁白与支撑动作同步。学生不需要继续写或回答。",
     "optional": "",
-    "timing": "39:30—39:38"
+    "timing": "42:00—42:08"
   },
   {
     "id": "ending",
@@ -808,7 +808,7 @@ window.LESSON_NARRATION=[
     "action": "镜头回到最初的书桌，接住铅笔的动作随入幕自动开始：一支铅笔缓缓滑向桌边，被伸来的手接住。小人仍在桌前，窗外留有明暗交接的远景。原结语在中央留白处出现后停住，保留最后的安静。",
     "hold": "14秒。最后一句缓慢说完，保留约2秒安静，不追加道德训诫或新的任务。",
     "optional": "",
-    "timing": "39:38—39:52"
+    "timing": "42:08—42:22"
   },
   {
     "id": "homework",
@@ -816,15 +816,15 @@ window.LESSON_NARRATION=[
     "action": "镜头落到纸面留白中的原课后任务：回读一处支持或挑战退出卡判断的原文，写约100—150字批注；未读完者继续原阅读计划。画面停稳，可在下课后继续停留。",
     "hold": "8秒，不在最后赶着口述全部作业。学生可课后查看；不挤占退出卡。",
     "optional": "",
-    "timing": "39:52—40:00"
+    "timing": "42:22—42:30"
   }
 ];
 window.LESSON_SOURCES={
   "display_policy": {
-    "student_view": "No material IDs, footnotes, source labels, editorial omission marks or reporting dates. Keep non-contiguous excerpts in visibly separate blocks.",
-    "teacher_view": "Preserve author, translator, PDF page numbers, historical dates and the distinction between quotation and paraphrase.",
+    "student_view": "No novel material IDs, footnotes or editorial omission marks. Keep non-contiguous excerpts in separate blocks. Expanded external reading distinguishes short quotation translations from background or reporting notes; source URLs and historical reporting dates remain in teacher materials.",
+    "teacher_view": "Preserve author, translator, source URLs, PDF page numbers, historical dates and the distinction between short quotation working translations and compiled background or reporting notes. The expanded reading pages and their sources are in LESSON_READING.",
     "quotation_normalization": "Removed PDF line wraps and footnote numbers; normalized exclamation and question marks to fullwidth Chinese punctuation. Each novel excerpt was checked as one contiguous substring of the source, except that splitting a continuous excerpt into adjacent blocks is allowed.",
-    "critical_note": "The game cards are teacher-written summaries, not novel quotations. Teachers must say this aloud if the projected cards have no attribution label. The Anne sentence is a working Chinese translation of an excerpt, not a published Chinese translation."
+    "critical_note": "The game cards are teacher-written summaries, not novel quotations. The Anne and interview quotations in the expanded reading are short working Chinese translations, not excerpts from a published Chinese edition; surrounding background and reporting notes are compiled reading material, not continuous source quotations."
   },
   "book": {
     "title": "童年",
@@ -895,9 +895,9 @@ window.LESSON_SOURCES={
     "source_url": "https://www.annefrank.org/media/filer_public/d9/b4/d9b451a0-5471-4789-8ead-ea417eebeecb/afvd_werkblad_vo_5_vrijheid-en.pdf",
     "pdf_page": 1,
     "diary_entry_date": "1943-12-24",
-    "translation_status": "据安妮之家引英文所作课堂工作译文；中文末尾句号为截取片段的显示处理，不代表完整日记原句。",
+    "translation_status": "愿望短引沿用原教案课堂工作译文；新增两处短引据安妮之家所引文字译写，均不冒充中文出版译本。五页中的背景整理与短引文分开显示，具体页文和来源见LESSON_READING。",
     "helpers_source": "https://www.annefrank.org/en/anne-frank/main-characters/",
-    "teacher_background": "第二次世界大战期间，犹太女孩安妮·弗兰克为躲避纳粹迫害在荷兰阿姆斯特丹藏匿。1942—1944年，八名藏匿者依靠六位帮助者得到食物、衣物、书籍、杂志和报纸。这些帮助支持了生活，迫害仍使自由出行危险。不要加入原教案未使用的遇害结局。"
+    "teacher_background": "安妮部分在23:00—27:00内安排五页阅读：藏身处境两页、帮助一页、安静与愿望两页。背景据安妮之家资料整理，三处短引为课堂工作译文。学生先静读，教师只作简短连接；不补述遇害结局。"
   },
   "yamen": {
     "source_title": "Hope amid the rubble – Restoring learning in the Gaza Strip",
@@ -912,8 +912,8 @@ window.LESSON_SOURCES={
     "image_credit": "UNICEF 2024",
     "image_caption": "Yamen and his father share their hopes for learning to return.",
     "local_image": "assets/yamen.webp",
-    "text_status": "据历史报道改述，无引号，不冒充采访直译。",
-    "teacher_intro": "这是联合国儿童基金会2024年报道中的亚门。他的母亲是教师，在家教他，他仍希望回到学校，与同伴一起学习。"
+    "text_status": "两页阅读中的两句采访短引为课堂工作译文，其余为报道内容整理，不是整篇报道的逐字翻译。旧student_text为报道概述；新增页文与来源见LESSON_READING。",
+    "teacher_intro": "这是联合国儿童基金会2024年9月10日的历史报道。亚门的母亲在家教他功课，家庭的支持与孩子仍需要学校和同伴这两点都要保留。先给两页独立阅读时间，再作一句连接；不补写年龄，不把照片中的父亲说成母亲。"
   },
   "varvara": {
     "source_title": "As winter bites, needs intensify for families in Ukraine",
@@ -927,8 +927,8 @@ window.LESSON_SOURCES={
     "image_credit": "UNICEF",
     "image_caption": "7-year-old Varvara with her mother",
     "local_image": "assets/varvara.webp",
-    "text_status": "据历史报道改述，无引号，不冒充采访直译。",
-    "teacher_intro": "这是联合国儿童基金会2022年冬天报道中的瓦尔瓦拉，当时七岁。母亲为她点蜡烛读书，战争造成的停电却让家中失去灯光和温暖。不要将照片与年龄说成2026年的即时近况。"
+    "text_status": "两页阅读中的两句采访短引为课堂工作译文，其余为报道内容整理，不是整篇报道的逐字翻译。旧student_text为报道概述；新增页文与来源见LESSON_READING。",
+    "teacher_intro": "这是联合国儿童基金会2022年12月19日的历史报道，瓦尔瓦拉当时七岁。先给两页独立阅读时间，再连接母亲的支持与孩子仍需要的温暖、安全和安稳夜晚。照片是母女合影，不是烛光阅读现场，也不是2026年的即时近况。"
   },
   "media_use_note": "Photos remain documentary originals. Do not redraw the children, remove photographer credit from teacher resources, or imply the pictures were taken for this class. Artwork is presented as a reproduction, not modified into novel evidence."
 };

@@ -1,6 +1,6 @@
 (function(){
 'use strict';
-const A=window.LESSON_ASSETS,S=window.LESSON_SCENES,M=window.LESSON_TEXT,N=window.LESSON_NARRATION,SOURCES=window.LESSON_SOURCES,FLOW=window.StoryFlow;
+const A=window.LESSON_ASSETS,S=window.LESSON_SCENES,M=window.LESSON_TEXT,N=window.LESSON_NARRATION,SOURCES=window.LESSON_SOURCES,FLOW=window.StoryFlow,READING=window.LESSON_READING;
 const stage=document.getElementById('stage'),root=document.getElementById('sceneRoot'),panel=document.getElementById('panel'),panelBody=document.getElementById('panelBody'),panelTitle=document.getElementById('panelTitle'),controls=document.getElementById('controls');
 let shot=null,scene=null,background=null,shade=null,ambience=null,transitioning=false;
 let cameraAnimations=[],pointerStart=null,pointerDragged=false;
@@ -8,7 +8,7 @@ let cueStep=0,cueBusy=false,cueAnimations=[],cueToken=0,cueTimeout=null,cueResol
 const fullscreenMedia=matchMedia('(display-mode: fullscreen)');
 const mem={marks:{},records:{},cuts:{},index:0};
 let index=0,hideControls=0,toastTimer=0,soundEnabled=false,audioContext=null,timerInterval=null,timerRemaining=0,timerDefault=0,timerRunning=false;
-const timerValues={initial:35,parallel:120,grandfather:60,r1read:20,r1recall:20,r1repair:30,r2read:20,r2recall:8,r2repair:30,r3read:30,r3recall:10,r3repair:35,annewish:20,group:300,author:40,revise:30,exit:90};
+const timerValues={initial:35,parallel:120,grandfather:60,r1read:20,r1recall:20,r1repair:30,r2read:20,r2recall:8,r2repair:30,r3read:30,r3recall:10,r3repair:35,annecontext:50,annehelp:30,annewish:70,yamen:70,varvara:70,group:300,author:40,revise:30,exit:90};
 const cinema=new Set(['cover','today','ordinary','window','arrival','bubbles','pressure','support','ending']);
 const reading=new Set(['parallel','compare','grandfather','r1read','r2read','r3read','r1repair','r2repair','r3repair','group','author']);
 const keys={A:['不安','撕掉','难以忍受','自己的或别人的','敏感'],B:['无私的爱','丰富了我','坚强的力量','应付困苦的生活'],C:['太过分了','受教训','欺辱','熬出头了'],D:['挡着你','少挨了几下','为了爱'],E:['连根儿拔掉','压扁','善良','光明的、人道的生活']};
@@ -46,7 +46,15 @@ function roomOrb(id,current){
 }
 function storyRoom(current){return '<div class="story-room">'+roomOrb('yamen',current)+roomOrb('varvara',current)+hero(4,'story-room-hero')+'<div class="room-window-glow" aria-hidden="true"></div></div>';}
 function bubbleHTML(){return '<div class="story-exhibit is-introduction">'+storyRoom('')+'<p class="room-invitation">把这扇窗，再打开一点。</p></div>';}
-function documentary(id){const b=M.bubbles.find(x=>x.id===id);return '<div class="story-exhibit" data-story="'+id+'">'+storyRoom(id)+'<article class="material-sheet documentary '+(id==='varvara'?'focus-right':'')+'"><div class="documentary-photo">'+img(id+'.webp','',id==='yamen'?'亚门和父亲':'瓦尔瓦拉和母亲')+'</div><div class="documentary-content"><p class="material-eyebrow">窗外的童年</p><h1>'+(id==='yamen'?'回到学校':'灯亮着的夜晚')+'</h1><p>'+safe(b.student_text)+'</p>'+recordButton(1,'收起这段讲述')+'</div></article><p class="material-return">这段讲述，留在了窗边。</p></div>';}
+function readingPages(id){
+ const pages=READING.scenes[id].pages;
+ return '<div class="reading-pages">'+pages.map((page,i)=>'<section class="reading-page" data-reading-page="'+i+'"'+(i?' hidden inert aria-hidden="true"':' aria-hidden="false"')+'><p class="reading-kind">'+safe(page.kind)+'</p><h1>'+safe(page.title)+'</h1><div class="reading-paragraphs">'+page.blocks.map(block=>{
+  const text=block.interactive==='wishes'?words(block.text,M.anne.wishes):safe(block.text);
+  return block.kind==='quote'?'<blockquote class="reading-quote'+(block.interactive?' wish-text':'')+'"><p>“'+text+'”</p>'+(block.speaker?'<span class="reading-speaker">'+safe(block.speaker)+'</span>':'')+'</blockquote>':'<p>'+text+'</p>';
+ }).join('')+'</div>'+(page.illustration==='help'?'<div class="help-items reading-objects"><div class="help-item">'+window.StoryScenery.parcel('food')+'<span>食物</span></div><div class="help-item">'+window.StoryScenery.parcel('clothes')+'<span>衣物</span></div><div class="help-item">'+window.StoryScenery.parcel('books')+'<span>书报</span></div></div>':page.illustration==='wishes'?'<div class="wish-scenes"><div class="wish-picture" data-wish="骑车">'+bike()+'</div><div class="wish-picture" data-wish="跳舞">'+dance()+'</div><div class="wish-picture" data-wish="吹口哨">'+whistle()+'</div></div>':'')+(page.prompt?'<p class="reading-prompt">'+safe(page.prompt)+'</p>':'')+'</section>').join('')+'</div><nav class="reading-controls" aria-label="阅读段落"><button data-reading-previous aria-label="上一页阅读">← 上一页</button><span class="reading-position" aria-live="polite"></span><button data-reading-next>继续阅读 <span aria-hidden="true">→</span></button></nav>';
+}
+function anneReading(id){return '<article class="paper expanded-reading anne-reading">'+readingPages(id)+'</article>';}
+function documentary(id){return '<div class="story-exhibit" data-story="'+id+'">'+storyRoom(id)+'<article class="material-sheet documentary reading-exhibit '+(id==='varvara'?'focus-right':'')+'"><div class="documentary-photo">'+img(id+'.webp','',id==='yamen'?'亚门和父亲':'瓦尔瓦拉和母亲')+'</div><div class="documentary-content">'+readingPages(id)+'</div></article><p class="material-return">这段讲述，留在了窗边。</p></div>';}
 function pressureBubbles(){return '<div class="memory-constellation"><div class="memory-orb memory-novel"><svg viewBox="0 0 100 90" aria-hidden="true"><path d="M50 23Q29 9 10 18v58q20-8 40 5 20-13 40-5V18q-19-9-40 5ZM50 23v58M22 32l17 3m-17 10 17 3m22-13 17-3m-17 16 17-3"/></svg><span>阿廖沙的童年</span></div><div class="memory-orb memory-anne"><svg viewBox="0 0 100 90" aria-hidden="true"><path d="M20 77V15q30-17 60 0v62ZM50 6v71M20 39h60M12 78h76M30 65l12-14m15 12 12-8"/></svg><span>安妮的窗</span></div><div class="memory-orb memory-yamen">'+img('yamen.webp','','亚门与父亲')+'<span>回到学校</span></div><div class="memory-orb memory-varvara">'+img('varvara.webp','','瓦尔瓦拉与母亲')+'<span>灯亮着的夜晚</span></div><svg class="memory-thread" viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M200 230Q170 420 450 530T800 695M1400 230q30 190-250 300T800 695M210 510q150 180 590 185M1390 510q-150 180-590 185"/></svg></div>';}
 function hands(){return '<svg class="support-hands" viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true"><g stroke="#765f47" stroke-width="3"><path fill="#405f57" d="M-40 810 130 355 194 374 90 900H-40Z"/><path fill="#d5aa7a" d="m130 355 10-58c3-23 17-26 22-10l2 24 10-49c3-16 17-13 15 3l-3 52 13-41c5-15 18-10 14 5l-10 44 14-29c7-14 19-7 12 7l-19 50-16 21Z"/><path fill="#796b91" d="m1640 840-172-480-63 15 108 525h127Z"/><path fill="#b18165" d="m1468 360-12-60c-4-21-18-22-22-7l-1 24-13-45c-5-15-18-10-15 5l7 48-16-35c-7-14-19-7-13 8l14 37-16-24c-9-12-20-3-10 10l22 37 12 17Z"/><path fill="#a68a52" d="m423 900 69-531 68 3 11 528Z"/><path fill="#e1bf94" d="m492 369-3-47c-2-18 11-23 17-7l8 21 1-64c0-17 15-18 17-1l5 59 6-56c2-18 16-15 16 2v58l8-36c4-16 18-13 15 4l-12 58-10 12Z"/><path fill="#658b80" d="m1020 900 35-514 71-9 81 523Z"/><path fill="#d7a680" d="m1055 386-9-50c-4-19 8-24 15-8l12 22-2-61c0-18 15-19 17-2l7 57 5-65c2-18 16-16 16 2v61l8-39c4-17 18-13 16 4l-8 57-6 13Z"/></g></svg>';}
 function catchHand(){return '<svg class="catch-hand" viewBox="0 0 350 240" aria-hidden="true"><path fill="#577268" stroke="#344e43" stroke-width="3" d="M350 105 170 94l-12 83 192 63Z"/><path fill="#dfb98d" stroke="#9b7657" stroke-width="3" d="m173 97-47-22-58-2c-19 0-25 11-8 15l40 9-57 2c-19 1-21 14-2 17l56 4-54 5c-17 2-17 15 1 16l59 1-36 7c-16 4-10 16 4 15l66-3 23 16Z"/></svg>';}
@@ -74,9 +82,9 @@ case 'r3recall':setBg('old-room.png','#182c265e');return '<div class="paper reca
 case 'r3repair':setBg('old-room.png','#182c265e');return repair('把赞美写准确',fragments(M.D.short_blocks,keys.D),'小茨冈受伤了。','r3praise','我赞美他……因为……','protect-layout');
 case 'again':setBg('old-room.png','#102b2a72');return '<div class="continuing-protection" aria-hidden="true"></div><div class="continuing-glow" aria-hidden="true"></div><div class="paper dialogue-paper"><p class="fragment">“下次再打你，记住，你别抱紧身子缩作一团，你懂吗？”</p><div class="divider"></div><p class="dialogue"><small>阿廖沙问</small>“还会打我吗？”</p></div>';
 case 'againanswer':setBg('old-room.png','#102b2a72');return '<div class="continuing-protection" aria-hidden="true"></div><div class="continuing-glow" aria-hidden="true"></div><div class="paper dialogue-paper"><p class="dialogue"><small>阿廖沙问</small>“还会打我吗？”</p><p class="dialogue"><small>小茨冈平平静静地说</small>“当然要打啦！”</p><div class="divider"></div><p class="hint">有人替他挡过一次，是否等于他以后就安全了？</p></div>';
-case 'annecontext':setBg('anne-room.png','#1426384a');return '<div class="paper anne-context"><h1>安妮的藏身生活</h1><p>为了躲避纳粹对犹太人的迫害，<br>安妮和家人在阿姆斯特丹藏匿。</p><div class="divider"></div><p>窗外有街道，<br>走出去却意味着危险。</p></div>';
-case 'annehelp':setBg('anne-room.png','#1426384a');return '<div class="paper anne-context"><h1>有人一直在帮助他们</h1><div class="help-items"><div class="help-item">'+window.StoryScenery.parcel('food')+'<span>食物</span></div><div class="help-item">'+window.StoryScenery.parcel('clothes')+'<span>衣物</span></div><div class="help-item">'+window.StoryScenery.parcel('books')+'<span>书报</span></div></div><p style="text-align:center">善意支持着生活，<br>她仍然无法自由走出去。</p></div>';
-case 'annewish':setBg('anne-room.png','#1426384a');return '<div class="paper single-reading"><h1>她渴望的，是怎样的生活？</h1><p class="wish-text">'+words(M.anne.blocks[0],M.anne.wishes)+'</p><div class="wish-scenes"><div class="wish-picture" data-wish="骑车">'+bike()+'</div><div class="wish-picture" data-wish="跳舞">'+dance()+'</div><div class="wish-picture" data-wish="吹口哨">'+whistle()+'</div></div></div>';
+case 'annecontext':setBg('anne-room.png','#1426384a');return anneReading(id);
+case 'annehelp':setBg('anne-room.png','#1426384a');return anneReading(id);
+case 'annewish':setBg('anne-room.png','#1426384a');return anneReading(id);
 case 'annetwist':setBg('anne-room.png','#0c243286');return question('有人爱她，也有人帮助她，<br>为什么她连骑车、吹口哨，<br>都只能写成愿望？','把已经得到的帮助，与仍然缺少的条件放在一起看。');
 case 'group':setBg('modern-room.png','#23372c70');return '<div class="paper group-layout"><h1>幸福的童年，最不能缺少什么？</h1><div class="evidence-board"><div class="evidence-stack">'+evidenceButton('A','受伤之后',['“不安的心情”','“难以忍受的敏感”'])+evidenceButton('B','外祖母给予的力量',['“无私的爱丰富了我”','“坚强的力量以应付困苦的生活”'])+'</div><div class="evidence-stack">'+evidenceButton('C','外祖父的解释',['“我当时对你太过分了”','“挨自己亲人的打，这不算屈辱，是受教训”'])+evidenceButton('D','小茨冈的保护',['“少挨了几下”　“为了爱”','“还会打我吗？”“当然要打啦！”'])+'</div><div class="evidence-stack">'+evidenceButton('anne','安妮的愿望',['有人送来食物、衣物和书报，她仍无法自由出门。',M.anne.blocks[0]])+'</div></div><p class="group-prompt">我们认为最不能缺少________。<br>《童年》中________说明________；安妮的________说明________。<br>已有的善意值得珍惜，还需要________真正发生／不再发生。</p><p class="group-roles">两人分别查两份证据 · 一人质疑 · 一人记录并发言</p><div class="group-steps"><span>每人说一句</span><span>找两处证据</span><span>追问“足够了吗”</span><span>写约80字主张</span></div></div>';
 case 'share':setBg('modern-room.png','#23372c70');return '<div class="paper main-paper sharing-paper"><h1>把一个条件，还原成孩子的一天</h1><div class="share-grid"><div class="share-card"><h2>这一组的主张</h2>'+recordSlot('groupOne','最想守住的是……')+recordSlot('evidenceOne','文字让我们看见……')+recordButton(1,'留下第一组发言')+'</div><div class="share-card"><h2>另一组的发现</h2>'+recordSlot('groupTwo','最想守住的是……')+recordSlot('evidenceTwo','文字让我们看见……')+recordButton(2,'留下第二组发现')+'</div></div><div class="daily-response" id="dailyResponse">'+recordSlot('concreteLife','这个词，在孩子的生活里是……')+recordButton(3,'把条件放进生活')+'</div></div>';
@@ -176,9 +184,27 @@ function syncCueControls(){
   if(button.disabled&&document.activeElement===button)stage.focus({preventScroll:true});
   if(button.dataset.label)button.innerHTML=target<=cueStep?'已留下 <span aria-hidden="true">✓</span>':safe(button.dataset.label)+' <span aria-hidden="true">↗</span>';
  });
+ const reading=READING.scenes[id];
+ if(reading){
+  const state=FLOW.readingState(id,cueStep),previous=scene.querySelector('[data-reading-previous]');
+  previous.disabled=state.pageIndex===0&&!state.wishes;
+  if(previous.disabled&&document.activeElement===previous)stage.focus({preventScroll:true});
+  scene.querySelector('.reading-position').textContent=(state.pageIndex+1)+' / '+state.pageCount;
+  const label=next.type!=='cue'?'读完，继续':next.cue.kind==='read-page'?'继续阅读':next.cue.kind==='wishes'?'让愿望映在窗上':'收起这段讲述';
+  scene.querySelector('[data-reading-next]').innerHTML=safe(label)+' <span aria-hidden="true">→</span>';
+ }
 }
 function applyCueState(){
  const id=S[index].id;
+ const readingState=FLOW.readingState(id,cueStep);
+ if(READING.scenes[id]){
+  scene.querySelectorAll('[data-reading-page]').forEach(page=>{
+   const visible=Number(page.dataset.readingPage)===readingState.pageIndex;
+   if(!visible&&page.contains(document.activeElement))stage.focus({preventScroll:true});
+   page.hidden=!visible;page.inert=!visible;page.setAttribute('aria-hidden',String(!visible));
+  });
+  shot.dataset.readingPage=String(readingState.pageIndex);
+ }
  scene.querySelectorAll('[data-record]').forEach(el=>{
   const done=mem.records[el.dataset.record]===true;
   const was=el.classList.contains('is-recorded');
@@ -197,10 +223,11 @@ function applyCueState(){
  }
  if(id==='yamen'||id==='varvara'){
   const exhibit=scene.querySelector('.story-exhibit'),sheet=scene.querySelector('.material-sheet'),room=scene.querySelector('.story-room');
-  if((cueStep>0?sheet:room).contains(document.activeElement))stage.focus({preventScroll:true});
-  exhibit.classList.toggle('is-closed',cueStep>0);sheet.inert=cueStep>0;sheet.setAttribute('aria-hidden',String(cueStep>0));
-  room.inert=cueStep===0;
-  scene.querySelector('.material-return').setAttribute('aria-hidden',String(cueStep===0));
+  const closed=readingState.closed;
+  if((closed?sheet:room).contains(document.activeElement))stage.focus({preventScroll:true});
+  exhibit.classList.toggle('is-closed',closed);sheet.inert=closed;sheet.setAttribute('aria-hidden',String(closed));
+  room.inert=!closed;
+  scene.querySelector('.material-return').setAttribute('aria-hidden',String(!closed));
  }
  if(id==='pressure'){
   scene.querySelector('.pressure-scene').classList.toggle('is-weighing',cueStep>0);
@@ -227,13 +254,17 @@ function runCue(target){
  FLOW.stepsFor(id).forEach((step,i)=>{if(step.kind==='record')step.recordIds.forEach(key=>{if(i<cueStep)mem.records[key]=true;else delete mem.records[key];});});
  if(cue.kind==='material-close')scene.querySelector('.story-exhibit').classList.add('was-cued');
  applyCueState();save();
- const duration=reducedMotion()?0:forward?cue.duration:850;
+ const duration=reducedMotion()?0:forward?cue.duration:cue.kind==='read-page'?480:850;
  if(cue.kind==='material-close'){
-  const animation=sheetMotion(scene.querySelector('.material-sheet'),scene.querySelector('[data-story-orb="'+id+'"]'),cueStep>0,duration);
+  const animation=sheetMotion(scene.querySelector('.material-sheet'),scene.querySelector('[data-story-orb="'+id+'"]'),FLOW.readingState(id,cueStep).closed,duration);
   if(animation)cueAnimations.push(animation);
  }else if(cue.kind==='art-close'){
   const animation=sheetMotion(scene.querySelector('.art-sheet'),scene.querySelector('.folded-art'),cueStep>0,duration);
   if(animation)cueAnimations.push(animation);
+ }else if(cue.kind==='read-page'){
+  const page=scene.querySelector('[data-reading-page]:not([hidden])');
+  scene.scrollTop=0;const sheet=scene.querySelector('.material-sheet');if(sheet)sheet.scrollTop=0;
+  if(page&&!reducedMotion())cueAnimations.push(page.animate([{opacity:0,transform:'translateY('+(forward?12:-10)+'px)'},{opacity:1,transform:'translateY(0)'}],{duration,easing:'cubic-bezier(.22,.61,.2,1)',fill:'both'}));
  }
  if(forward&&cue.kind==='record')beep('done');
  const delay=duration?new Promise(resolve=>{cueResolve=resolve;cueTimeout=setTimeout(()=>{cueTimeout=null;cueResolve=null;resolve();},duration);}):Promise.resolve();
@@ -253,17 +284,17 @@ function retreat(){
  const previous=FLOW.previous(S[index].id,cueStep);
  if(previous.type==='cue')runCue(previous.step);else go(index+previous.delta);
 }
-function updateWishes(){scene.querySelectorAll('[data-wish]').forEach(el=>el.classList.toggle('visible',cueStep>0||marked(el.dataset.wish)));}
+function updateWishes(){const state=FLOW.readingState('annewish',cueStep);scene.querySelectorAll('[data-wish]').forEach(el=>el.classList.toggle('visible',state.pageIndex===state.pageCount-1&&(state.wishes||marked(el.dataset.wish))));}
 function setTimer(n){clearInterval(timerInterval);timerRunning=false;timerDefault=n;timerRemaining=n;const el=document.getElementById('timer');el.hidden=!n;el.classList.remove('finished');paintTimer();}
 function paintTimer(){const m=Math.floor(timerRemaining/60),s=timerRemaining%60;document.getElementById('timerValue').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');document.getElementById('timerRing').style.strokeDashoffset=timerDefault?144.513*(1-timerRemaining/timerDefault):0;document.getElementById('timerToggle').setAttribute('aria-label',timerRunning?'暂停计时':'开始计时');}
 function toggleTimer(){if(!timerDefault){notify('这一幕由你掌握停留时间');return;}if(timerRunning){clearInterval(timerInterval);timerRunning=false;paintTimer();return;}if(timerRemaining<=0)timerRemaining=timerDefault;timerRunning=true;document.getElementById('timer').classList.remove('finished');let last=Date.now();timerInterval=setInterval(()=>{const now=Date.now();if(now-last>=950){const secs=Math.max(1,Math.floor((now-last)/1000));last+=secs*1000;timerRemaining=Math.max(0,timerRemaining-secs);paintTimer();if(!timerRemaining){clearInterval(timerInterval);timerRunning=false;document.getElementById('timer').classList.add('finished');paintTimer();}}},200);paintTimer();}
 function openPanel(title,html){save();panelTitle.textContent=title;panelBody.innerHTML=html;panel.showModal();panelBody.scrollTop=0;}
 function menu(){openPanel('课堂目录','<div class="menu-actions"><button data-command="help">操作说明</button><button data-command="contrast">投影增强</button><button data-command="motion">切换简静动画</button><button data-command="sources">教师资料来源</button><button data-command="reset">清空本次课堂记录</button></div><div class="menu-grid">'+S.map((s,i)=>'<button data-jump="'+i+'" class="'+(i===index?'current':'')+'"><small>'+safe(s.time)+'</small>'+safe(s.title)+'</button>').join('')+'</div>');}
 function notes(){const n=N.find(n=>n.id===S[index].id)||{};openPanel('教师讲稿 · '+S[index].title,'<p class="notes-meta">'+safe(S[index].time)+'　'+safe(S[index].id)+'</p><h3>这一段怎么说</h3><p class="teacher-speech">'+safe(n.teacher||'教师静候，把完整时间交给学生。')+'</p><h3>画面与操作</h3><p>'+safe(n.action||'')+'</p><h3>停留与课堂安排</h3><p>'+safe(n.hold||'')+'</p>'+(n.optional?'<h3>按需承接</h3><p class="teacher-speech">'+safe(n.optional)+'</p>':''));}
-function help(){openPanel('课前操作说明','<h3>跟着讲述推进</h3><p>按 →、空格或 PageDown 执行下一步：先完成当前幕的动作，再进入下一幕。按 ← 或 PageUp 先倒回本幕步骤，回到起点后才返回上一幕。所有开合和记录由教师掌握，不按固定时间自动切走。</p><p>进入全屏后（浏览器受限时自动进入专注模式），在没有专用按钮的画面区域单击左键或右键，也执行同一个下一步。关键词、按钮、文字选取与教师面板保留各自的操作；拖动和滚动不推进。</p><h3>全程不用打字</h3><p>学生在自己的阅读本和卡片上作答。三关修订讲完后，按下一步或点击“留下这次修订”，纸面画出笔迹并留下印记，再按才换幕。笔迹只表示完成表达，不生成预设答案。分享环节依次留下第一组、第二组和日常生活的补充。</p><p>仍可点击学生指出的原文词语划线，两条因果箭头也可分别断开与恢复。回访会保留已完成的笔迹；上一操作可撤回本幕笔迹；R重新演示本幕，保留已点选的词与箭头。</p><h3>资料随旁白打开与收回</h3><p>进入画作或人物资料时，材料展开。讲完按下一步，材料收回书页或泡泡；再按才进入后一段。两份现实资料起初不同时亮相，最后回到房间时按下一步，几段童年才一起汇聚，灰影与木梁随后压下。</p><p>小组证据可单独点击放大，关闭后回到总览，计时继续。同幕动作不重置计时，倒计时归零也不换幕。</p><h3>控制与投影</h3><p>F：全屏　M：目录　N：教师讲稿　R：重演本幕　T：开始或暂停计时　Esc：关闭面板</p><p>移动鼠标到屏幕下方显示控制栏，其中会提示下一步要发生什么。目录中的“简静动画”直接显示动作结束状态，“投影增强”提高文字对比。声音默认关闭。下载并完整解压仓库后，打开 index.html 即可离线使用。</p>');}
+function help(){openPanel('课前操作说明','<h3>跟着讲述推进</h3><p>按 →、空格或 PageDown 执行下一步：先完成当前幕的动作，再进入下一幕。按 ← 或 PageUp 先倒回本幕步骤，回到起点后才返回上一幕。所有开合和记录由教师掌握，不按固定时间自动切走。</p><p>进入全屏后（浏览器受限时自动进入专注模式），在没有专用按钮的画面区域单击左键或右键，也执行同一个下一步。关键词、按钮、文字选取与教师面板保留各自的操作；拖动和滚动不推进。</p><h3>全程不用打字</h3><p>学生在自己的阅读本和卡片上作答。三关修订讲完后，按下一步或点击“留下这次修订”，纸面画出笔迹并留下印记，再按才换幕。笔迹只表示完成表达，不生成预设答案。分享环节依次留下第一组、第二组和日常生活的补充。</p><p>仍可点击学生指出的原文词语划线，两条因果箭头也可分别断开与恢复。回访会保留已完成的笔迹；上一操作可撤回本幕笔迹；R重新演示本幕，保留已点选的词与箭头。</p><h3>资料随旁白打开与收回</h3><p>进入画作或人物资料时，材料展开。讲完按下一步，材料收回书页或泡泡；再按才进入后一段。安妮与两份现实故事按阅读页推进，先逐页读完，最后一次推进才展开愿望或收回资料。可用页脚按钮返回上一页，或用全局上一步回退。每页停留时长由教师掌握，正文不会自动滚动或自动收起。两份现实资料起初不同时亮相，最后回到房间时按下一步，几段童年才一起汇聚，灰影与木梁随后压下。</p><p>小组证据可单独点击放大；安妮证据展开完整的背景与短引文，关闭后回到总览，计时继续。同幕动作不重置计时，倒计时归零也不换幕。</p><h3>控制与投影</h3><p>F：全屏　M：目录　N：教师讲稿　R：重演本幕　T：开始或暂停计时　Esc：关闭面板</p><p>移动鼠标到屏幕下方显示控制栏，其中会提示下一步要发生什么。目录中的“简静动画”直接显示动作结束状态，“投影增强”提高文字对比。声音默认关闭。下载并完整解压仓库后，打开 index.html 即可离线使用。</p>');}
 function sourceHTML(obj){if(Array.isArray(obj))return '<ul class="note-list">'+obj.map(x=>'<li>'+sourceHTML(x)+'</li>').join('')+'</ul>';if(obj&&typeof obj==='object')return Object.entries(obj).map(([k,v])=>'<p><strong>'+safe(k)+'</strong></p>'+sourceHTML(v)).join('');const t=String(obj||'');return /^https?:\/\//.test(t)?'<p><a href="'+safe(t)+'" target="_blank" rel="noreferrer">'+safe(t)+'</a></p>':'<p>'+safe(t)+'</p>';}
-function sourcePanel(){openPanel('教师资料来源与文本说明','<p>以下为教师备课资料，学生主画面不显示编号、删节标记与来源。原著的不连续选段采用独立段块呈现；游戏概括由教师拟写，须在规则讲解中说明。现实儿童材料来自有日期的历史报道。</p><div class="sources-list">'+sourceHTML(SOURCES)+'</div><h3>美术与字体</h3><p>场景、读者角色与保护者插画为本课原创生成的文学意象，并非历史现场照片。真实儿童照片保持其纪实身份。中文字体采用 Noto Sans CJK SC 与 Noto Serif CJK SC，依照 SIL Open Font License 嵌入子集。</p>');}
-function material(key){const t=M[key];let content=t.blocks;if(key==='A')content=[t.context_excerpt,...t.blocks];if(key==='D')content=[...t.blocks,...t.next_time_blocks];openPanel(t.title,'<div class="evidence-modal">'+fragments(content)+'</div>');}
+function sourcePanel(){openPanel('教师资料来源与文本说明','<p>以下为教师备课资料，学生主画面不显示编号、删节标记与来源。原著的不连续选段采用独立段块呈现；游戏概括由教师拟写，须在规则讲解中说明。现实儿童材料来自有日期的历史报道。</p><div class="sources-list">'+sourceHTML(SOURCES)+'</div><h3>扩展阅读：短引文与内容整理</h3><p>阅读页以引号标出采访或安妮文字的短引，其余为背景与报道内容整理。短引采用课堂工作译文，不冒充指定中文出版译本。每页都有“背景阅读”“日记短引”或“报道内容整理”等提示。</p><div class="sources-list">'+sourceHTML(READING.sources)+'</div><h3>美术与字体</h3><p>场景、读者角色与保护者插画为本课原创生成的文学意象，并非历史现场照片。真实儿童照片保持其纪实身份。中文字体采用 Noto Sans CJK SC 与 Noto Serif CJK SC，依照 SIL Open Font License 嵌入子集。</p>');}
+function material(key){if(key==='anne'){openPanel('安妮的处境与愿望',['annecontext','annehelp','annewish'].map(id=>READING.scenes[id].pages.map(page=>'<section class="reading-evidence-page"><p class="hint">'+safe(page.kind)+'</p><h3>'+safe(page.title)+'</h3>'+page.blocks.map(b=>'<p class="fragment">'+(b.kind==='quote'?'“':'')+safe(b.text)+(b.kind==='quote'?'”':'')+'</p>').join('')+'</section>').join('')).join(''));return;}const t=M[key];let content=t.blocks;if(key==='A')content=[t.context_excerpt,...t.blocks];if(key==='D')content=[...t.blocks,...t.next_time_blocks];openPanel(t.title,'<div class="evidence-modal">'+fragments(content)+'</div>');}
 function syncFullscreenControl(){
  const native=!!document.fullscreenElement;
  const fallback=document.body.classList.contains('presentation-mode');
@@ -328,6 +359,8 @@ document.addEventListener('click',e=>{
  const b=e.target.closest('button');
  if(!b){advanceFromCanvas(e);return;}
  if(b.dataset.command){command(b.dataset.command);return;}
+ if(b.hasAttribute('data-reading-next')){advance();return;}
+ if(b.hasAttribute('data-reading-previous')){retreat();return;}
  if(b.dataset.cue!==undefined){runCue(Number(b.dataset.cue));return;}
  if(b.dataset.jump!==undefined){go(Number(b.dataset.jump));return;}
  if(b.dataset.goto){go(S.findIndex(s=>s.id===b.dataset.goto));return;}

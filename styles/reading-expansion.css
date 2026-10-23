@@ -1,0 +1,411 @@
+/* Oversized scenery must not scroll the camera when a control receives focus. */
+#sceneRoot,.shot{overflow:clip}
+
+/* Repin's canvas gets the whole stage. Letterboxing preserves the complete work. */
+.shot[data-scene="haulers"] .scene-content{
+  inset:0;
+  padding:0;
+  display:block;
+  overflow:hidden;
+}
+.shot[data-scene="haulers"]:not(.art-folded) .scenic-background,
+.shot[data-scene="haulers"]:not(.art-folded) .scene-ambience{
+  visibility:hidden;
+}
+.shot[data-scene="haulers"]:not(.art-folded) .scene-wash{
+  background:#1d251f!important;
+}
+.shot[data-scene="haulers"] .art-sheet{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  margin:0;
+  padding:0;
+  overflow:hidden;
+  transform-origin:50% 50%;
+}
+.shot[data-scene="haulers"] .picture-crop{
+  position:absolute;
+  inset:0;
+  display:block;
+  width:100%;
+  height:100%;
+  min-width:0;
+  max-width:none;
+  max-height:none;
+  margin:0;
+  padding:0;
+  aspect-ratio:auto;
+  border:0;
+  outline:0;
+  border-radius:0;
+  box-shadow:none;
+  transform:none;
+  background:#1d251f;
+  overflow:hidden;
+}
+.shot[data-scene="haulers"] .hauler-image{
+  display:block;
+  width:100%;
+  height:100%;
+  max-width:none;
+  max-height:none;
+  margin:0;
+  padding:0;
+  object-fit:contain;
+  object-position:center;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+  filter:none;
+}
+.shot[data-scene="haulers"] .art-caption{
+  display:none;
+}
+
+/* Classroom controls remain available, but no text sits around the open canvas. */
+#stage.scene-haulers .folio-header,
+#stage.scene-haulers .folio-footer,
+#stage.scene-haulers #grain,
+#stage.scene-haulers #progress{
+  opacity:0;
+  visibility:hidden;
+}
+#stage.scene-haulers:has(.shot[data-scene="haulers"].art-folded:not(.is-departing)) .folio-header,
+#stage.scene-haulers:has(.shot[data-scene="haulers"].art-folded:not(.is-departing)) .folio-footer,
+#stage.scene-haulers:has(.shot[data-scene="haulers"].art-folded:not(.is-departing)) #grain,
+#stage.scene-haulers:has(.shot[data-scene="haulers"].art-folded:not(.is-departing)) #progress{
+  opacity:1;
+  visibility:visible;
+}
+#stage.scene-haulers:has(.shot[data-scene="haulers"].art-folded:not(.is-departing)) #grain{
+  opacity:.035;
+}
+.shot[data-scene="haulers"] .art-sheet .art-actions{
+  position:absolute;
+  left:50%;
+  right:auto;
+  top:auto;
+  bottom:max(82px,11vh);
+  z-index:4;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:nowrap;
+  gap:clamp(6px,1vw,18px);
+  width:max-content;
+  max-width:calc(100% - 24px);
+  margin:0;
+  padding:6px 12px;
+  border:1px solid #eee8d736;
+  border-radius:28px;
+  background:#1a251fe8;
+  box-shadow:0 5px 24px #10191122;
+  backdrop-filter:blur(8px);
+  opacity:0;
+  transform:translate(-50%,8px);
+  pointer-events:none;
+  transition:opacity .22s ease,transform .22s ease;
+}
+.shot[data-scene="haulers"] .art-sheet .art-actions button,
+.shot[data-scene="haulers"] .art-sheet .art-actions .cue-button{
+  flex-shrink:0;
+  margin:0;
+  padding:.55em .3em;
+  border:0;
+  border-bottom:1px solid transparent;
+  border-radius:0;
+  background:none;
+  color:#f2eddb;
+  font:clamp(12px,1.1vw,18px)/1.5 var(--sans);
+  white-space:nowrap;
+  letter-spacing:.025em;
+}
+.shot[data-scene="haulers"] .art-sheet .art-actions button:hover,
+.shot[data-scene="haulers"] .art-sheet .art-actions button.active{
+  color:#fffaf0;
+  border-bottom-color:#d1be87;
+}
+.shot[data-scene="haulers"] .art-actions:focus-within,
+#stage.scene-haulers:has(#controls.show) .shot[data-scene="haulers"]:not(.art-folded) .art-actions,
+#stage.scene-haulers:has(#controls:hover) .shot[data-scene="haulers"]:not(.art-folded) .art-actions,
+#stage.scene-haulers:has(#controls:focus-within) .shot[data-scene="haulers"]:not(.art-folded) .art-actions{
+  opacity:1;
+  transform:translate(-50%,0);
+  pointer-events:auto;
+}
+
+/* The existing narrated close/reopen cue ends at a small, recognizable paper memory. */
+.shot[data-scene="haulers"] .art-return-note{
+  inset:14% 12%;
+  text-align:center;
+}
+.shot[data-scene="haulers"] .folded-art{
+  width:clamp(140px,19vw,300px);
+  height:auto;
+  max-height:18vh;
+  aspect-ratio:1200/556;
+  background:#f7f1df;
+  border:1px solid #c6b78b77;
+  box-shadow:0 8px 24px #4d563c18;
+  transform:rotate(-4deg);
+}
+.shot[data-scene="haulers"] .folded-art:before{
+  inset:5px;
+  border:0;
+  background:url('../assets/haulers.jpg') center / contain no-repeat;
+}
+@media(max-width:600px){
+  .shot[data-scene="haulers"] .art-sheet .art-actions{
+    bottom:84px;
+    gap:7px;
+    padding:5px 9px;
+  }
+  .shot[data-scene="haulers"] .art-return-note{
+    inset:15% 7%;
+    gap:24px;
+  }
+  .shot[data-scene="haulers"] .folded-art{
+    width:46vw;
+    max-height:18vh;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .shot[data-scene="haulers"] .art-sheet .art-actions{
+    transition:none;
+  }
+}
+
+/* Reading occupies the unpainted part of the spread, with one passage at a time. */
+.reading-page[hidden]{display:none!important}
+.expanded-reading{
+  width:min(78vw,1480px);
+  max-height:79vh;
+  display:flex;
+  flex-direction:column;
+  gap:3.2vh;
+  padding:0;
+  text-align:left;
+}
+.reading-pages{width:100%;min-width:0}
+.reading-page{position:relative}
+.reading-page .reading-kind{
+  margin:0 0 1.2vh;
+  font:clamp(13px,1.05vw,20px)/1.6 var(--sans);
+  letter-spacing:.13em;
+  color:#85856e;
+  text-align:left;
+}
+.reading-page h1,
+.reading-exhibit .documentary-content .reading-page h1{
+  margin:0 0 2.8vh;
+  font:500 clamp(30px,2.65vw,50px)/1.5 var(--serif);
+  letter-spacing:.045em;
+  text-align:left;
+  color:#425b45;
+}
+.reading-paragraphs{
+  display:flex;
+  flex-direction:column;
+  gap:1.5vh;
+  font:clamp(22px,1.88vw,36px)/1.85 var(--sans);
+  letter-spacing:.015em;
+}
+.reading-paragraphs>p,
+.reading-paragraphs .reading-quote p,
+.reading-exhibit .documentary-content .reading-paragraphs p{
+  margin:0;
+  max-width:none;
+  font:inherit;
+  letter-spacing:inherit;
+  text-align:justify;
+  color:var(--ink);
+}
+.reading-quote{
+  position:relative;
+  margin:.3vh 0 .3vh 1.1em;
+  padding:0 0 0 .75em;
+  border-left:2px solid #b9a67866;
+  font-family:var(--serif);
+  color:#53694b;
+}
+.reading-quote:before{
+  content:"";
+  position:absolute;
+  left:-5px;
+  top:4%;
+  width:1px;
+  height:90%;
+  background:#b9a67835;
+  transform:rotate(1.5deg);
+}
+.reading-speaker{
+  display:block;
+  text-align:left;
+  margin-top:.4vh;
+  color:#8b856c;
+  font:clamp(13px,1vw,19px)/1.5 var(--sans);
+  letter-spacing:.06em;
+}
+.reading-controls{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  width:100%;
+  padding-top:1.3vh;
+  border-top:1px solid #b9af8c49;
+  font:clamp(13px,1.05vw,20px)/1.5 var(--sans);
+  letter-spacing:.04em;
+}
+.reading-controls button{
+  padding:.45em 0;
+  border:0;
+  border-radius:0;
+  background:none;
+  color:#6a795a;
+  font:inherit;
+  letter-spacing:inherit;
+  white-space:nowrap;
+}
+.reading-controls button:hover:not(:disabled){color:#354f37}
+.reading-controls button span{margin-left:.5em}
+.reading-controls button:disabled{opacity:.25}
+.reading-position{color:#9b947c;font-size:.85em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.expanded-reading .reading-objects{
+  display:flex;
+  justify-content:center;
+  gap:6vw;
+  margin:2.5vh 0 0;
+}
+.expanded-reading .reading-objects .help-item{
+  padding:0;
+  gap:.5vh;
+  color:#818569;
+  font-size:clamp(14px,1.2vw,23px);
+}
+.expanded-reading .reading-objects .help-item svg{width:8vw;height:9vh}
+.expanded-reading .wish-text{
+  margin:0;
+  padding:.2vh 0 .2vh .8em;
+  max-width:none;
+  font-size:clamp(30px,3.05vw,57px)!important;
+  line-height:1.9!important;
+}
+.expanded-reading .wish-scenes{justify-content:center;margin:3vh 0 0;height:15vh;gap:6vw}
+.expanded-reading .reading-prompt{
+  margin:1vh 0 0;
+  font:clamp(16px,1.35vw,25px)/1.7 var(--sans);
+  color:#81856f;
+  text-align:center;
+}
+
+/* The photograph stays beside the testimony instead of consuming its reading space. */
+.material-sheet.documentary.reading-exhibit{
+  inset:9% 4.8% 10%;
+  grid-template-columns:23% minmax(0,1fr);
+  gap:4.5vw;
+  padding:4vh 4vw;
+  align-items:center;
+  isolation:isolate;
+  background:none;
+}
+.reading-exhibit:before{
+  content:"";
+  position:absolute;
+  inset:-8% -4%;
+  z-index:-1;
+  background:radial-gradient(ellipse at 54% 49%,#fbf8ee 42%,#fbf8eefc 64%,#fbf8ee00 88%);
+  filter:blur(18px);
+  pointer-events:none;
+}
+.reading-exhibit .documentary-photo{height:auto;align-self:center;transform:translateY(-2vh)}
+.reading-exhibit .documentary-photo img{width:auto;max-height:28vh;border-width:6px}
+.reading-exhibit .documentary-photo:before{top:-.2vh;left:35%;width:30%;height:2vh}
+.reading-exhibit .documentary-content{
+  display:flex;
+  width:100%;
+  max-height:100%;
+  gap:2.8vh;
+  align-items:stretch;
+}
+.reading-exhibit .documentary-content .reading-kind{
+  margin:0 0 1.2vh;
+  max-width:none;
+  font:clamp(12px,.95vw,18px)/1.6 var(--sans);
+  letter-spacing:.09em;
+  color:#85856e;
+  text-align:left;
+}
+.reading-exhibit .reading-paragraphs{font-size:clamp(22px,1.83vw,35px);line-height:1.85;gap:1.5vh}
+.reading-exhibit .reading-quote{margin-left:.3em}
+.reading-exhibit .reading-controls{font-size:clamp(13px,1vw,19px)}
+.reading-evidence-page+.reading-evidence-page{border-top:1px solid #b9af8c66;margin-top:2em;padding-top:1.5em}
+.reading-evidence-page h3{margin-top:.5em}
+
+@media(min-aspect-ratio:2/1){
+  .expanded-reading{width:min(74vw,1600px);gap:3vh}
+  .reading-paragraphs{font-size:3.55vh;line-height:1.8}
+  .reading-page h1,.reading-exhibit .documentary-content .reading-page h1{font-size:5vh;margin-bottom:2.4vh}
+  .reading-exhibit .reading-paragraphs{font-size:3.4vh;line-height:1.8}
+  .expanded-reading .wish-text{font-size:5.3vh!important}
+  .reading-page .reading-kind,.reading-exhibit .documentary-content .reading-kind{font-size:1.9vh}
+  .reading-controls,.reading-exhibit .reading-controls{font-size:2.2vh}
+}
+@media(max-aspect-ratio:1.45/1) and (min-width:701px){
+  .expanded-reading{width:82vw;gap:3vh}
+  .reading-paragraphs{font-size:clamp(22px,2.28vw,34px)}
+  .reading-page h1,.reading-exhibit .documentary-content .reading-page h1{font-size:3.5vw}
+  .material-sheet.documentary.reading-exhibit{inset:10% 3% 11%;grid-template-columns:20% minmax(0,1fr);gap:3vw;padding:4vh 3vw}
+  .reading-exhibit .reading-paragraphs{font-size:2.2vw}
+  .reading-exhibit .documentary-photo img{border-width:4px}
+  .reading-exhibit .reading-controls,.reading-controls{font-size:1.4vw}
+  .reading-exhibit .documentary-content .reading-kind,.reading-page .reading-kind{font-size:1.35vw}
+  .expanded-reading .wish-text{font-size:4.1vw!important}
+}
+@media(max-width:700px){
+  .expanded-reading{width:100%;max-height:none;gap:24px;margin:auto 0;padding:0}
+  .reading-page .reading-kind,.reading-exhibit .documentary-content .reading-kind{font-size:12px;letter-spacing:.055em;margin:0 0 10px}
+  .reading-page h1,.reading-exhibit .documentary-content .reading-page h1{font-size:27px;line-height:1.6;margin:0 0 21px;letter-spacing:.03em}
+  .reading-paragraphs,.reading-exhibit .reading-paragraphs{font-size:20px;line-height:1.85;gap:18px}
+  .reading-quote{margin:0 0 0 .3em;padding-left:.65em}
+  .reading-speaker{font-size:12px;margin-top:6px}
+  .reading-controls,.reading-exhibit .reading-controls{gap:10px;font-size:12px;padding:14px 0 4px}
+  .reading-controls button{min-height:38px}
+  .reading-controls button span{margin-left:.2em}
+  .expanded-reading .reading-objects{gap:25px;margin:25px 0 0}
+  .expanded-reading .reading-objects .help-item{font-size:16px}
+  .expanded-reading .reading-objects .help-item svg{width:65px;height:70px}
+  .expanded-reading .wish-text{font-size:28px!important;padding-left:.6em}
+  .expanded-reading .wish-scenes{height:100px;margin-top:25px;gap:30px}
+  .expanded-reading .reading-prompt{font-size:16px;margin-top:18px}
+  .material-sheet.documentary.reading-exhibit{
+    inset:82px 5% 82px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    gap:24px;
+    padding:20px 16px 28px;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    scrollbar-width:thin;
+    scrollbar-color:#b2b49266 transparent;
+    background:#faf7edf5;
+    mask-image:linear-gradient(transparent,#000 12px,#000 calc(100% - 12px),transparent);
+  }
+  .reading-exhibit:before{display:none}
+  .reading-exhibit .documentary-photo{height:120px;flex:0 0 120px;transform:none}
+  .reading-exhibit .documentary-photo img{height:120px;width:auto;max-width:85%;max-height:120px;border-width:4px}
+  .reading-exhibit .documentary-photo:before{left:41%;width:18%;top:-3px;height:14px}
+  .reading-exhibit .documentary-content{max-height:none;gap:24px;flex-shrink:0;align-items:stretch}
+}
+@media(max-height:600px) and (min-width:701px){
+  .expanded-reading{max-height:80vh;gap:2vh}
+  .reading-paragraphs{font-size:3.5vh;line-height:1.7;gap:1.2vh}
+  .reading-page h1,.reading-exhibit .documentary-content .reading-page h1{font-size:4.8vh;margin-bottom:2vh}
+  .reading-exhibit .reading-paragraphs{font-size:3.3vh;line-height:1.75}
+  .reading-page .reading-kind,.reading-exhibit .documentary-content .reading-kind,.reading-speaker{font-size:1.9vh}
+  .reading-controls,.reading-exhibit .reading-controls{font-size:2.2vh;padding-top:1vh}
+  .expanded-reading .wish-text{font-size:5.2vh!important}
+}
