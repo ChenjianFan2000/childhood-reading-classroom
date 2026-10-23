@@ -1,0 +1,25 @@
+name: Line story package
+on:
+  push:
+    branches: [line-story-rebuild]
+    paths: ['line-story/**', '.github/workflows/line-story-package.yml']
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Collect original classroom materials
+        run: |
+          mkdir -p package/assets
+          cp assets/haulers.jpg assets/yamen.webp assets/varvara.webp package/assets/
+          cp scripts/lesson-data.js package/original-lesson-data.js
+          if [ -d line-story ]; then cp -r line-story package/line-story; fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: line-story-materials
+          path: package/
+          retention-days: 7
+          if-no-files-found: error
