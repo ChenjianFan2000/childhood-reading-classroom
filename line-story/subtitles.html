@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="description" content="《童年》阅读课字幕教师台：按当前画面动作阅读完整讲述，手机可独立翻稿。">
+<title>字幕教师台 · 童年</title>
+<link rel="stylesheet" href="styles/subtitles.css">
+</head>
+<body>
+<header class="subtitle-header">
+ <button id="cuePicker" aria-haspopup="dialog" title="选择当前动作">
+  <span id="cuePosition">1 / 57</span><span id="cueTitle">字幕教师台</span><span aria-hidden="true">⌄</span>
+ </button>
+ <span id="connectionStatus" role="status">独立翻稿</span>
+</header>
+<div id="connectionNotice" class="connection-notice" hidden>
+ <p>学生画面暂未连接，当前字幕仍可阅读。保留学生窗口即可重新连接。</p>
+ <button id="readIndependently">改为独立翻稿</button>
+</div>
+<main id="subtitleMain">
+ <article id="subtitleText" class="subtitle-copy" aria-label="当前动作的完整教师话语"></article>
+</main>
+<nav class="subtitle-controls" aria-label="字幕操作">
+ <button data-command="prev" title="← / PageUp">← 上一步</button>
+ <div class="font-controls" aria-label="字幕字号">
+  <button data-font="smaller" aria-label="缩小字幕字号">A−</button>
+  <button data-font="larger" aria-label="放大字幕字号">A＋</button>
+ </div>
+ <button data-command="next" title="→ / 空格 / PageDown">下一步 →</button>
+</nav>
+<dialog id="cueDialog" aria-labelledby="navigationTitle">
+ <div class="dialog-heading"><h2 id="navigationTitle">选择当前动作</h2><button id="closeCueDialog" aria-label="关闭动作选择">×</button></div>
+ <label for="cueSelect">授课位置</label>
+ <select id="cueSelect"></select>
+ <button id="jumpCue">转到此处</button>
+ <section id="activityControls" hidden aria-label="当前活动计时">
+  <p id="activityStatus"></p>
+  <div><button data-command="timer" id="subtitleTimerButton">暂停计时</button><button data-command="reset-timer">从头计时</button></div>
+ </section>
+ <p id="navigationMode">手机与投影电脑分别打开时，请按课堂进度手动翻稿；两台设备不会自动同步。</p>
+ <div class="dialog-links"><a id="studentLink" href="index.html" target="_blank" rel="noopener">打开学生画面</a><a id="fullPresenterLink" href="presenter.html" hidden>完整教师台</a></div>
+</dialog>
+<p id="cueAnnouncement" class="visually-hidden" role="status" aria-live="polite"></p>
+<noscript>请在浏览器中启用 JavaScript 后打开字幕教师台。</noscript>
+<script src="scripts/lesson-data.js"></script>
+<script src="scripts/subtitle-data.js"></script>
+<script src="scripts/subtitles.js"></script>
+</body>
+</html>

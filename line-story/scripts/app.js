@@ -16,7 +16,7 @@ const passageNames = {hurt:'受伤之后',hurt_game:'受伤之后',warmth:'外�
 let index = 0, panelKind = '', focusBefore = null, uiTimeout = 0, toastTimeout = 0, lastAdvance = -1000;
 let reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 let highContrast = false, rightClick = false, animationPaused = false, blackout = false, blankResume = null;
-let presenter = null, timerInterval = null, lastPersist = 0;
+let presenter = null, subtitlePresenter = null, timerInterval = null, lastPersist = 0;
 let session = '', lessonElapsed = 0, lessonSince = 0, lessonRunning = false;
 const pending = new Set(), clocks = new Map(), marks = new Map(), choices = new Map(), nodeCache = new Map();
 const fallbackNodes = [];
@@ -73,7 +73,7 @@ function renderContent(c) {
  const title=`<h1 data-key="title">${E(c.heading)}</h1>`, h2=`<h2 data-key="reading-title">${E(c.heading)}</h2>`;
  const body=paragraphs(c.body||[]), article=(cls,html)=>`<article data-key="article" class="${cls}" data-reading-mode="${E(c.readingMode||(c.focusQuote?'detail':['reading','pair'].includes(c.kind)?'immersive':['repair','logic','group'].includes(c.kind)?'recall':'none'))}">${html}</article>`;
  if(c.kind==='art') return article('art-layout','');
- if(c.kind==='cover') return article('cover-layout',`<div class="eyebrow" data-key="eyebrow">六年级 · 阅读与思考</div>${title}${body}<p class="start-hint" data-key="start-hint">按 → 或空格开始 · F 全屏 · P 教师台</p>`);
+ if(c.kind==='cover') return article('cover-layout',`<div class="eyebrow" data-key="eyebrow">六年级 · 阅读与思考</div>${title}${body}<p class="start-hint" data-key="start-hint">按 → 或空格开始 · F 全屏 · P 教师台 · S 字幕台</p>`);
  if(c.focusQuote) return article('focus-layout',`${h2}<blockquote class="focus-quote" data-key="focus-quote">${E(c.focusQuote)}</blockquote>${(c.body||[]).length?body:''}`);
  if(c.kind==='pair') return article('pair-layout',`${h2}<div class="pair" data-key="pair"><div data-key="pair-left"><h3 data-key="left-title">${E(c.leftTitle)}</h3>${quotation(c.left)}</div><div data-key="pair-right"><h3 data-key="right-title">${E(c.rightTitle)}</h3>${quotation(c.right)}</div></div>`);
  if(c.kind==='reading') return article(`reading-layout ${c.density||''} ${c.id==='anne-reading'?'anne-reading':''} ${c.id==='anne-context'?'context-reading':''} ${c.passage==='window'?'window-reading':''}`,`${h2}${quotation(c.passage,c.emphasis||[])}`);
@@ -265,31 +265,53 @@ function presenterState() {
  const c=C[index],n=C[index+1],s=clocks.get(c.id),ni=currentNodeIndex();
  return {index,count:C.length,cue:c,next:n||null,nodeIndex:ni,nodes,clock:timerNow(),clockRunning:!!s?.running,elapsed:elapsedNow(),duration:L.duration,
   reduced,highContrast,rightClick,animationPaused,moving:hasMotion(),blackout,panel:panelKind,version:L.version,
+  presenterAvailable:!!presenter&&!presenter.closed,subtitleAvailable:!!subtitlePresenter&&!subtitlePresenter.closed,
   nextPassage:n?.passage?L.passages[n.passage]:null,nextPicture:n?.media?picture[n.media]:null};
 }
-function sendState() {if(!presenter||presenter.closed)return;try{presenter.postMessage({protocol:PROTOCOL,session,type:'state',state:presenterState()},origin);}catch{}}
-function openPresenter() {
- const name='line-story-presenter-'+session;
- if(presenter&&!presenter.closed){presenter.focus();sendState();return;}
- const url=new URL('presenter.html',location.href);url.hash='';url.search='?session='+encodeURIComponent(session);
- presenter=window.open(url.href,name,'popup,width=1180,height=840,resizable=yes,scrollbars=yes');
- if(!presenter){toast('请允许本页弹出教师台窗口，然后再按 P');return;}
- presenter.focus();sendState();
+function sendState() {
+ const targets=[...new Set([presenter,subtitlePresenter])].filter(w=>w&&!w.closed);
+ if(!targets.length)return;
+ const message={protocol:PROTOCOL,session,type:'state',state:presenterState()};
+ for(const target of targets)try{target.postMessage(message,origin);}catch{}
+}
+function openPresenter(view='full') {
+ const subtitle=view==='subtitles', existing=subtitle?subtitlePresenter:presenter;
+ if(existing&&!existing.closed){existing.focus();sendState();return;}
+ const name='line-story-'+(subtitle?'subtitles':'presenter')+'-'+session;
+ const url=new URL(subtitle?'subtitles.html':'presenter.html',location.href);
+ url.hash=subtitle?C[index].id:'';url.search='?session='+encodeURIComponent(session);
+ const opened=window.open(url.href,name,`popup,width=${subtitle?760:1180},height=840,resizable=yes,scrollbars=yes`);
+ if(!opened){toast('请允许本页弹出教师台窗口，然后再按 '+(subtitle?'S':'P'));return;}
+ if(subtitle)subtitlePresenter=opened;else presenter=opened;
+ opened.focus();sendState();
 }
 function validMessage(e) {
+ if(!e.source)return false;
  if(e.data?.protocol!==PROTOCOL || e.data?.session!==session)return false;
  if(location.protocol==='file:'?e.origin!=='null':e.origin!==location.origin)return false;
- if(e.source===presenter)return true;
+ const subtitle=e.data.view==='subtitles';
+ if(e.source===presenter || e.source===subtitlePresenter) {
+  // Switching presenter layouts keeps the same WindowProxy and authenticated
+  // session. Move it to the matching slot without losing either live window.
+  if(e.data.type==='ready') {
+   if(subtitle&&e.source===presenter&&(!subtitlePresenter||subtitlePresenter.closed)){subtitlePresenter=presenter;presenter=null;}
+   else if(!subtitle&&e.source===subtitlePresenter&&(!presenter||presenter.closed)){presenter=subtitlePresenter;subtitlePresenter=null;}
+  }
+  return true;
+ }
  // A student-page reload drops the WindowProxy reference while the teacher's
  // window and session survive. Rebind its first authenticated command too;
  // requiring a later heartbeat would silently discard an immediate click.
- if((e.data.type==='ready'||e.data.type==='command') && (!presenter||presenter.closed)) {
-  try { if(e.source && e.source.opener===window){presenter=e.source;return true;} } catch {}
+ const slot=subtitle?subtitlePresenter:presenter;
+ if((e.data.type==='ready'||e.data.type==='command') && (!slot||slot.closed)) {
+  try { if(e.source && e.source.opener===window){if(subtitle)subtitlePresenter=e.source;else presenter=e.source;return true;} } catch {}
  }
  return false;
 }
 addEventListener('message',e=>{
- if(!validMessage(e))return;const d=e.data;if(d.type==='ready'){sendState();return;}if(d.type!=='command')return;
+ if(!validMessage(e))return;const d=e.data;if(d.type==='ready'){sendState();return;}
+ if(d.type==='detach'){if(e.source===presenter)presenter=null;if(e.source===subtitlePresenter)subtitlePresenter=null;sendState();return;}
+ if(d.type!=='command')return;
  const cmd=d.command;
  if(cmd==='next')next();else if(cmd==='prev')prev();else if(cmd==='jump')jump(d.index);
  else if(cmd==='previous-node')nodeJump(-1);else if(cmd==='next-node')nodeJump(1);
@@ -298,10 +320,11 @@ addEventListener('message',e=>{
  else if(cmd==='reduced'){reduced=!reduced;applyOptions();go(index,{instant:true,mode:'restore'});}
  else if(cmd==='contrast'){highContrast=!highContrast;applyOptions();persist();}
  else if(cmd==='right-click'){rightClick=!rightClick;persist();}
+ else if(cmd==='focus-subtitles')openPresenter('subtitles');else if(cmd==='focus-presenter')openPresenter();
  else if(cmd==='restart')restart();sendState();
 });
 $('#next').addEventListener('click',()=>{next();controls();});$('#prev').addEventListener('click',()=>{prev();controls();});
-$('#fullBtn').addEventListener('click',full);$('#notesBtn').addEventListener('click',openPresenter);$('#menuBtn').addEventListener('click',menu);
+$('#fullBtn').addEventListener('click',full);$('#notesBtn').addEventListener('click',()=>openPresenter());$('#subtitlesBtn').addEventListener('click',()=>openPresenter('subtitles'));$('#menuBtn').addEventListener('click',menu);
 $('#closePanel').addEventListener('click',closePanel);$('#panelBackdrop').addEventListener('click',closePanel);
 $('#content').addEventListener('click',e=>{
  const t=e.target.closest('[data-evidence],[data-word],[data-arrow]');if(!t)return;
@@ -330,8 +353,8 @@ document.addEventListener('keydown',e=>{
  if(e.key==='Escape'){if(blackout){e.preventDefault();toggleBlackout();}else if(panelKind){e.preventDefault();closePanel();}return;}
  if((e.key==='Enter'||e.key===' ') && e.target.closest('button,summary,[data-word]')){if(e.target.matches('[data-word]')){e.preventDefault();e.target.click();}return;}
  const k=e.key.toLowerCase();if(e.repeat)return;
- if(!['arrowright','pagedown',' ','arrowleft','pageup','f','m','n','p','t','r','a','b','[',']','home','end'].includes(k))return;e.preventDefault();
- if(k==='p'||k==='n'){openPresenter();return;}if(k==='b'){toggleBlackout();return;}if(blackout)return;
+ if(!['arrowright','pagedown',' ','arrowleft','pageup','f','m','n','p','s','t','r','a','b','[',']','home','end'].includes(k))return;e.preventDefault();
+ if(k==='p'||k==='n'){openPresenter();return;}if(k==='s'){openPresenter('subtitles');return;}if(k==='b'){toggleBlackout();return;}if(blackout)return;
  if(k==='f'){full();return;}if(k==='m'){menu();return;}if(panelKind)return;
  if(['arrowright','pagedown',' '].includes(k))next();else if(['arrowleft','pageup'].includes(k))prev();
  else if(k==='t')toggleTimer();else if(k==='r')e.shiftKey?resetTimer():replay();else if(k==='a')toggleMotion();
@@ -345,5 +368,5 @@ addEventListener('pagehide',()=>{persist();pauseClock();pauseLesson();});
 restore();window.LineWorld.setup($('#world'));size();applyOptions();go(index,{instant:true,mode:'restore'});controls();
 Object.values(picture).forEach(p=>{const img=new Image();img.src=p.file;});
 setInterval(()=>{if(performance.now()-lastPersist>1500)persist();sendState();},250);
-Object.defineProperty(window,'lineStoryState',{get:()=>({index,id:C[index].id,count:C.length,timer:timerNow(),timerRunning:!!clocks.get(C[index].id)?.running,panel:panelKind,reduced,rightClick,highContrast,moving:hasMotion(),animating:hasMotion(),animationPaused,paused:animationPaused,blackout,nodeIndex:currentNodeIndex(),nodeId:nodes[currentNodeIndex()]?.id,presenterConnected:!!presenter&&!presenter.closed})});
+Object.defineProperty(window,'lineStoryState',{get:()=>({index,id:C[index].id,count:C.length,timer:timerNow(),timerRunning:!!clocks.get(C[index].id)?.running,panel:panelKind,reduced,rightClick,highContrast,moving:hasMotion(),animating:hasMotion(),animationPaused,paused:animationPaused,blackout,nodeIndex:currentNodeIndex(),nodeId:nodes[currentNodeIndex()]?.id,presenterConnected:!!presenter&&!presenter.closed,subtitleConnected:!!subtitlePresenter&&!subtitlePresenter.closed})});
 })();

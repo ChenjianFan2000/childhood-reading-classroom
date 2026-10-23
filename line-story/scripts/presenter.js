@@ -3,11 +3,12 @@
 'use strict';
 const PROTOCOL='childhood-line-story-presenter-v2';
 const session=new URLSearchParams(location.search).get('session')||'';
+if(session&&window.opener)window.name='line-story-presenter-'+session;
 const targetOrigin=location.protocol==='file:'?'*':location.origin;
 const $=s=>document.querySelector(s), E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let state=null,lastSeen=0,renderedCue='',renderedNodes='',connected=false;
 function time(n){const s=Math.max(0,Math.ceil(n||0));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
-function send(type,extra={}){if(!window.opener||window.opener.closed)return;try{window.opener.postMessage({protocol:PROTOCOL,session,type,...extra},targetOrigin);}catch{}}
+function send(type,extra={}){if(!window.opener||window.opener.closed)return;try{window.opener.postMessage({protocol:PROTOCOL,session,view:'full',type,...extra},targetOrigin);}catch{}}
 function command(name,extra={}){if(!connected)return;send('command',{command:name,...extra});}
 function connection(on){connected=on;document.body.classList.toggle('connected',on);$('#connectionStatus').textContent=on?'学生画面已连接':'等待学生画面重新连接';$('#disconnected').hidden=on;$('#presenterMain').setAttribute('aria-busy',String(!on));for(const b of document.querySelectorAll('[data-command]'))b.disabled=!on;}
 function nextPreview(s){
@@ -31,7 +32,7 @@ function revealCurrentCue(){
 function render(s){
  state=s;const c=s.cue,n=s.next,fullChange=c.id!==renderedCue;
  if(fullChange){
-  renderedCue=c.id;$('#cuePosition').textContent=`节点 ${s.nodeIndex+1} / ${s.nodes.length} · 节拍 ${s.index+1} / ${s.count}`;
+  renderedCue=c.id;$('#subtitleModeLink').href='subtitles.html?session='+encodeURIComponent(session)+'#'+c.id;$('#cuePosition').textContent=`节点 ${s.nodeIndex+1} / ${s.nodes.length} · 节拍 ${s.index+1} / ${s.count}`;
   $('#cueTiming').textContent=c.timing||'';$('#cueTitle').textContent=c.title;
   $('#teacherWords').textContent=c.teacher||'此刻不讲话。把时间留给阅读、讨论、书写或画面。';$('#teacherWords').classList.toggle('silence',!c.teacher);
   $('#cueAction').textContent=c.action||'';$('#cueHold').textContent=c.hold||'依现场语速和学生反应停留。';$('#cueNext').textContent=c.next||'';
@@ -66,6 +67,7 @@ addEventListener('message',e=>{
  lastSeen=Date.now();if(!connected)connection(true);render(e.data.state);
 });
 document.addEventListener('click',e=>{const b=e.target.closest('[data-command]');if(!b||b.disabled)return;command(b.dataset.command,b.dataset.index!==undefined?{index:Number(b.dataset.index)}:{});});
+$('#subtitleModeLink').addEventListener('click',e=>{if(connected&&state?.subtitleAvailable){e.preventDefault();command('focus-subtitles');}});
 document.addEventListener('keydown',e=>{
  if(e.ctrlKey||e.metaKey||e.altKey||e.repeat)return;
  if((e.key===' '||e.key==='Enter')&&e.target.closest('button,summary,a'))return;

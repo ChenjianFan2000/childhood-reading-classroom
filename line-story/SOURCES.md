@@ -39,6 +39,8 @@
 
 三处短引沿用仓库旧教师逐字稿中的课堂工作译文。本轮分别复核馆方出处，按独立段块呈现；正文背景是事实整理，不是日记原句。愿望句日期为1943年12月24日，不将其他两处也标为该日。
 
+字幕版补充了第一处的具体语境：[安妮之家藏身处介绍](https://www.annefrank.org/en/anne-frank/secret-annex/entrance/)在“When the people in hiding had to be quiet, Otto Frank read Dickens”一节说明，早上8:30—9:00，仓库工人已开始上班，知情的办公室帮助者尚未到达；声音和经过仓库的排水管可能暴露藏匿者，因此这半小时必须格外安静。不能将引文解释为两年藏身期间全天禁止活动。此背景在2026年10月24日按馆方资料复核，并进入 `anne-reading` 的口述。
+
 ```json
 {
   "source_title": "EXTRA Freedom",

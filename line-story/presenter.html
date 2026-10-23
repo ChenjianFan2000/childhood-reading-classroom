@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="styles/presenter.css">
 </head>
 <body>
-<header class="presenter-header"><div><p class="eyebrow">童年 · 线条叙事</p><h1>教师台</h1></div><div class="connection"><span id="connectionDot"></span><span id="connectionStatus" role="status">正在连接学生画面</span></div></header>
+<header class="presenter-header"><div><p class="eyebrow">童年 · 线条叙事</p><h1>教师台</h1></div><div class="connection"><a id="subtitleModeLink" href="subtitles.html">字幕版</a><span id="connectionDot"></span><span id="connectionStatus" role="status">正在连接学生画面</span></div></header>
 <div class="setup-note" id="setupNote">请将学生窗口移到投影屏，教师台留在电脑屏。系统须选择“扩展显示”；镜像显示会同时投出两个窗口。</div>
 <main id="presenterMain" aria-busy="true">
  <nav class="transport" aria-label="课堂控制"><button data-command="prev" title="← / PageUp">← 上一步</button><button data-command="next" class="primary" title="→ / 空格 / PageDown">下一步 →</button><button data-command="timer" id="timerButton" title="T">暂停计时</button><button data-command="motion" id="motionButton" title="A">暂停动作</button><button data-command="blank" id="blankButton" title="B">暂隐学生屏</button><button data-command="replay" title="R">重播当前动作</button><button data-command="reset-timer" title="Shift + R">重新计时</button></nav>

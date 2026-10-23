@@ -3,20 +3,20 @@
   "lesson_sha256": "af6f9d15789d7d5ce940392cf5bcd1a5122c24efa1c8e0ec609b612016ca3747",
   "files": {
     "QA.md": {
-      "bytes": 5862,
-      "sha256": "4032a0fb3e83be4707e4e9ce9480a8d0c7ff48088210e12751dee86a9f99fed5"
+      "bytes": 8789,
+      "sha256": "316021424cf126ea04c5fb240da2b00ac316809df11041324a3281343428da9e"
     },
     "README.md": {
-      "bytes": 6442,
-      "sha256": "15499ea7e56a11b302931c8c43f48e385a3c4d702ac7980861f953c7185b944c"
+      "bytes": 9297,
+      "sha256": "1d9717485b1eeaab3c58ca119f184d88571711feaf9594bca843be267705df52"
     },
     "REVIEW-DECISIONS.md": {
       "bytes": 13327,
       "sha256": "48cd8e517a291fe2a254bbf25c2a99b2060116b660749a648729b44ea063d444"
     },
     "SOURCES.md": {
-      "bytes": 6997,
-      "sha256": "414f9f3eeac1f40ff91397c4a6ae969d6210230472ad8c8241c37ba8890c8615"
+      "bytes": 7568,
+      "sha256": "79cd3a79dad8bd1cce4ef4060b914eb52bad9f9a46ae1af7418d86b48d3aacd9"
     },
     "assets/haulers.jpg": {
       "bytes": 651446,
@@ -31,24 +31,32 @@
       "sha256": "a565021db9840abb4707b4c591e710f2aeb2a9af37b5097312f0fe275c919dd1"
     },
     "index.html": {
-      "bytes": 2250,
-      "sha256": "3df2857dedb4b657e6b96c9954b1925c674bd4ac937935352431f73396dd1673"
+      "bytes": 2363,
+      "sha256": "d2001dc2c7443a4ec041db0cc8dca11ec5b562ab454791c1123105d8911f5d3f"
     },
     "presenter.html": {
-      "bytes": 4128,
-      "sha256": "b9f224a8566cccfee146e219cd2e2af4a5f781095552248532aeed02cf388304"
+      "bytes": 4188,
+      "sha256": "6db7746f6701a09edacf537cffd44d406a83698c2109230f52b2c36c95d7fa97"
     },
     "scripts/app.js": {
-      "bytes": 31452,
-      "sha256": "32a45a58e58b8d33884162380efd71af6285ae17dcf667ad1de584ba098b7bdb"
+      "bytes": 33097,
+      "sha256": "e594fed027a3fbfca33b77c91d1bef1c898b840ea0df4f0a5efd9ab14e550df2"
     },
     "scripts/lesson-data.js": {
       "bytes": 78932,
       "sha256": "af6f9d15789d7d5ce940392cf5bcd1a5122c24efa1c8e0ec609b612016ca3747"
     },
     "scripts/presenter.js": {
-      "bytes": 7503,
-      "sha256": "cf100271da482179788cfe02f65fae361800a97fdc1b650e1fa6e48e1dd7b935"
+      "bytes": 7820,
+      "sha256": "4ba69b1a1ed5ee0d8f47b5da23bbd4a9aa0f874008ef5c85ab604538d7f06e28"
+    },
+    "scripts/subtitle-data.js": {
+      "bytes": 32363,
+      "sha256": "c272ecb1f71eddba9d7ac70282d6b1648c5935b0283e73111e02cf80d95937b1"
+    },
+    "scripts/subtitles.js": {
+      "bytes": 10098,
+      "sha256": "7b104affad17bb7507a2c9fc5779897ce5528e328f87b6141a6148d414c28dde"
     },
     "scripts/world.js": {
       "bytes": 36251,
@@ -59,12 +67,20 @@
       "sha256": "a9ca8afe6dcdfa9566c5277e3275f8729cee0d9e0dd34e55aac3e7d002b5e979"
     },
     "styles/story.css": {
-      "bytes": 29636,
-      "sha256": "75afccfff6f4526ca4ed6d31488e459ba4c9154bf0bae9f0b54ab354e07fa13a"
+      "bytes": 29839,
+      "sha256": "2ff3f35b02cabaf51ff69bc126657d99a12f7d8c373070a8806a1ae85b781014"
+    },
+    "styles/subtitles.css": {
+      "bytes": 5933,
+      "sha256": "424487a3d23eeaab5a368ef9d6a098263ef7e02f0154aa256483ff2cfc3bd1ca"
     },
     "styles/world-motion.css": {
       "bytes": 8152,
       "sha256": "533bdce4abb98bcc3d4e411b67f962b35db0d086a628160ae4cbda5ea96dc1cb"
+    },
+    "subtitles.html": {
+      "bytes": 2829,
+      "sha256": "bd8e906c6e694fe7eccda4d1b8a2ffa1dfba191cb451bbe09ddf7045635e05e4"
     },
     "teacher_script.docx": {
       "bytes": 34464,
@@ -85,6 +101,10 @@
     "tests/content.test.cjs": {
       "bytes": 6621,
       "sha256": "26456555051bb52667ed47f5aad2d976655f4df5d1ba6be7664254a321993364"
+    },
+    "tests/subtitles.test.cjs": {
+      "bytes": 20266,
+      "sha256": "3d7804adf247704dcccc2e5317a28a79f228684043e7981fa4e3df9de2e046e4"
     },
     "tools/build_manifest.py": {
       "bytes": 1110,
