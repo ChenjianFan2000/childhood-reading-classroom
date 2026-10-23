@@ -1,0 +1,23 @@
+name: Line story source bundle
+on:
+  push:
+    branches: [build/line-story-verification]
+permissions:
+  contents: read
+jobs:
+  source-bundle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare source files for offline verification
+        run: |
+          mkdir -p source-bundle/assets source-bundle/scripts
+          cp assets/haulers.jpg assets/yamen.webp assets/varvara.webp source-bundle/assets/
+          cp teacher_script.docx 童年公开课完整教案.docx source-bundle/
+          cp scripts/lesson-data.js source-bundle/scripts/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: line-story-sources
+          path: source-bundle/
+          retention-days: 7
