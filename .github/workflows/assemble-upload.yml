@@ -1,0 +1,42 @@
+name: Assemble uploaded classroom file
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.upload/index.html.*'
+
+permissions:
+  contents: write
+
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out the classroom repository
+        uses: actions/checkout@v7
+        with:
+          ref: main
+      - name: Restore and verify the original HTML
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          parts = [Path(f'.upload/index.html.{i:03d}') for i in range(1, 4)]
+          data = b''.join(part.read_bytes() for part in parts)
+          expected = '49b79203ae76190e55b33a8ca76476310b5b968d3c47447133524714de2f14db'
+          if len(data) != 22830016 or hashlib.sha256(data).hexdigest() != expected:
+              raise SystemExit('HTML integrity check failed')
+          Path('index.html').write_bytes(data)
+          for part in parts:
+              part.unlink()
+          print('Verified original HTML: 22830016 bytes; SHA-256 ' + expected)
+          PY
+      - name: Save the complete lesson and remove upload pieces
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- index.html .upload/index.html.001 .upload/index.html.002 .upload/index.html.003
+          git commit -m "Restore complete offline classroom HTML"
+          git push origin HEAD:main
