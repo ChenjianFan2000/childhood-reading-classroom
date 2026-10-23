@@ -56,11 +56,19 @@ function effects(){return `${person(820,786,1,'child','stand','effect-child')}
 function labor(){return `${P('M150 800 Q480 762 730 789 T1470 792','soft')}
  <g class="labor-memory">${group(594,768,1.05,`<g transform="rotate(22)">${person(0,0,1,'grandfather','walk')}</g>`)}${P('M567 650 Q900 618 1235 644','cold rope')}${P('M1110 763 L1287 763 L1324 709 L1104 709 Z M1210 709 L1210 651 M1210 660 L1277 699 L1210 699','soft')}${P('M388 794 l20 -10 l26 9 m39 0 l14 -12 l19 9 m50 4 l18 -10 l19 12','detail')}</g>
  <g class="grandfather-present">${person(802,790,1.2,'grandfather','stand')}${P('M580 684 C628 677 666 673 710 691 M895 691 C938 675 983 679 1031 688','cold')}${P('M719 691 L754 691 M857 691 L885 691','dashed')}</g>`;}
+function inferenceArrow(start,end,index){
+ const mid=(start+end)/2;
+ return `<g class="inference-arrow ${index===0?'arrow-first':'arrow-second'}" data-inference="${index}" data-cut="false">
+  <g class="cut-left">${P(`M${start} 701 L${mid-22} 701`,'dashed')}</g>
+  <g class="cut-right">${P(`M${mid+22} 701 L${end} 701 M${end-15} 693 L${end} 701 L${end-15} 709`,'dashed')}</g>
+  <g class="uncut-mid">${L(mid-22,701,mid+22,701,'dashed')}</g>
+  ${P(`M${mid-16} 681 L${mid+16} 721 M${mid+16} 681 L${mid-16} 721`,'cut-mark warm')}
+ </g>`;
+}
 function logic(){return `${P('M216 748 C488 772 577 706 800 750 C1015 794 1175 722 1393 752','soft')}
  <g class="tools">${P('M390 720 L441 691 L477 728 M440 691 L439 770','warm')}${P('M776 708 L802 750 L839 701 M782 773 L819 746','cold')}${P('M1160 758 Q1205 694 1250 759','warm')}</g>
  <g class="repair-trace">${P('M390 774 L634 774','soft')}${P('M634 774 Q680 693 726 774','cold missing')}${P('M726 774 L1208 774','soft')}${strokes(900,685,1.25)}</g>
- <g class="logic-nodes">${circ(335,701,24,'node')}${circ(800,701,24,'node')}${circ(1265,701,24,'node')}${P('M365 701 L753 701 M740 693 L755 701 L740 709','dashed arrow-one')}
- <g class="arrow-second"><g class="cut-left">${P('M831 701 L1003 701','dashed')}</g><g class="cut-right">${P('M1048 701 L1224 701 M1208 693 L1224 701 L1208 709','dashed')}</g><g class="uncut-mid">${L(1003,701,1048,701,'dashed')}</g></g>${P('M1004 674 L1046 725 M1047 675 L1004 725','cut-mark warm')}</g>`;}
+ <g class="logic-nodes">${circ(335,701,24,'node')}${circ(800,701,24,'node')}${circ(1265,701,24,'node')}${inferenceArrow(365,755,0)}${inferenceArrow(831,1224,1)}</g>`;}
 function protect(){return `<g class="protect-frame">${P('M182 808 L182 327 L1420 327 L1420 808','cold boundary')}${P('M132 810 L1473 810','soft')}${P('M240 368 L1365 368','cold detail')}${P('M240 370 L240 795 M1365 370 L1365 795','cold detail')}</g>
  <g class="protect-pair">${person(721,788,1.38,'protector','protect')}${person(928,788,.89,'child','stand')}${P('M725 702 Q794 668 878 701 Q928 719 967 697','warm bond')}${P('M666 811 Q843 834 1010 809','warm detail')}
   <g class="protection-cost">${P('M836 668 l4 8 M866 675 l4 8','cold cost-marks')}${P('M838 673 l5 2 M868 680 l5 2','paper-gap')}</g>
@@ -68,14 +76,14 @@ function protect(){return `<g class="protect-frame">${P('M182 808 L182 327 L1420
  <g class="protection-limits">${P('M313 780 L313 428 L1281 428 L1281 780 M367 779 L367 475 L1216 475 L1216 779','cold soft')}${L(400,812,1230,812,'cold')}</g>`;}
 function anne(){return `<g class="anne-room">${P('M410 808 L410 327 L500 260 L1110 260 L1200 327 L1200 808','cold room-outline')}${P('M451 808 L451 360 L1160 360 L1160 808','detail')}${windowFrame(1018,509,.84,'shared-window')}${P('M510 789 L510 472 L621 472 L621 790 M606 633 L607 645','cold door')}${P('M480 812 L1145 812','soft')}${person(785,780,.88,'anne','read')}${book(851,721,.54)}</g>
  <g class="help-hand">${hand(409,742,.58)}</g><g class="help-objects">${group(549,735,.65,P('M-40 5 L35 5 L29 63 L-34 63 Z M-40 5 Q-20 -39 -5 -23 Q6 -46 35 5 M-11 -20 L-10 3'))}${group(640,760,.68,P('M-15 -70 L-55 -49 L-38 -17 L-22 -24 L-22 50 L30 50 L30 -24 L47 -17 L62 -49 L19 -70 Q3 -45 -15 -70'))}${book(1038,726,.47)}${P('M355 794 C423 766 437 673 496 687 C566 703 629 804 716 765','warm incoming')}</g>
- <g class="wishes">${bicycle(1268,691,.68,'wish-bike')}${person(1346,481,.63,'child','walk','wish-dancer')}${P('M1155 550 Q1190 534 1214 549 M1160 568 Q1190 552 1226 562 M1164 585 Q1200 573 1245 582','warm whistle')}${P('M856 717 C932 687 1050 649 1160 657','warm dashed wish-route')}${P('M1159 641 L1159 674','cold wish-stop')}</g>
+ <g class="wishes">${bicycle(1268,691,.68,'wish-bike')}${person(1346,481,.63,'child','walk','wish-dancer')}${P('M1155 550 Q1190 534 1214 549 M1160 568 Q1190 552 1226 562 M1164 585 Q1200 573 1245 582','warm whistle')}${P('M856 717 C932 687 1050 649 1160 657','warm dashed wish-route')}<g class="wish-traveller">${circ(856,717,6,'warm filled')}</g>${P('M1173 641 L1173 674','cold wish-stop')}</g>
  <g class="outer-danger">${P('M1173 263 L1173 788','cold thick danger-line')}${P('M1203 280 L1230 315 M1203 327 L1230 362 M1203 375 L1230 410 M1203 424 L1230 459 M1203 472 L1230 507 M1203 520 L1230 555 M1203 568 L1230 603 M1203 616 L1230 651 M1203 664 L1230 699 M1203 712 L1230 747','cold detail')}${circ(1173,657,8,'cold filled')}</g>`;}
 function discussion(){return `<g class="evidence-lines">${book(422,744,.65)}${book(1178,744,.65)}${P('M486 774 C619 774 620 659 768 659 M1114 774 C981 774 980 659 832 659','warm')}${circ(800,659,32,'warm')}${P('M800 692 L800 801','warm')}${P('M658 807 Q800 834 942 807','detail')}</g>
  <g class="first-record">${strokes(710,716,.7)}</g><g class="second-record">${strokes(888,716,.7)}</g>
  <g class="check-record">${P('M857 656 C938 569 1064 642 977 712 Q931 746 866 736','warm')}${P('M876 727 L865 736 L877 742','warm')}${strokes(800,771,.63)}</g>`;}
 function author(){return `<g class="author-book">${book(800,700,1.08)}</g>
- <g class="roots">${P('M590 693 Q543 749 483 788 L448 830 M483 788 L389 823 M1017 690 Q1068 754 1125 789 L1162 834 M1125 789 L1222 819','cold')}${P('M485 787 L540 824 M1125 789 L1078 834','cold detail')}</g>
- <g class="new-growth">${P('M799 810 Q778 784 796 762 M790 789 Q755 765 758 745 Q783 742 791 767 M796 770 Q819 740 842 751 Q833 776 796 781','warm')}${P('M623 817 C693 796 721 830 779 821 M819 821 C887 799 937 831 994 815','warm detail')}</g>`;}
+ <g class="roots"><g class="harm-root root-left">${P('M590 693 Q543 749 483 788 L448 830 M483 788 L389 823 M485 787 L540 824','cold')}</g><g class="harm-root root-right">${P('M1017 690 Q1068 754 1125 789 L1162 834 M1125 789 L1222 819 M1125 789 L1078 834','cold')}</g></g>
+ <g class="new-growth">${P('M897 778 C962 779 1003 742 1061 758 S1180 790 1270 754','warm author-open-route')}${person(1190,779,.48,'child','walk')}${P('M1072 806 L1288 806','warm detail')}</g>`;}
 function reality(){return `<g class="reality-line">${P('M260 792 C465 738 567 818 801 787 S1141 745 1358 791','warm')}${person(805,770,.72,'child','stand')}</g>
  <g class="school-memory">${school(428,756,.85)}${person(569,775,.45,'child','walk')}${P('M540 794 Q628 748 725 794','warm')}</g>
  <g class="lamp-memory">${lamp(1170,759,1.2)}${book(1046,743,.53)}${P('M1030 800 L1236 800','detail')}</g>`;}
@@ -98,11 +106,11 @@ const positions=Object.fromEntries(zones.map(([n],i)=>[n,i*1760]));
    Restoring, returning and reduced-motion therefore share exactly one terminal
    state; replay never redraws an entire scene or erases prior evidence. */
 let svgRoot=null, activeCue=null, animationSet=new Set(), pathLengths=new WeakMap();
-let cameraTransform='translate(0px,0px)', threadD='', paused=false;
+let cameraTransform='translate(0px,0px)', threadD='', paused=false, logicSelection=[false,false];
 const visited=new Set(), terminalSnapshots=new WeakMap();
 const EASE='cubic-bezier(.22,.68,.18,1)';
 const READ_KINDS=new Set(['reading','pair','repair','group','writing']);
-const motionSelector='.scene-art,.focus-lens,[data-motion],.arm-moving,.support-arms,.cut-left,.cut-right,.uncut-mid,.cut-mark,.effect-child .person-body,.protector .person-body';
+const motionSelector='.scene-art,.focus-lens,[data-motion],.arm-moving,.support-arms,.cut-left,.cut-right,.uncut-mid,.cut-mark,.effect-child .person-body,.protector .person-body,.wish-traveller,.harm-root';
 const threadPoints={
  road:[[120,818],[470,781],[800,810],[1110,780],[1480,817]],
  book:[[130,820],[516,805],[671,721],[842,746],[1470,819]],
@@ -113,7 +121,8 @@ const threadPoints={
  protect:[[130,820],[605,807],[795,714],[953,704],[1450,818]],
  help:[[160,817],[355,794],[495,687],[716,765],[1105,811]],
  group:[[130,819],[422,790],[800,735],[1178,790],[1470,819]],
- support:[[130,822],[493,797],[800,808],[1132,791],[1470,822]]
+ support:[[130,822],[493,797],[800,808],[1132,791],[1470,822]],
+ finale:[[96.5,737.1],[477.65,710.85],[800,722.4],[1148.6,704.55],[1503.5,737.1]]
 };
 function smoothPath(points){
  let d=`M${points[0][0]} ${points[0][1]}`;
@@ -126,6 +135,7 @@ function smoothPath(points){
 function threadFor(cue){
  if(READ_KINDS.has(cue.kind))return {shape:'quiet',kind:'quiet',opacity:.24};
  if(cue.id==='cover')return {shape:'road',kind:'route',opacity:.32};
+ if(cue.id==='final-day')return {shape:'road',kind:'relation',opacity:.66};
  if(cue.id==='book-entry'||cue.id==='initial'||cue.id==='revision')return {shape:'book',kind:'route',opacity:.75};
  if(cue.id.startsWith('window-'))return {shape:'window',kind:'relation',opacity:.7};
  if(cue.id==='connection'||cue.id==='compare')return {shape:'relation',kind:'relation',opacity:.72};
@@ -133,7 +143,8 @@ function threadFor(cue){
  if(cue.zone==='protect')return {shape:'protect',kind:'relation',opacity:.68};
  if(cue.zone==='anne')return {shape:'help',kind:'relation',opacity:cue.state==='room'?.28:.62};
  if(cue.zone==='discussion')return {shape:'group',kind:'relation',opacity:.6};
- if(cue.zone==='finale'||cue.zone==='reality')return {shape:'support',kind:'relation',opacity:.66};
+ if(cue.zone==='finale')return {shape:'finale',kind:'relation',opacity:.66};
+ if(cue.zone==='reality')return {shape:'support',kind:'relation',opacity:.66};
  return {shape:cue.zone==='day'?'road':'quiet',kind:cue.zone==='day'?'route':'quiet',opacity:.55};
 }
 function lensFor(cue){
@@ -143,14 +154,14 @@ function lensFor(cue){
   'protection':[1.5,845,688], 'protection-cost':[1.6,851,687],
   'again-question':[1.23,845,710], 'again-answer':[1.1,845,710],
   'window-stay':[1.16,810,735], 'anne-help':[1.08,745,720],
-  'anne-wishes':[1.035,870,725], 'final-reveal':[.96,800,720],
-  'final-support':[.96,800,720]
+  'anne-wishes':[1.035,870,725], 'final-reveal':[1.05,800,720,-90],
+  'final-support':[1.05,800,720,-90]
  }[cue.id];
  if(!f)return 'translate(0px,0px) scale(1)';
- const [s,x,y]=f;return `translate(${x*(1-s)}px,${y*(1-s)}px) scale(${s})`;
+ const [s,x,y,dy=0]=f;return `translate(${x*(1-s)}px,${y*(1-s)+dy}px) scale(${s})`;
 }
 function setup(svg){
- stop();svgRoot=svg;visited.clear();activeCue=null;pathLengths=new WeakMap();
+ stop();svgRoot=svg;visited.clear();activeCue=null;pathLengths=new WeakMap();logicSelection=[false,false];
  svg.innerHTML=`<defs><g id="shared-window-shape">${windowShape}</g><g id="shared-lamp-shape">${lampShape}</g></defs>
  <g id="camera"><path class="world-spine" d="M-200 839 ${zones.map(([n])=>'C'+(positions[n]+200)+' 832 '+(positions[n]+1200)+' 846 '+(positions[n]+1760)+' 839').join(' ')}"/>${zones.map(([n,fn])=>`<g class="zone zone-${n}" id="zone-${n}" transform="translate(${positions[n]} 0)"><g class="scene-art"><g class="focus-lens">${fn()}</g></g></g>`).join('')}</g>
  <g id="story-thread-layer" aria-hidden="true"><path id="story-thread"/><g id="thread-records">${strokes(330,851,.25,'record-cost')}${strokes(800,851,.25,'record-question')}${strokes(1270,851,.25,'record-choice')}</g></g>`;
@@ -163,7 +174,7 @@ function setup(svg){
  cameraTransform='translate(0px,0px)';svg.querySelector('#camera').style.transform=cameraTransform;
  // Only paths that can narrate a change receive a length measurement. Static
  // hair, furniture and scenery are never measured or redrawn per cue.
- svg.querySelectorAll('.route,.book-thread,.connection,.window-thread,.companionship,.missing,.bond,.incoming,.wish-route,.new-growth path,.support-join,.memory-link,.record-lines path').forEach(path=>{
+ svg.querySelectorAll('.route,.book-thread,.connection,.window-thread,.companionship,.missing,.bond,.incoming,.wish-route,.author-open-route,.support-join,.memory-link,.record-lines path').forEach(path=>{
   if(typeof path.getTotalLength==='function')pathLengths.set(path,path.getTotalLength());
  });
 }
@@ -183,12 +194,30 @@ function draw(zone,selector,{duration=2200,delay=0,stagger=90,max=8}={}){
 function snapshot(zone){
  return new Map([...zone.querySelectorAll(motionSelector)].map(el=>{const s=getComputedStyle(el);return [el,{opacity:s.opacity,transform:s.transform,stroke:s.stroke}];}));
 }
+function commitLogic(next){
+ logicSelection=[!!next?.[0],!!next?.[1]];
+ const zone=svgRoot?.querySelector('#zone-logic');if(!zone)return;
+ zone.dataset.cutFirst=String(logicSelection[0]);zone.dataset.cutSecond=String(logicSelection[1]);
+ zone.querySelectorAll('.inference-arrow').forEach((el,i)=>{el.dataset.cut=String(logicSelection[i]);});
+}
+function setLogicChoices(next,{instant=false}={}){
+ if(!svgRoot){logicSelection=[!!next?.[0],!!next?.[1]];return;}
+ const zone=svgRoot.querySelector('#zone-logic'),before=snapshot(zone);
+ // A click may revise one arrow while another motion is still running. Cancel
+ // only these four parts, leaving the camera and reading layer alone.
+ for(const a of [...animationSet])if(a.effect?.target?.closest?.('.inference-arrow'))a.cancel();
+ commitLogic(next);const after=snapshot(zone);terminalSnapshots.set(zone,after);
+ if(!instant&&activeCue?.zone==='logic')animateChanged(zone,before,after,950);
+}
 function animateChanged(zone,before,after,duration){
  let count=0;
  for(const [el,from] of before){
   if(count>=20)break;
   // These have a sentence-specific gesture below, not a generic transition.
-  if(el.matches('.arm-moving,.window-birds,.support-hand,.focus-lens,.protection-cost'))continue;
+  if(el.matches('.arm-moving,.window-birds,.support-hand,.focus-lens,.protection-cost,.wish-traveller,.harm-root'))continue;
+  if(zone.dataset.cue==='author-change'&&el.matches('.new-growth'))continue;
+  if(zone.dataset.cue==='again-answer'&&el.matches('.protect-frame'))continue;
+  if(zone.dataset.cue==='final-support'&&el.matches('.roof,.adults'))continue;
   const to=after.get(el);if(!to)continue;
   if(from.opacity===to.opacity&&from.transform===to.transform&&from.stroke===to.stroke)continue;
   play(el,[from,to],{duration:el.matches('.focus-lens')?2400:duration});count++;
@@ -218,6 +247,9 @@ function transitionCamera(cue,old,animated){
  const cam=svgRoot.querySelector('#camera'),next=`translate(${-positions[cue.zone]}px,0px)`,previous=cameraTransform;
  cam.style.transform=next;cameraTransform=next;
  if(!animated||previous===next)return;
+ // The ending recalls familiar objects at human scale. A flight across all
+ // eleven scenes would compete with the hand, window, school and lamp.
+ if(cue.id==='final-reveal'||cue.id==='final-day')return;
  const distance=Math.abs((positions[old?.zone]||0)-positions[cue.zone]);
  if(distance<=1760){
   play(cam,[{transform:previous},{transform:next}],{duration:1700});
@@ -240,10 +272,9 @@ function choreograph(zone,cue,mode){
  const traceMap={
   'book-entry':['.book-thread',2500],connection:['.connection',2800],
   'window-stay':['.companionship,.window-thread',2400], 'g1-record':['.missing,.repair-trace .record-lines path',2200],
-  protection:['.bond',2900],'anne-help':['.incoming',3100],'anne-wishes':['.wish-route',3200],
+  protection:['.bond',2900],'anne-help':['.incoming',3100],
   'share-two':['.first-record path',1900],'share-check':['.second-record path,.check-record path',2100],
-  'author-change':['.new-growth path',2900],'final-reveal':['.memory-link',2900],
-  'final-support':['.support-join',3300]
+  'final-reveal':['.memory-link',2900]
  };
  if(traceMap[cue.id]){const [selector,duration]=traceMap[cue.id];draw(zone,selector,{duration,delay:cue.id==='final-reveal'?1800:350,max:6,stagger:cue.id==='final-support'?650:100});}
  if(cue.id==='window-stay'){
@@ -257,7 +288,8 @@ function choreograph(zone,cue,mode){
   play(zone.querySelector('.protection-cost'),[{opacity:0},{opacity:1}],{duration:2400,delay:500});
  }
  if(cue.id==='again-answer'){
-  play(zone.querySelector('.protect-frame'),[{opacity:.12},{opacity:.65}],{duration:3300,delay:700});
+  play(zone.querySelector('.protect-frame'),[{opacity:.12},{opacity:.65}],{duration:2600,delay:700});
+  draw(zone,'.protect-frame .boundary',{duration:2300,delay:1000,max:1});
  }
  if(cue.id==='anne-context'){
   const window=zone.querySelector('.shared-window');play(window,[{opacity:.1},{opacity:1}],{duration:2300,delay:400});
@@ -270,26 +302,60 @@ function choreograph(zone,cue,mode){
   play(zone.querySelector('.help-hand'),[{opacity:0,transform:'translate(-45px,10px)'},{opacity:1,transform:'translate(0px,0px)'}],{duration:1500});
  }
  if(cue.id==='anne-wishes'){
+  // The imagined route remains dashed throughout; it never briefly becomes a
+  // solid, already available road during a generic stroke-dash reveal.
+  play(zone.querySelector('.wish-route'),[{opacity:0},{opacity:1}],{duration:2200,delay:350});
   play(zone.querySelector('.wish-bike .bike-parts'),[{transform:'translate(-32px,0)',opacity:0},{transform:'translate(0,0)',opacity:1}],{duration:2800});
   zone.querySelectorAll('.wish-bike .wheel').forEach(el=>play(el,[{transform:'rotate(-180deg)'},{transform:'rotate(0deg)'}],{duration:2800}));
   play(zone.querySelector('.wish-dancer .person-body'),[{transform:'rotate(-5deg)'},{transform:'rotate(6deg)',offset:.45},{transform:'rotate(0deg)'}],{duration:3200,delay:650});
   draw(zone,'.whistle',{duration:1800,delay:1300,max:1});
  }
  if(cue.id==='anne-blocked'){
-  play(zone.querySelector('.outer-danger'),[{opacity:.15},{opacity:1}],{duration:2600});
+  play(zone.querySelector('.outer-danger'),[{opacity:.15},{opacity:1}],{duration:1300});
+  const route=zone.querySelector('.wish-route'),traveller=zone.querySelector('.wish-traveller');
+  const length=pathLengths.get(route)||route.getTotalLength(),start=route.getPointAtLength(0);
+  const frames=Array.from({length:17},(_,i)=>{
+   const p=route.getPointAtLength(length*i/16);
+   return {transform:`translate(${p.x-start.x}px,${p.y-start.y}px)`,opacity:.6+i*.4/16,offset:i/16};
+  });
+  // A wish advances; Anne herself remains safely represented inside the room.
+  // It stops at 2.2 seconds, before the separate danger edge. Help stays put.
+  play(traveller,frames,{duration:2000,delay:200,easing:'cubic-bezier(.2,.5,.2,1)'});
+ }
+ if(cue.id==='g2-cut'&&replay){
+  zone.querySelectorAll('.inference-arrow[data-cut="true"]').forEach((arrow,i)=>{
+   for(const part of arrow.querySelectorAll('.cut-left,.cut-right'))play(part,[{transform:'none'},{transform:getComputedStyle(part).transform}],{duration:950,delay:i*100});
+   play(arrow.querySelector('.uncut-mid'),[{opacity:1},{opacity:0}],{duration:800,delay:i*100});
+   play(arrow.querySelector('.cut-mark'),[{opacity:0},{opacity:1}],{duration:950,delay:i*100});
+  });
+ }
+ if(cue.id==='author-change'){
+  // Harmful branches move away independently. The book remains; a new route
+  // leaves its page rather than growing from the discarded cold branches.
+  zone.querySelectorAll('.harm-root').forEach(el=>play(el,[{opacity:.42,transform:'none'},{opacity:.1,transform:getComputedStyle(el).transform}],{duration:2200}));
+  play(zone.querySelector('.new-growth'),[{opacity:0},{opacity:1}],{duration:1900,delay:1700});
+  draw(zone,'.author-open-route',{duration:2200,delay:1900,max:1});
  }
  if(cue.id==='yamen-close')draw(zone,'.school-memory>path',{duration:2100,delay:900,max:1});
  if(cue.id==='varvara-close')play(zone.querySelector('.lamp-memory'),[{opacity:0},{opacity:1}],{duration:2500,delay:850});
  if(cue.id==='final-reveal'){
   // Keep one recognizable hand in focus, then reveal the remembered objects.
-  play(zone.querySelector('.focus-lens'),[{transform:'translate(-135px,-215px) scale(1.5)'},{transform:lensFor(cue)}],{duration:5800});
-  ['.memory-window','.memory-school','.memory-lamp'].forEach((sel,i)=>play(zone.querySelector(sel),[{opacity:0},{opacity:1}],{duration:2600,delay:1600+i*850}));
+  play(zone.querySelector('.focus-lens'),[{transform:'translate(44px,-316px) scale(1.55)'},{transform:lensFor(cue)}],{duration:5800});
+  ['.memory-window','.memory-school','.memory-lamp'].forEach((sel,i)=>play(zone.querySelector(sel),[{opacity:0},{opacity:1}],{duration:2300,delay:1700+i*850}));
+  play(zone.querySelector('.final-child'),[{opacity:0},{opacity:1}],{duration:2300,delay:2600});
+  play(zone.querySelector('.roof'),[{opacity:0},{opacity:.38}],{duration:2300,delay:3500});
  }
  if(cue.id==='final-support'){
-  zone.querySelectorAll('.support-hand').forEach((el,i)=>play(el,[{opacity:0,transform:`translate(${i===0?-35:i===1?35:0}px,${i===2?28:8}px)`},{opacity:1,transform:'translate(0px,0px)'}],{duration:3200,delay:i*850}));
+  zone.querySelectorAll('.support-hand').forEach((el,i)=>{
+   play(el,[{opacity:0,transform:`translate(${i===0?-35:i===1?35:0}px,${i===2?28:8}px)`},{opacity:1,transform:'translate(0px,0px)'}],{duration:1800,delay:i*900});
+   draw(el,'.support-join',{duration:1500,delay:1000+i*900,max:1});
+  });
+  const roof=zone.querySelector('.roof');
+  // Only after all three joins can be seen does the boundary ease outward.
+  play(roof,[{opacity:.38,transform:'none'},{opacity:.15,transform:getComputedStyle(roof).transform}],{duration:2500,delay:4400});
  }
  if(cue.id==='final-day'){
-  ['.road-set','.desk-set'].forEach((sel,i)=>play(zone.querySelector(sel),[{opacity:0},{opacity:1}],{duration:2500,delay:900+i*1800}));
+  ['.road-set','.desk-set'].forEach((sel,i)=>play(zone.querySelector(sel),[{opacity:0},{opacity:1}],{duration:2500,delay:450+i*1800}));
   play(zone.querySelector('.traveller .bike-parts'),[{transform:'translate(-45px,0)'},{transform:'translate(0,0)'}],{duration:4000,delay:1100});
   zone.querySelectorAll('.traveller .wheel').forEach(el=>play(el,[{transform:'rotate(-65deg)'},{transform:'rotate(0deg)'}],{duration:4000,delay:1100}));
  }
@@ -299,7 +365,7 @@ function choreograph(zone,cue,mode){
   if(cue.kind==='art'||READ_KINDS.has(cue.kind))return;
  }
 }
-function set(cue,old,reduced,immediate=false,mode='forward'){
+function set(cue,old,reduced,immediate=false,mode='forward',choices=null){
  if(!svgRoot||!positions.hasOwnProperty(cue.zone))return;
  stop();paused=false;
  const zone=svgRoot.querySelector('#zone-'+cue.zone),before=terminalSnapshots.get(zone)||snapshot(zone),first=!visited.has(cue.zone);
@@ -311,6 +377,7 @@ function set(cue,old,reduced,immediate=false,mode='forward'){
   el.dataset.reached=String(!!last);
   if(last&&el!==zone){el.dataset.state=last.state;el.querySelector('.focus-lens').style.transform=lensFor(last);}
   el.classList.toggle('current',el===zone);
+  if(name==='logic')commitLogic(cue.zone==='logic'?(choices||[cue.state==='cut',cue.state==='cut']):[last?.state==='cut',last?.state==='cut']);
  }
  zone.dataset.state=cue.state;zone.dataset.cue=cue.id;
  zone.querySelector('.focus-lens').style.transform=lensFor(cue);
@@ -320,7 +387,7 @@ function set(cue,old,reduced,immediate=false,mode='forward'){
  updateThread(cue,animated);
  if(animated){
   if(former&&former!==zone){play(former,[{opacity:formerOpacity},{opacity:'.16'}],{duration:1400});play(zone,[{opacity:zoneOpacity},{opacity:'1'}],{duration:1500});}
-  if(!first&&mode!=='replay')animateChanged(zone,before,after,2000);
+  if(!first&&mode!=='replay')animateChanged(zone,before,after,cue.id==='g2-cut'?1100:2000);
   const lens=zone.querySelector('.focus-lens'),fromLens=before.get(lens)?.transform,toLens=after.get(lens)?.transform;
   if(cue.id!=='final-reveal'&&fromLens&&fromLens!==toLens)play(lens,[{transform:fromLens},{transform:toLens}],{duration:2400});
   choreograph(zone,cue,mode);
@@ -333,6 +400,6 @@ function pause(){paused=true;for(const a of animationSet)if(a.playState==='runni
 function resume(){paused=false;for(const a of animationSet)if(a.playState==='paused')a.play();}
 function isAnimating(){return [...animationSet].some(a=>a.playState==='running'||a.playState==='paused'||a.pending);}
 function reset(){stop();}
-window.LineWorld={setup,set,stop,reset,finish,pause,resume,isAnimating,positions,
- get state(){return {cue:activeCue?.id||null,paused,activeAnimations:animationSet.size,visited:visited.size};}};
+window.LineWorld={setup,set,setLogicChoices,stop,reset,finish,pause,resume,isAnimating,positions,
+ get state(){return {cue:activeCue?.id||null,paused,activeAnimations:animationSet.size,visited:visited.size,logicChoices:[...logicSelection]};}};
 })();

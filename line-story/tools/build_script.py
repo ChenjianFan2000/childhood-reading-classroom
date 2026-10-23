@@ -4,7 +4,7 @@ Usage: python tools/build_script.py
 Requires: python-docx (document build only; classroom has no dependencies).
 """
 from __future__ import annotations
-import hashlib, json, math, re, zipfile
+import hashlib, json, re, zipfile
 from pathlib import Path
 from docx import Document
 from docx.shared import Cm, Pt, RGBColor
@@ -121,29 +121,31 @@ for note in operation_notes:
 md.extend(['## 操作与课前演练','','| 操作 | 按键 |','| --- | --- |'])
 md.extend('| '+a+' | '+b+' |' for a,b in operations)
 md.extend(['']+operation_notes+[''])
-# Greedy cue pagination, conservatively calculated for CJK body text.
-def estimate(c):
-    h=48
-    for s in [c['teacher'] or '（保持安静。）',c['action'],c['hold'],c['reply']]:
-        if s:h+=sum(max(1,math.ceil(len(line)/42)) for line in s.split('\n'))*14.2+8
-    return h+14
-page();used=0;prevsection=None
+# Let the document layout engine paginate complete cues. A character-count
+# estimate can miss the actual CJK font metrics and strand an action or hold
+# instruction on its own page. Each teaching section still starts on a new page.
+page();prevsection=None
 def silence(c):
     if c['id'].startswith('final-'):return '（保持安静，让画面自行完成。）'
     if c['id'].endswith('-close'):return '（保持安静，等待画面收回并停住。）'
     return '（保持安静，留给学生阅读、讨论或书写。）'
 for c in C:
-    ht=estimate(c)
-    if used and (used+ht>660 or c['section']!=prevsection):page();used=0
-    if not used:
-        text(c['section']+'  /  教师现场用稿','Caption');used+=28
+    if c['section']!=prevsection:
+        if prevsection is not None:page()
+        p=text(c['section']+'  /  教师现场用稿','Caption')
+        p.paragraph_format.keep_with_next=True
+    cue_start=len(doc.paragraphs)
     title=f"{c['number']:02d}　{c['title']}"
     doc.add_heading(title,2)
     text(f"{c['timing']}　｜　网页定位：{c['id']}",'Caption')
     label('教师说',c['teacher'] or silence(c))
     label('画面',c['action']);label('停留',c['hold']);label('按需承接',c['reply'])
     if c['id']=='final-day':label('推进',c['next'])
-    used+=ht;prevsection=c['section']
+    cue_paragraphs=doc.paragraphs[cue_start:]
+    for i,p in enumerate(cue_paragraphs):
+        p.paragraph_format.keep_together=True
+        p.paragraph_format.keep_with_next=i<len(cue_paragraphs)-1
+    prevsection=c['section']
     md.extend([f'## {title}',f"**{c['timing']} · `{c['id']}`**",'', '**教师说**',c['teacher'] or silence(c),'',f"**画面：** {c['action']}",f"**停留：** {c['hold'] or '完成本节拍后推进。'}"])
     if c['reply']:md.append('**按需承接：** '+c['reply'])
     md.extend(['**推进：** '+c['next'],''])

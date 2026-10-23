@@ -20,11 +20,12 @@ function watch(p){p.on('pageerror',e=>report.errors.push(String(e)));p.on('reque
 async function shot(p,name){if(capture)await p.screenshot({path:path.join(OUT,name+'.png')});}
 async function bounds(p,id){
  const data=await p.evaluate(()=>{
-  const a=document.querySelector('#content article'),s=document.querySelector('#stage'),r=a.getBoundingClientRect(),b=s.getBoundingClientRect();
+  const a=document.querySelector('#content article'),s=document.querySelector('#stage'),r=a.getBoundingClientRect(),b=s.getBoundingClientRect(),timer=document.querySelector('#timer'),controls=document.querySelector('#controls');
   const rect=q=>({x:q.x,y:q.y,w:q.width,h:q.height,bottom:q.bottom,right:q.right});
-  return {article:rect(r),stage:rect(b),horizontalOverflow:document.documentElement.scrollWidth>innerWidth+1,portrait:innerWidth<=620&&innerHeight>innerWidth};
+  return {article:rect(r),stage:rect(b),timer:timer.hidden?null:rect(timer.getBoundingClientRect()),controls:rect(controls.getBoundingClientRect()),horizontalOverflow:document.documentElement.scrollWidth>innerWidth+1,portrait:innerWidth<=620&&innerHeight>innerWidth};
  });
  assert.ok(!data.horizontalOverflow,id+' horizontal overflow');
+ if(data.timer)assert.ok(data.timer.bottom<=data.controls.y-4||data.timer.right<=data.controls.x||data.timer.x>=data.controls.right,id+' timer obscured by controls '+JSON.stringify(data));
  if(!data.portrait&&C.find(c=>c.id===id).kind!=='art'){
   assert.ok(data.article.x>=data.stage.x-2&&data.article.right<=data.stage.right+2,id+' horizontal text clipping '+JSON.stringify(data));
   assert.ok(data.article.y>=data.stage.y+25&&data.article.bottom<=data.stage.bottom-35,id+' vertical text clipping '+JSON.stringify(data));
@@ -45,12 +46,23 @@ let browser;
  }
  for(let i=C.length-2;i>=0;i--){await key(p,'ArrowLeft');assert.equal((await state(p)).id,C[i].id);assert.ok(!(await state(p)).animating,C[i].id+' restore animates');}
  ok('All 57 cues advance and all 56 backward steps restore a settled state');
- await jump(p,'g2-repair');await p.evaluate(()=>{window.__quote=document.querySelector('#content [data-passage]');window.__arrow=document.querySelector('[data-arrow="1"]');});
+ const inferenceState=page=>page.evaluate(()=>({
+  text:[...document.querySelectorAll('#content [data-arrow]')].map(e=>e.getAttribute('aria-pressed')==='true'),
+  world:['.arrow-first','.arrow-second'].map(s=>document.querySelector('.zone-logic '+s).dataset.cut==='true')
+ }));
+ await jump(p,'g2-repair');
+ await p.locator('[data-arrow="0"]').click();
+ assert.deepEqual(await inferenceState(p),{text:[true,false],world:[true,false]});
+ await p.evaluate(()=>{window.__quote=document.querySelector('#content [data-passage]');window.__arrow=document.querySelector('[data-arrow="1"]');});
  await key(p,'ArrowRight');assert.equal((await state(p)).id,'g2-cut');
  assert.ok(await p.evaluate(()=>window.__quote===document.querySelector('#content [data-passage]')&&window.__arrow===document.querySelector('[data-arrow="1"]')));
- assert.ok(await p.locator('[data-arrow="1"]').evaluate(e=>e.classList.contains('cut')));
- await key(p,'ArrowLeft');assert.ok(!(await p.locator('[data-arrow="1"]').evaluate(e=>e.classList.contains('cut'))));
- ok('Inference cut retains the same source paragraph and arrow nodes; backward step restores the unresolved inference');
+ assert.deepEqual(await inferenceState(p),{text:[true,true],world:[true,true]});
+ assert.equal(await p.locator('[data-arrow]:disabled').count(),2);
+ await key(p,'ArrowLeft');assert.deepEqual(await inferenceState(p),{text:[true,false],world:[true,false]});
+ await p.reload();await p.waitForFunction(()=>!!window.lineStoryState);
+ assert.deepEqual(await inferenceState(p),{text:[true,false],world:[true,false]});
+ await p.locator('[data-arrow="0"]').click();assert.deepEqual(await inferenceState(p),{text:[false,false],world:[false,false]});
+ ok('Both unsupported inferences close without changing the evidence; text and SVG choices stay synchronized through return and refresh');
  await jump(p,'sensitive');const word=p.locator('#content [data-word]').first();await word.click();const text=await word.getAttribute('data-word');
  await key(p,'ArrowRight');await key(p,'ArrowLeft');assert.ok(await p.locator('#content [data-word]').filter({hasText:text}).first().evaluate(e=>e.classList.contains('emph')));
  await p.reload();await p.waitForFunction(()=>!!window.lineStoryState);assert.equal((await state(p)).id,'sensitive');assert.ok(await p.locator('#content [data-word]').first().evaluate(e=>e.classList.contains('emph')));
@@ -61,8 +73,11 @@ let browser;
  ok('The later answer is withheld during protection and its question; evidence review has no teacher notes');
  for(const size of [{width:1366,height:768},{width:1280,height:960},{width:1024,height:768},{width:390,height:844}]){
   await p.setViewportSize(size);
-  for(const id of ['paired','window-reading','grandfather','g1-repair','g2-repair','g3-repair','anne-reading','group','author-read','yamen','varvara','exit','final-day']){await jump(p,id);await bounds(p,id);}
-  await shot(p,'reading-'+size.width+'x'+size.height);ok('Reading and material layouts fit '+size.width+'x'+size.height);
+  for(const id of ['paired','window-reading','grandfather','g1-repair','g2-repair','g2-cut','g3-repair','anne-reading','group','author-read','yamen','varvara','conditions','exit','final-day']){
+   await jump(p,id);await bounds(p,id);
+   if(['paired','window-reading','g2-cut','anne-reading','group'].includes(id))await shot(p,id+'-'+size.width+'x'+size.height);
+  }
+  ok('Reading and material layouts fit '+size.width+'x'+size.height);
  }
  await p.setViewportSize({width:1600,height:900});await jump(p,'day-road');await p.locator('#stage').click({position:{x:1500,y:550}});assert.equal((await state(p)).id,'day-road');
  await key(p,'f');await p.locator('#stage').click({position:{x:1500,y:550},button:'right'});assert.equal((await state(p)).id,'day-road');
@@ -83,7 +98,8 @@ let browser;
  const beforeIntrusion=(await state(p)).id;await p.evaluate(()=>window.postMessage({protocol:'childhood-line-story-presenter-v2',session:'wrong',type:'command',command:'next'},'*'));await sleep(300);assert.equal((await state(p)).id,beforeIntrusion);
  await p.reload();await p.waitForFunction(()=>!!window.lineStoryState);await teacher.waitForFunction(()=>window.linePresenterState.connected&&window.linePresenterState.cueId==='share-one');
  await teacher.locator('[data-command="next"]').click();await p.waitForFunction(()=>window.lineStoryState.id==='share-two');await shot(teacher,'presenter');
- await teacher.close();const reopen=p.waitForEvent('popup');await key(p,'p');const teacher2=await reopen;watch(teacher2);await teacher2.waitForFunction(()=>window.linePresenterState?.connected);assert.equal((await teacher2.evaluate(()=>window.linePresenterState)).cueId,'share-two');await teacher2.close();
+ await teacher.close();await p.waitForFunction(()=>!window.lineStoryState.presenterConnected);
+ const reopen=p.waitForEvent('popup');await key(p,'p');const teacher2=await reopen;watch(teacher2);await teacher2.waitForFunction(()=>window.linePresenterState?.connected);assert.equal((await teacher2.evaluate(()=>window.linePresenterState)).cueId,'share-two');await teacher2.close();
  ok('Offline file:// teacher window controls and reconnects after student refresh, rejects unrelated messages, and reopens at current cue');
  const motionContext=await browser.newContext({viewport:{width:1600,height:900},reducedMotion:'no-preference',offline:true});
  const m=await motionContext.newPage();watch(m);await load(m);await m.evaluate(()=>{window.__thread=document.querySelector('#story-thread');});
@@ -99,8 +115,32 @@ let browser;
  const sample=()=>m.evaluate(()=>document.querySelector('#world .zone.current .focus-lens').getBoundingClientRect().width);
  const frozen=await sample();await sleep(350);assert.ok(Math.abs(await sample()-frozen)<.1);await key(m,'b');await key(m,'Escape');assert.equal((await state(m)).paused,true);await key(m,'a');assert.equal((await state(m)).paused,false);await key(m,'ArrowRight');assert.equal((await state(m)).id,'protection');
  ok('Motion pause freezes the local camera, blackout restores the prior paused state, and next finishes the gesture');
+ // The question must follow the visible stop, and already received help must
+ // survive it. Inspect actual intermediate frames, not just declared timings.
+ await jump(m,'anne-wishes');await key(m,'ArrowRight');
+ assert.equal((await state(m)).id,'anne-blocked');
+ const at=async time=>m.evaluate(t=>{document.getAnimations().forEach(a=>{a.pause();a.currentTime=t;});},time);
+ await at(1200);
+ const wish=()=>m.locator('.zone-anne .wish-traveller').evaluate(e=>new DOMMatrix(getComputedStyle(e).transform).m41);
+ const midway=await wish();assert.ok(midway>0&&midway<304);
+ assert.ok(Number(await m.locator('#content h1').evaluate(e=>getComputedStyle(e).opacity))<.05);
+ await at(3200);assert.ok(Math.abs(await wish()-304)<.05);
+ assert.equal(Number(await m.locator('.zone-anne .help-objects').evaluate(e=>getComputedStyle(e).opacity)),1);
+ assert.ok(Number(await m.locator('#content h1').evaluate(e=>getComputedStyle(e).opacity))>.95);
+ await shot(m,'anne-blocked-settled');
+ ok('The wish moves and stops before the question appears; the help stays visible');
+ await jump(m,'final-reveal');await key(m,'ArrowRight');
+ await at(3200);assert.equal(Number(await m.locator('.zone-finale .roof').evaluate(e=>getComputedStyle(e).opacity)),.38);
+ await at(7300);assert.equal(Number(await m.locator('.zone-finale .roof').evaluate(e=>getComputedStyle(e).opacity)),.15);
+ const hand=await m.locator('.zone-finale .support-hand-three').boundingBox();assert.ok(hand.y>100&&hand.y+hand.height<860);
+ await shot(m,'final-support-settled');
+ ok('Several supports connect before the boundary retreats, with the lower hand fully visible');
  // Inspect real timing for the long final reveal, including the intended silent delay.
- await jump(m,'final-support');await key(m,'ArrowRight');assert.equal((await state(m)).id,'final-day');
+ // The frame inspection above intentionally paused the active cue. Complete it
+ // with the first advance, then enter the final day with the second advance.
+ await key(m,'ArrowRight');assert.equal((await state(m)).id,'final-support');assert.equal((await state(m)).animating,false);
+ await key(m,'ArrowRight');assert.equal((await state(m)).id,'final-day');
+ assert.equal(await m.locator('#camera').evaluate(e=>e.getAnimations().length),0,'Ending must not fly across unrelated scenes');
  await sleep(1000);assert.ok(Number(await m.locator('#content article').evaluate(e=>getComputedStyle(e).opacity))<.05);
  await sleep(8500);assert.ok(Number(await m.locator('#content article').evaluate(e=>getComputedStyle(e).opacity))>.95);
  assert.ok(!(await state(m)).animating);await shot(m,'ending-settled');await sleep(600);assert.ok(!(await state(m)).animating);

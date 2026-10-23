@@ -29,6 +29,16 @@ test('students judge before the default inference breaks and before the later an
  assert.ok(by('g3-repair').number<by('protection').number);assert.ok(by('protection-cost').number<by('again-question').number);assert.ok(by('again-question').number<by('again-answer').number);
  for(const c of C.slice(0,by('again-question').number))assert.ok(!JSON.stringify({body:c.body,passage:c.passage,focusQuote:c.focusQuote}).includes('当然要打啦'),c.id);
 });
+test('the grandfather is heard before his justification is revealed, without rewriting the excerpts',()=>{
+ const experience=L.passages[by('grandfather').passage];
+ assert.ok(experience?.length>=3);
+ assert.deepEqual([...experience],[...L.passages.grandfather.slice(2)]);
+ assert.ok(!experience.join('').includes('是受教训'));
+ assert.ok(by('contradiction').body.join('').includes('是受教训'));
+ assert.ok(by('grandfather').number<by('contradiction').number);
+ assert.equal(by('g2-cut').logicNotes.length,2);
+ assert.ok(by('g2-cut').textDelay>0&&by('anne-blocked').textDelay>0);
+});
 test('final 45 seconds follow independent writing and leave the first two moments silent',()=>{
  const ending=C.slice(by('final-reveal').number);assert.equal(ending.reduce((n,c)=>n+c.seconds,0),45);
  assert.equal(by('final-reveal').teacher,'');assert.equal(by('final-support').teacher,'');assert.ok(by('final-day').teacher.includes('普通'));

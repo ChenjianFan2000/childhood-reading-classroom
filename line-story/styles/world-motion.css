@@ -60,6 +60,17 @@
 .zone-logic[data-state=arrows] .repair-trace .record-lines,
 .zone-logic[data-state=cut] .repair-trace .record-lines{opacity:1}
 
+/* Both links are hypotheses. The app's same two choices control this drawing
+   and the readable arrows above it; a fact is never removed with an inference. */
+.zone-logic .inference-arrow .cut-left,
+.zone-logic .inference-arrow .cut-right{transform:none}
+.zone-logic .inference-arrow .uncut-mid{opacity:1}
+.zone-logic .inference-arrow .cut-mark{opacity:0}
+.zone-logic .inference-arrow[data-cut=true] .cut-left{transform:translate(-18px,7px)}
+.zone-logic .inference-arrow[data-cut=true] .cut-right{transform:translate(18px,7px)}
+.zone-logic .inference-arrow[data-cut=true] .uncut-mid{opacity:0}
+.zone-logic .inference-arrow[data-cut=true] .cut-mark{opacity:1}
+
 /* The arm completes a small gesture. Cost is a quiet mark, never an assault. */
 .zone-protect .arm-moving{transform-origin:23px -102px}
 .zone-protect[data-state=cost] .arm-moving{transform:rotate(0deg)}
@@ -93,10 +104,18 @@
 .zone-anne .incoming{stroke-width:3.8}
 .zone-anne .outer-danger .danger-line{stroke-width:4.1}
 .zone-anne .help-objects>g{opacity:1}
+.zone-anne .wish-traveller{opacity:0;transform:translate(0px,0px)}
+.zone-anne[data-state=wishes] .wish-traveller{opacity:.6}
+.zone-anne[data-state=blocked] .wish-traveller{opacity:1;transform:translate(304px,-60px)}
 
 /* No answers are filled into the student's claim: only a completed mark stays. */
 .zone-discussion .evidence-lines circle{stroke-dasharray:2 9;stroke-width:1.6}
-.zone-author[data-state=roots] .roots{opacity:.2;transform:translate(0,24px)}
+.zone-author[data-state=quiet] .roots,
+.zone-author[data-state=roots] .roots{opacity:1;transform:none}
+.zone-author .harm-root{opacity:.42;transform:none}
+.zone-author[data-state=roots] .root-left{opacity:.1;transform:translate(-140px,96px)}
+.zone-author[data-state=roots] .root-right{opacity:.1;transform:translate(140px,96px)}
+.zone-author .author-open-route{stroke-width:3.2}
 .zone-reality[data-state=conditions] .school-memory,
 .zone-reality[data-state=conditions] .lamp-memory{opacity:1}
 .zone-reality[data-state=conditions] .reality-line{opacity:.45}

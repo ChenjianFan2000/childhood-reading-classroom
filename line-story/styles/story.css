@@ -67,3 +67,31 @@ body.high-contrast{--paper:#fffdf4;--ink:#162725;--muted:#40524b;--gold:#8d591f;
 /* Quiet paper beneath the complete reading area keeps scene strokes out of text.
    This changes only compositing; paragraph positions and type sizes stay intact. */
 .reading-state #content>article{position:relative;background:var(--paper);box-shadow:0 0 30px 26px var(--paper)}
+
+/* Keep the two experiences legible while the two unsupported inferences part.
+   The closing explanation appears only after the class has made its judgement. */
+@media(min-width:621px){#timer{bottom:105px}}
+.arrow-button:disabled{opacity:1;cursor:default}
+.logic-notes{display:flex;justify-content:center;gap:46px;margin:-4px 0 24px;color:var(--muted);font-size:23px;line-height:1.55}
+.logic-notes p{border-bottom:1px solid #b5804359;padding:0 7px 5px;white-space:nowrap}
+body[data-cue=g2-cut] .logic-row{margin:20px 0 15px}
+body[data-cue=g2-cut] .logic-layout h1{font-size:42px}
+/* Anne's tall room remains visible below a quiet, central text field. The
+   heading's paper fades with the delayed question, so the moving wish stays
+   unobstructed until it has actually reached the boundary. */
+body[data-cue=anne-help] .cinema-layout,
+body[data-cue=anne-wishes] .cinema-layout,
+body[data-cue=anne-blocked] .question-layout{align-self:flex-start;max-width:1120px!important;margin-top:65px}
+body[data-cue=anne-help] h1,
+body[data-cue=anne-wishes] h1,
+body[data-cue=anne-blocked] h1{font-size:52px;line-height:1.65;background:var(--paper);box-shadow:0 0 28px 24px var(--paper)}
+@media(max-width:620px) and (orientation:portrait){
+ .logic-notes{flex-direction:column;gap:8px;align-items:center;margin:0 0 25px;font-size:18px}
+ body[data-cue=g2-cut] .logic-layout h1{font-size:29px}
+ body[data-cue=anne-help] .cinema-layout,
+ body[data-cue=anne-wishes] .cinema-layout,
+ body[data-cue=anne-blocked] .question-layout{margin-top:0;align-self:center}
+ body[data-cue=anne-help] h1,
+ body[data-cue=anne-wishes] h1,
+ body[data-cue=anne-blocked] h1{font-size:29px;box-shadow:0 0 18px 12px var(--paper)}
+}

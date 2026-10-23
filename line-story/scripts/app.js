@@ -62,7 +62,13 @@ function quotation(key,emphasis=[],prefix='') {
   return `<p data-key="${prefix}${E(key)}:paragraph:${i}">${html}</p>`;
  }).join('')}</div>`;
 }
-function logicChoices(c) { const picked=choices.get('grandfather-reasoning')||[false,false]; return [picked[0],c.state==='cut'||picked[1]]; }
+function logicChoices(c) {
+ // The closing demonstration is not written back as the class's own choices.
+ // Returning to the question must recover the judgement the teacher actually marked.
+ if(c.state==='cut')return [true,true];
+ const picked=choices.get('grandfather-reasoning')||[false,false];
+ return [!!picked[0],!!picked[1]];
+}
 function renderContent(c) {
  const title=`<h1 data-key="title">${E(c.heading)}</h1>`, h2=`<h2 data-key="reading-title">${E(c.heading)}</h2>`;
  const body=paragraphs(c.body||[]), article=(cls,html)=>`<article data-key="article" class="${cls}" data-reading-mode="${E(c.readingMode||(c.focusQuote?'detail':['reading','pair'].includes(c.kind)?'immersive':['repair','logic','group'].includes(c.kind)?'recall':'none'))}">${html}</article>`;
@@ -75,9 +81,10 @@ function renderContent(c) {
  if(c.kind==='contrast') return article('contrast-layout',`${h2}${paragraphs(c.body,'quote','contrast')}`);
  if(c.kind==='rules') return article('rules-layout',`${title}<div class="rule-words" data-key="rule-words">${c.body.map((t,i)=>`<div data-key="rule:${i}"><small>0${i+1}</small><p>${E(t)}</p></div>`).join('')}</div>`);
  if(c.kind==='logic') {
-  const cut=logicChoices(c);
-  const row=c.body.map((t,i)=>`<p class="node-label" data-key="logic-node:${i}">${E(t)}</p>${i<2?`<button class="arrow-button${cut[i]?' cut':''}" data-key="logic-arrow:${i}" data-arrow="${i}" aria-pressed="${cut[i]}" aria-label="检验第${i+1}条箭头">→</button>`:''}`).join('');
-  return article('logic-layout',`${title}<div class="logic-row" data-key="logic-row">${row}</div>${quotation(c.passage||'grandfather_game')}`);
+  const cut=logicChoices(c),resolved=c.state==='cut';
+  const row=c.body.map((t,i)=>`<p class="node-label" data-key="logic-node:${i}">${E(t)}</p>${i<2?`<button class="arrow-button${cut[i]?' cut':''}" data-key="logic-arrow:${i}" data-arrow="${i}" aria-pressed="${cut[i]}" aria-label="第${i+1}条推论：${cut[i]?'证据不足':'等待检验'}"${resolved?' disabled':''}>→</button>`:''}`).join('');
+  const notes=c.logicNotes?.length?paragraphs(c.logicNotes,'logic-notes','logic-notes'):'';
+  return article('logic-layout',`${title}<div class="logic-row" data-key="logic-row">${row}</div>${notes}${quotation(c.passage||'grandfather_game')}`);
  }
  if(c.kind==='group') return article('group-layout',`${h2}<div class="evidence-grid" data-key="group-evidence"><div class="evidence" data-key="book-evidence"><h3>《童年》</h3><p>“可是你总算少挨了几下”</p><p>“当然要打啦！说不定要常常收拾你的……”</p><div class="evidence-actions"><button data-evidence="protect">回读保护</button><button data-evidence="warmth">外祖母</button><button data-evidence="window">窗边</button></div></div><div class="evidence" data-key="anne-evidence"><h3>安妮的愿望</h3><p>${E((L.passages.anne_wish||L.passages.anne)[0])}</p><p>帮助者送来生活必需品；迫害仍使出门危险。</p><button data-evidence="anne">回读愿望</button></div></div>${body}<p class="group-steps" data-key="group-steps">人人表达 → 两份证据 → 提出质疑 → 写成主张</p>`);
  if(c.id==='compare') return article('question-layout recall-layout',`${title}${body}<div class="recall-links" data-key="recall-links"><button data-evidence="hurt">回看受伤之后</button><button data-evidence="warmth">回看外祖母的爱</button><button data-evidence="pair">两段并读</button></div>`);
@@ -112,6 +119,12 @@ function contentUpdate(c,old,instant) {
  patchNode(host,desired); host.id='content';host.setAttribute('aria-label','当前阅读内容');
  const article=host.firstElementChild;
  if(instant||reduced||c.kind==='art')return;
+ if(c.textDelay>0) {
+  // Let the changed relation become visible before naming it. The source stays
+  // readable throughout, and these finite effects share pause/finish controls.
+  for(const el of article.querySelectorAll('h1,h2,.logic-notes'))animate(el,[{opacity:0},{opacity:1}],{duration:500,delay:c.textDelay,fill:'backwards',easing:'ease-out'});
+  return;
+ }
  const isNew = !previous || old.zone!==c.zone;
  if(c.id==='final-day') { animate(article,[{opacity:0},{opacity:1}],{duration:1300,delay:8000,fill:'backwards',easing:'ease-out'});return; }
  if(isNew)animate(article,[{opacity:0},{opacity:1}],{duration:650,delay:old.zone===c.zone?0:350,fill:'backwards',easing:'ease-out'});
@@ -194,7 +207,7 @@ function go(n,{instant=false,fromHash=false,mode='forward'}={}) {
  document.body.classList.toggle('art-state',c.kind==='art');document.body.classList.toggle('reading-state',['reading','pair','repair','group'].includes(c.kind));
  document.body.classList.toggle('photo-state',c.kind==='photo');document.body.dataset.cue=c.id;
  document.body.dataset.readingMode=c.readingMode||(c.focusQuote?'detail':c.kind==='reading'||c.kind==='pair'?'immersive':'none');
- window.LineWorld.set(c,old,reduced,instant,mode);
+ window.LineWorld.set(c,old,reduced,instant,mode,logicChoices(c));
  contentUpdate(c,old,instant);showMedia(c,instant);
  $('#chapter').textContent=nodes[currentNodeIndex()]?.title||c.section;
  $('#meter span').style.width=`${index/(C.length-1)*100}%`;
@@ -294,7 +307,15 @@ $('#content').addEventListener('click',e=>{
  const t=e.target.closest('[data-evidence],[data-word],[data-arrow]');if(!t)return;
  if(t.dataset.evidence){evidence(t.dataset.evidence);return;}
  if(t.dataset.word){const key=t.closest('[data-passage]').dataset.passage,s=marks.get(key)||new Set();s.has(t.dataset.word)?s.delete(t.dataset.word):s.add(t.dataset.word);marks.set(key,s);t.classList.toggle('emph',s.has(t.dataset.word));t.setAttribute('aria-pressed',s.has(t.dataset.word));persist();return;}
- if(t.dataset.arrow!==undefined){const pick=logicChoices(C[index]);pick[Number(t.dataset.arrow)]=!pick[Number(t.dataset.arrow)];choices.set('grandfather-reasoning',pick);t.classList.toggle('cut',pick[Number(t.dataset.arrow)]);t.setAttribute('aria-pressed',pick[Number(t.dataset.arrow)]);persist();}
+ if(t.dataset.arrow!==undefined){
+  if(C[index].state==='cut')return;
+  const pick=logicChoices(C[index]),arrow=Number(t.dataset.arrow);
+  pick[arrow]=!pick[arrow];choices.set('grandfather-reasoning',pick);
+  t.classList.toggle('cut',pick[arrow]);t.setAttribute('aria-pressed',pick[arrow]);
+  t.setAttribute('aria-label',`第${arrow+1}条推论：${pick[arrow]?'证据不足':'等待检验'}`);
+  window.LineWorld.setLogicChoices?.(pick,{instant:reduced||animationPaused});
+  persist();sendState();
+ }
 });
 $('#panelBody').addEventListener('click',e=>{
  const t=e.target.closest('button');if(!t)return;
