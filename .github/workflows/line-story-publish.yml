@@ -1,0 +1,49 @@
+name: Publish line-story version
+on:
+  push:
+    branches: [build/line-story-verification]
+    paths: [.github/workflows/line-story-publish.yml]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Restore uploaded release sources
+        run: |
+          cat .line-story-upload/0*.b64 | base64 --decode > /tmp/line-story-source.tar.xz
+          echo 'd9c9a791347d3766adbb077c0caf2ab3ff77150467a90ff4d5b679a83617f4a4  /tmp/line-story-source.tar.xz' | sha256sum --check
+          git fetch origin main
+          git switch -C publish-line-story origin/main
+          test ! -e line-story
+          tar -xJf /tmp/line-story-source.tar.xz
+          mkdir -p line-story/assets
+          cp assets/haulers.jpg assets/yamen.webp assets/varvara.webp line-story/assets/
+      - name: Build synchronized Word document
+        run: |
+          python -m pip install --quiet python-docx==1.2.0
+          python line-story/tools/build_script.py
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          root=Path('line-story')
+          manifest={'version':'1.0','files':{str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(root.rglob('*')) if p.is_file() and p.name!='manifest.json'}}
+          (root/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          PY
+      - name: Publish only the new directory to main
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- line-story
+          git commit -m 'Publish independent vector line-story classroom with synchronized teacher script'
+          git push origin HEAD:main
+          echo "PUBLISHED_COMMIT=$(git rev-parse HEAD)" >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: line-story-published
+          path: line-story/
+          retention-days: 7
