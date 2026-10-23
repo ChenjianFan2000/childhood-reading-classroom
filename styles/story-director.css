@@ -1,0 +1,164 @@
+/* Spoken beats, with the writing remaining in the students' own notebooks. */
+#stage:focus{outline:none}
+.cue-hint{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);white-space:nowrap;font:13px/1.6 var(--sans);letter-spacing:.04em;color:#596b52;background:#faf7ede8;border:1px solid #d7cfb455;border-radius:20px;padding:5px 15px;pointer-events:none}
+.cue-button{display:inline-flex;align-items:center;gap:.85em;background:none;color:#69785b;border:0;border-bottom:1px solid #a8b08e88;border-radius:0;padding:.45em .1em;font:clamp(15px,1.12vw,22px)/1.5 var(--sans);letter-spacing:.06em;white-space:nowrap;transition:color .3s,border-color .3s,opacity .3s}
+.cue-button span{font-family:var(--serif);font-size:1.2em}
+.cue-button:hover:not(:disabled){color:#354f37;border-color:#596e47}
+.cue-button:disabled{cursor:default;opacity:.46}
+.record-slot{position:relative;min-height:clamp(78px,9.6vh,118px);margin:.5vh 0;padding:.2em 3.1em .45em 0;color:#526b4b;border-bottom:1px solid #a4ae865b;font:clamp(20px,1.72vw,32px)/1.45 var(--sans);isolation:isolate}
+.record-label{display:block;color:#7d866c;font-size:.8em;transition:color .7s}
+.record-writing{position:relative;max-width:94%;height:clamp(27px,4.4vh,52px);margin-top:.25em;overflow:visible;background:repeating-linear-gradient(0deg,transparent 0,transparent 49%,#c5c4a11a 50%,transparent 51%)}
+.record-ink{width:100%;height:100%;display:block;overflow:visible;fill:none;stroke:#607b55;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:.8}
+.record-ink path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .8s cubic-bezier(.34,.18,.3,1)}
+.record-ink path:nth-child(2){transition-delay:.22s}.record-ink path:nth-child(3){transition-delay:.42s}
+.is-recorded .record-ink path{stroke-dashoffset:0}
+.record-pencil{position:absolute;left:0;top:-.45em;font:clamp(24px,2vw,38px)/1 var(--serif);color:#a78e5b;opacity:0;transform-origin:50% 100%;pointer-events:none}
+.is-writing .record-pencil{animation:recordWriting 1.2s cubic-bezier(.34,.18,.3,1) both}
+@keyframes recordWriting{0%{opacity:0;transform:translateX(0) rotate(-20deg)}12%{opacity:.8}45%{transform:translateX(30vw) rotate(-12deg)}50%{transform:translateX(1vw) translateY(1.1vh) rotate(-20deg)}80%{opacity:.8;transform:translateX(22vw) translateY(2vh) rotate(-12deg)}100%{opacity:0;transform:translateX(24vw) translateY(2vh) rotate(-6deg)}}
+.record-note{display:block;font-size:clamp(12px,.9vw,17px);letter-spacing:.09em;color:#849072;opacity:0;transform:translateY(3px);transition:opacity .45s .65s,transform .45s .65s}
+.is-recorded .record-note{opacity:1;transform:none}
+.record-seal{position:absolute;right:.15em;top:48%;width:clamp(34px,3vw,52px);height:clamp(34px,3vw,52px);fill:none;stroke:#9eac7d;stroke-width:1.4;stroke-linecap:round;opacity:0;transform:translateY(-30%) rotate(-18deg) scale(1.25);transition:opacity .4s .7s,transform .6s .7s}
+.record-seal path+path{stroke:#6c8757;stroke-width:2;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .5s .75s}
+.is-recorded .record-seal{opacity:.85;transform:translateY(-30%) rotate(-7deg) scale(1)}
+.is-recorded .record-seal path+path{stroke-dashoffset:0}
+.is-recorded .record-label{color:#526b4b}
+.repair-layout .record-slot{margin:.6vh 0 0;min-height:10vh}
+.sharing-paper{gap:1.3vh}
+.sharing-paper>h1{margin-bottom:.7vh}
+.sharing-paper .share-grid{margin:0;gap:5vw}
+.sharing-paper .share-card{min-height:0;padding:.5vh 0 1vh}
+.sharing-paper .share-card h2{margin-bottom:1vh;font-size:clamp(23px,2.05vw,38px)}
+.sharing-paper .record-slot{min-height:8.7vh;font-size:clamp(19px,1.6vw,30px)}
+.sharing-paper .record-writing{height:3.2vh}
+.sharing-paper .record-note{font-size:clamp(11px,.8vw,15px)}
+.sharing-paper .daily-response{display:grid;grid-template-columns:1fr auto;align-items:end;gap:3vw;padding-top:.4vh}
+.sharing-paper .daily-response>.record-slot{min-height:8.7vh;margin:0}
+.sharing-paper .daily-response>.cue-button{margin-bottom:1.2vh}
+
+/* A painting opens for one passage, then becomes a remembered page. */
+.art-sheet{position:absolute;inset:0;transform-origin:50% 50%;opacity:1;z-index:3}
+.art-sheet .art-actions{gap:1.2vw;flex-wrap:wrap}
+.art-sheet .art-actions .cue-button{background:none;border-bottom:1px solid #c5bd9c88;border-radius:0;color:#6f795a;font-size:clamp(14px,1.15vw,22px)}
+.art-return-note{position:absolute;inset:14% 12%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3vh;opacity:0;pointer-events:none;transition:opacity .6s .35s;font:clamp(27px,3vw,54px)/1.7 var(--serif);color:#53664d}
+.folded-art{width:clamp(100px,13vw,220px);height:clamp(70px,10vw,145px);background:linear-gradient(145deg,#eee8d6,#fdf9ed 62%,#e5dcc5);border:1px solid #b9ad8644;box-shadow:0 7px 15px #6c694b19;transform:rotate(-5deg);position:relative}
+.folded-art:before{content:"";position:absolute;inset:16% 12%;background:linear-gradient(165deg,transparent 40%,#a0a27a22 41%,#a0a27a22 65%,transparent 66%);border:1px solid #b6b28a5a}
+.art-folded .art-sheet{opacity:0;pointer-events:none}
+.art-folded .art-return-note{opacity:1;pointer-events:auto}
+
+/* News photographs are opened in turn; the unopened room contains only symbols. */
+.shot[data-scene="bubbles"] .scene-content,.shot[data-scene="yamen"] .scene-content,.shot[data-scene="varvara"] .scene-content{padding:0;overflow:hidden}
+.shot[data-scene="yamen"] .scenic-background,.shot[data-scene="varvara"] .scenic-background{opacity:1;filter:saturate(.9)!important;background-position:50% 50%}
+.shot[data-scene="yamen"] .scene-wash,.shot[data-scene="varvara"] .scene-wash{background:linear-gradient(180deg,#f5f1e3a3,#f5f1e321 60%,#c8d1b82c)!important}
+.story-exhibit,.story-room{position:absolute;inset:0}
+.story-exhibit{isolation:isolate}
+.story-room{transition:filter 1s,opacity 1s;filter:blur(2px);opacity:.48}
+.is-introduction .story-room,.is-closed .story-room{filter:none;opacity:1}
+.story-room-hero{width:27vw;height:27vw;left:37%;bottom:1.5%;z-index:2;animation:none;opacity:.9}
+.story-orb{position:absolute;top:17%;width:24vw;aspect-ratio:1;border:1px solid #f9f6daaa;border-radius:50%;background:radial-gradient(ellipse at 30% 22%,#fffdf2aa,transparent 32%),radial-gradient(circle,#d7dcc441 40%,#a9bea72a 65%,#fff9e782);box-shadow:inset -7px -12px 20px #597a5c1c,0 16px 35px #3c664312;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.1vh;color:#617652;transition:box-shadow .6s,transform .6s;animation:roomOrbArrives 1.4s var(--camera-ease) both}
+.orb-one{left:15%;transform:rotate(-3deg)}.orb-two{right:14%;top:22%;transform:rotate(3deg);animation-delay:.12s}
+.story-orb:hover{box-shadow:inset -7px -12px 20px #597a5c1c,0 0 42px #ffedb354}
+.story-orb .orb-symbol{width:34%;height:36%;fill:none;stroke:#75875c;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round;opacity:.75}
+.story-orb>span{font:clamp(18px,1.9vw,35px)/1.7 var(--serif);letter-spacing:.08em}
+.story-orb>i{position:absolute;width:25%;height:8%;left:16%;top:12%;border-top:2px solid #fffdf2ba;transform:rotate(-34deg);border-radius:50%}
+@keyframes roomOrbArrives{from{opacity:0;translate:0 20px;scale:.9}to{opacity:1;translate:0 0;scale:1}}
+.room-window-glow{position:absolute;right:0;top:0;width:60%;height:100%;background:linear-gradient(120deg,transparent,#fff8ca12 47%,transparent 72%);pointer-events:none}
+.room-invitation{position:absolute;top:11%;left:13%;right:13%;text-align:center;font:clamp(26px,3vw,54px)/1.7 var(--serif);letter-spacing:.1em;color:#617453;text-shadow:0 2px 20px #fffbf0}
+.is-introduction .story-orb{top:27%;width:23vw}
+.is-introduction .orb-two{top:30%}
+.material-sheet.documentary{position:absolute;inset:11% 5% 12%;width:auto;max-width:none;min-height:0;max-height:none;height:auto;display:grid;grid-template-columns:40% 1fr;align-items:center;justify-content:stretch;gap:4vw;padding:5vh 5.4vw;color:#425640;background:radial-gradient(ellipse at 52% 49%,#fbf8ee 36%,#fbf8eefa 67%,#fbf8ee00 82%);border:0;box-shadow:none;border-radius:0;transform-origin:50% 50%;animation:materialUnfold 1.25s var(--camera-ease);z-index:5;opacity:1}
+@keyframes materialUnfold{from{opacity:0;transform:translateY(3vh) scale(.86)}to{opacity:1;transform:none}}
+.material-sheet .documentary-photo{width:100%;height:43vh;min-height:0;flex:initial;display:flex;align-items:center;justify-content:center;overflow:visible}
+.material-sheet .documentary-photo img{max-width:100%;width:100%;height:auto;max-height:43vh;object-fit:contain;border:8px solid #fffdf6;filter:none;box-shadow:0 7px 20px #53634c20}
+.material-sheet .documentary-photo:before{top:5%;width:22%;left:39%;height:2.5vh}
+.material-sheet .documentary-content{display:flex;align-items:flex-start;justify-content:center;flex-direction:column;gap:2vh;padding:0;width:100%;max-width:none;min-width:0}
+.material-sheet .documentary-content .material-eyebrow{font:clamp(14px,1.2vw,23px)/1.5 var(--sans);letter-spacing:.22em;color:#8b9476;text-align:left}
+.material-sheet .documentary-content h1{font-size:clamp(30px,3.35vw,60px);line-height:1.5;letter-spacing:.08em}
+.material-sheet .documentary-content>p:not(.material-eyebrow){font:clamp(24px,2.3vw,43px)/1.85 var(--sans);max-width:none;text-align:left;letter-spacing:.015em}
+.material-sheet .cue-button{margin-top:.5vh}
+.material-return{position:absolute;left:20%;right:20%;top:12%;font:clamp(25px,2.6vw,48px)/1.8 var(--serif);text-align:center;color:#617453;opacity:0;transform:translateY(7px);transition:opacity .7s .4s,transform .7s .4s;pointer-events:none}
+.was-cued .material-sheet{animation:none}
+.is-closed .material-sheet{opacity:0;pointer-events:none}
+.is-closed .material-return{opacity:1;transform:none}
+.is-closed .story-orb{animation:none}
+.shot[data-scene="yamen"] .sb-corner-vignette,.shot[data-scene="varvara"] .sb-corner-vignette{display:none}
+
+/* The separate stories only become a constellation at the final spoken cue. */
+.memory-constellation{position:absolute;inset:0;z-index:2;pointer-events:none}
+.memory-orb{position:absolute;display:flex;align-items:center;justify-content:center;flex-direction:column;border:1px solid #f8efd799;border-radius:50%;aspect-ratio:1;background:radial-gradient(circle at 30% 22%,#fff9de99,transparent 35%),radial-gradient(circle,#d8debb22,#c7d4b529 70%,#fff9e55c);box-shadow:inset 0 0 22px #ecf0cc20,0 0 35px #fbe8a40d;overflow:visible;color:#e7ead1}
+.memory-orb>svg{width:45%;height:46%;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;opacity:.8}
+.memory-orb>img{width:75%;height:67%;object-fit:cover;border-radius:48%;opacity:.72;filter:saturate(.75);margin-top:-8%}
+.memory-orb>span{position:absolute;bottom:-1.65em;left:-15%;right:-15%;text-align:center;font:clamp(16px,1.45vw,27px)/1.6 var(--serif);letter-spacing:.06em;color:#fff7dc;text-shadow:0 2px 12px #294332ba;white-space:nowrap}
+.memory-novel{left:8%;top:10%;width:min(11.5vw,15vh)}.memory-anne{right:8%;top:10%;width:min(11.5vw,15vh)}
+.memory-yamen{left:7%;top:47%;width:14vw}.memory-varvara{right:7%;top:47%;width:14vw}
+.memory-thread{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke:#eddda34d;stroke-width:1.2;stroke-linecap:round;opacity:.6;z-index:-1}
+.memory-thread path{stroke-dasharray:1;stroke-dashoffset:0}
+.cue-pressure .memory-orb,.cue-pressure .memory-thread{opacity:0}
+.gather-caption{position:absolute;left:20%;right:20%;top:21%;text-align:center;font:clamp(26px,3vw,56px)/1.8 var(--serif);color:#f6f2dd;text-shadow:0 2px 25px #27443380;transition:opacity .8s;z-index:6}
+.cue-pressure .pressure-shadow,.cue-pressure .descending-beam,.cue-pressure .pressure-words,.cue-pressure .pressure-question{animation:none;opacity:0}
+.cue-pressure .pressure-hero{animation:none;opacity:.8}
+.cue-pressure.is-weighing .gather-caption{opacity:0}
+.cue-pressure.is-weighing .memory-orb{animation:memoriesGather 2s var(--camera-ease) both}
+.cue-pressure.is-weighing .memory-anne{animation-delay:.18s}.cue-pressure.is-weighing .memory-yamen{animation-delay:.36s}.cue-pressure.is-weighing .memory-varvara{animation-delay:.54s}
+@keyframes memoriesGather{0%{opacity:0;transform:translateY(8vh) scale(.55)}55%{opacity:.9}100%{opacity:.7;transform:none}}
+.cue-pressure.is-weighing .memory-thread{opacity:.6}
+.cue-pressure.is-weighing .memory-thread path{animation:memoryThreadDraw 2.6s .5s ease both}
+@keyframes memoryThreadDraw{from{stroke-dashoffset:1;opacity:0}to{stroke-dashoffset:0;opacity:1}}
+.cue-pressure.is-weighing .pressure-shadow{opacity:1;animation:pressureDown 5.4s .7s ease-in-out both}
+.cue-pressure.is-weighing .descending-beam{opacity:.85;animation:beamDown 5.2s 1s ease-in-out both}
+.cue-pressure .pressure-words{left:29%;right:29%;top:25%;gap:2vw;font-size:clamp(22px,2.2vw,41px);letter-spacing:.09em}
+.cue-pressure.is-weighing .pressure-words{opacity:1;animation:cueWordsDescend 5.2s 1s ease-in-out both}
+@keyframes cueWordsDescend{from{transform:translateY(-8vh);opacity:0}to{transform:translateY(0);opacity:1}}
+.cue-pressure.is-weighing .pressure-hero{animation:shoulderFall 5.4s .7s ease-in-out both}
+.cue-pressure.is-weighing .pressure-question{animation:fadeIn 1.3s 4.8s both;opacity:1;bottom:auto}
+.shot[data-scene="pressure"][data-cue-step="0"] .sb-edge-weight{animation:none;opacity:0}
+.shot[data-scene="pressure"][data-cue-step="1"] .sb-edge-weight{animation:sb-weight-grow 6s .4s ease-in-out both}
+.is-supported .memory-orb{opacity:.55;animation:memoryReleased 5.5s ease-in-out both}
+.is-supported .memory-novel,.is-supported .memory-anne{top:7%}
+.is-supported .memory-thread{opacity:.3}
+@keyframes memoryReleased{from{transform:translateY(2vh);opacity:.35}to{transform:translateY(-2vh);opacity:.62}}
+
+@media(min-aspect-ratio:2/1){
+ .record-slot{font-size:3vh;min-height:11vh}.record-writing{height:4vh}.record-note{font-size:1.6vh}.record-seal{width:5vh;height:5vh}
+ .sharing-paper .record-slot{font-size:2.8vh;min-height:8.7vh}.sharing-paper .record-note{font-size:1.5vh}.cue-button{font-size:2.2vh}
+ .material-sheet .documentary-content>p:not(.material-eyebrow){font-size:3.8vh;line-height:1.8}.material-sheet .documentary-content h1{font-size:5.5vh}
+ .memory-novel,.memory-anne{width:16vh}.memory-yamen,.memory-varvara{width:23vh}
+}
+@media(max-aspect-ratio:1.45/1) and (min-width:701px){
+ .record-slot{font-size:2.1vw;min-height:9vh}.record-label{font-size:.85em}.record-writing{height:3.6vh}
+ .sharing-paper .record-slot{font-size:2.1vw;min-height:8.5vh}.sharing-paper .record-note{font-size:1.2vw}.sharing-paper .share-card h2{font-size:2.7vw}
+ .material-sheet.documentary{inset:12% 4% 11%;padding:4vh 3vw;gap:3vw;grid-template-columns:34% 1fr}
+ .material-sheet .documentary-content>p:not(.material-eyebrow){font-size:2.75vw}.material-sheet .documentary-content h1{font-size:3.7vw}
+ .story-orb{width:29vw;top:28%}.orb-one{left:11%}.orb-two{right:10%;top:31%}.is-introduction .story-orb{width:29vw;top:27%}
+ .memory-novel,.memory-anne{width:min(14vw,16vh)}.memory-yamen,.memory-varvara{width:18vw}
+}
+@media(max-width:700px){
+ .cue-hint{font-size:11px;max-width:90vw;white-space:normal;text-align:center;width:max-content;padding:4px 10px}
+ .cue-button{font-size:14px;padding:.5em 0}.record-slot{font-size:22px;min-height:96px;padding-right:48px;margin:12px 0}.record-label{font-size:18px}
+ .record-writing{height:38px;max-width:100%}.record-note{font-size:12px}.record-seal{width:34px;height:34px}
+ .repair-layout .record-slot{min-height:105px}.sharing-paper{gap:24px}.sharing-paper .share-grid{gap:26px}
+ .sharing-paper .share-card h2{font-size:24px}.sharing-paper .record-slot{font-size:21px;min-height:93px}.sharing-paper .record-writing{height:32px}.sharing-paper .record-note{font-size:12px}
+ .sharing-paper .daily-response{display:block;padding:0}.sharing-paper .daily-response>.record-slot{min-height:90px}.sharing-paper .daily-response>.cue-button{margin:8px 0 0}
+ .art-sheet .art-actions{left:5%;right:5%;top:14%;gap:8px}.art-sheet .art-actions button{font-size:14px}.art-return-note{inset:20% 8%;font-size:27px;text-align:center}
+ .story-room-hero{width:60vw;height:60vw;left:18%;bottom:7%}.story-orb,.is-introduction .story-orb{width:42vw;top:28%;gap:3px}
+ .orb-one{left:5%}.orb-two,.is-introduction .orb-two{right:4%;top:42%}.story-orb>span{font-size:18px}.room-invitation{left:10%;right:10%;top:15%;font-size:26px}
+ .material-sheet.documentary{inset:10% 5% 10%;padding:3vh 4vw;display:flex;flex-direction:column;justify-content:center;gap:2.5vh;background:radial-gradient(ellipse,#fbf8eefc 55%,#fbf8eef2 72%,#fbf8ee00 90%)}
+ .material-sheet .documentary-photo{height:23vh;width:100%;flex:0 0 23vh}.material-sheet .documentary-photo img{width:auto;max-width:80%;height:auto;max-height:23vh}
+ .material-sheet .documentary-photo:before{width:19%;left:41%;top:-.5vh;height:2vh}
+ .material-sheet .documentary-content{align-items:center;gap:1.3vh}.material-sheet .documentary-content .material-eyebrow{font-size:12px}.material-sheet .documentary-content h1{font-size:28px}
+ .material-sheet .documentary-content>p:not(.material-eyebrow){font-size:21px;line-height:1.8;text-align:left}.material-sheet .cue-button{font-size:13px;margin-top:0}
+ .material-return{left:10%;right:10%;top:17%;font-size:23px}
+ .memory-novel,.memory-anne{width:22vw;top:19%}.memory-novel{left:7%}.memory-anne{right:7%}
+ .is-supported .memory-novel,.is-supported .memory-anne{top:14%}
+ .memory-yamen,.memory-varvara{width:27vw;top:45%}.memory-yamen{left:3%}.memory-varvara{right:3%}
+ .memory-orb>span{font-size:13px;bottom:-1.8em}.gather-caption{font-size:25px;left:14%;right:14%;top:31%}
+ .cue-pressure.is-weighing .pressure-question{top:65%;font-size:28px;left:7%;right:7%}.cue-pressure .pressure-hero{bottom:5%;width:55vw;height:55vw;left:23%}
+ .cue-pressure .pressure-words{left:5%;right:5%;top:39%;font-size:19px;letter-spacing:.04em}
+}
+@media(max-height:600px) and (min-width:701px){
+ .record-slot,.repair-layout .record-slot{min-height:11vh;font-size:3.3vh}.record-writing{height:3.8vh}.record-note{font-size:1.8vh}.record-seal{width:5vh;height:5vh}
+ .sharing-paper .record-slot,.sharing-paper .daily-response>.record-slot{min-height:9.3vh;font-size:2.9vh}.sharing-paper .record-note{font-size:1.7vh}.sharing-paper .share-card h2{font-size:3.5vh;margin:0}.cue-button{font-size:2.4vh}
+ .material-sheet .documentary-content>p:not(.material-eyebrow){font-size:3.7vh}.material-sheet .documentary-content h1{font-size:5.6vh}.material-sheet .documentary-content .material-eyebrow{font-size:2vh}
+}
+.reduce-motion .is-writing .record-pencil{display:none}
+.reduce-motion .record-ink path,.reduce-motion .record-note,.reduce-motion .record-seal,.reduce-motion .record-seal path,.reduce-motion .story-room,.reduce-motion .material-return{transition:none!important}
+@media(prefers-reduced-motion:reduce){.is-writing .record-pencil{display:none}.record-ink path,.record-note,.record-seal,.record-seal path,.story-room,.material-return{transition:none!important}}

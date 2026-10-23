@@ -1,0 +1,88 @@
+/* Motion explains a relationship; the resulting reading page is still. */
+.lm-book-crease,.lm-comparison-bridge,.lm-page-tab,.lm-memory-ribbon,.lm-protective-arc,.lm-anne-window,.lm-evidence-confluence,.lm-transit-layer{pointer-events:none}
+.lm-book-crease{position:absolute;left:50%;top:1%;bottom:15%;width:2.4vw;transform:translateX(-50%);transform-origin:50% 0;border-left:1px solid #aa9a751c;background:linear-gradient(90deg,transparent,#a08c5d08,transparent)}
+.lm-book-crease span{display:block;height:100%;width:1px;background:linear-gradient(180deg,transparent,#b4a27855 20%,#b4a27833 80%,transparent);margin:auto}
+.lm-open-book.book-reading:after{display:none}
+.lm-comparison-book .reading-footer{position:relative}
+.lm-comparison-bridge{position:absolute;width:29%;left:35.5%;height:3.5vh;bottom:calc(100% - .8vh);color:#a69465;opacity:.65}
+.lm-comparison-bridge svg,.lm-anne-window svg,.lm-protective-arc svg,.lm-evidence-confluence svg{display:block;width:100%;height:100%;overflow:visible}
+.lm-comparison-bridge path{stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.lm-comparison-bridge circle{fill:#b4a16b;stroke:none}
+.lm-page-tab{position:absolute;right:-2vw;top:-1vh;width:clamp(13px,1.5vw,24px);height:clamp(34px,5.7vh,62px);background:#c4b47b77;clip-path:polygon(0 0,100% 0,100% 100%,50% 84%,0 100%);border-top:2px solid #b1a07199;opacity:.85;transform-origin:50% 0}
+.lm-page-tab i{position:absolute;left:24%;right:23%;height:1px;top:27%;background:#8a865a80}
+.lm-page-tab i:nth-child(2){top:38%;right:30%}.lm-page-tab i:nth-child(3){top:49%;right:38%}
+.lm-round-r2{--lm-ribbon:#a4b099;--lm-ribbon-ink:#6c7c62}
+.lm-round-r3{--lm-ribbon:#b9aa8b;--lm-ribbon-ink:#8b745b}
+.lm-page-tab.lm-round-r2{background:#a4b09988;border-color:#83947680}
+.lm-page-tab.lm-round-r3{background:#b9aa8b88;border-color:#a18e7180}
+.lm-bookmark-anchor{background:none!important;position:relative;transform:none!important}
+.lm-memory-ribbon{position:absolute;left:50%;top:50%;width:clamp(160px,25vw,350px);height:clamp(34px,5.2vh,52px);transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;color:var(--lm-ribbon-ink,#90805a);font:clamp(15px,1.45vw,25px) var(--serif);letter-spacing:.24em;isolation:isolate}
+.lm-memory-ribbon:before{content:"";position:absolute;inset:0;background:var(--lm-ribbon,#c9b988);opacity:.28;clip-path:polygon(0 4%,100% 0,95% 50%,100% 96%,0 100%,4% 50%);z-index:-1}
+.lm-ribbon-fibre{position:absolute;inset:6px 13px;border-top:1px solid #a89a701d;border-bottom:1px solid #a89a7038;transform:rotate(-.25deg)}
+.lm-ribbon-stitch{position:absolute;left:10%;right:10%;height:1px;bottom:5px;border-bottom:1px dashed #a89a7033}
+.lm-returned-page .lm-page-tab{top:0}
+.lm-transit-layer{position:absolute;inset:0;overflow:hidden;z-index:12}
+.lm-flying-ribbon{position:absolute;transform:none;left:0;top:0;transform-origin:50% 50%;margin:0}
+.lm-flying-icon{position:absolute;pointer-events:none;color:#87977f}
+.lm-flying-icon svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lm-flying-icon,.lm-flying-icon *{animation:none!important;transition:none!important}
+
+/* A cut interrupts the inference; both pieces of evidence remain on the page. */
+.lm-causal-link{position:relative;display:grid;place-items:center;min-width:34px;min-height:48px;color:#a09068}
+.lm-causal-link svg{width:100%;height:clamp(35px,5.2vh,54px);overflow:visible;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lm-causal-link .lm-arrow-left,.lm-causal-link .lm-arrow-right{transform-box:fill-box;transform-origin:center;transition:transform .6s ease,opacity .6s ease}
+.lm-causal-link.cut:after{display:none}
+.lm-causal-link.cut .lm-arrow-left{transform:translate(-3px,-1px) rotate(-5deg)}
+.lm-causal-link.cut .lm-arrow-right{transform:translate(4px,6px) rotate(8deg);opacity:.55}
+.lm-cut-marks{opacity:0;stroke:#a67d63;stroke-width:1;transform-origin:center;transform-box:fill-box}
+.lm-causal-link.cut .lm-cut-marks{opacity:.55}
+.lm-protection-host .protect-figure{transition:opacity .8s ease,transform 1s ease}
+.lm-protective-arc{position:absolute;left:3%;top:7%;width:56%;height:78%;opacity:0;transition:opacity .7s ease}
+.lm-protective-arc path{stroke:#c3a86c;stroke-width:1.5;stroke-linecap:round}
+.lm-protective-arc path+path{stroke:#d2bd883b;stroke-width:3.5}
+.lm-protection-host.has-protection .lm-protective-arc{opacity:.66}
+.lm-protection-host.has-love .lm-protective-arc{opacity:.85}
+.lm-protection-host .warm-glow{transform-origin:50% 80%;background:radial-gradient(ellipse at 51% 72%,#d2b96e63,transparent 68%)}
+
+/* The help reaches the room; the window still marks a limit to movement. */
+.lm-anne-window{position:absolute;right:.9%;top:27%;width:7.4%;height:45%;opacity:.52;color:#9c9e7f;pointer-events:none}
+.lm-window-outline,.lm-window-sill{stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.lm-window-light{fill:#d1d8be;opacity:.21;stroke:none}
+.lm-window-glint{stroke:#b7c3ae;stroke-width:1.3;stroke-linecap:round;opacity:.8}
+.lm-window-parcels{fill:#c2b28b55;stroke:#b2a480;stroke-width:1.4;opacity:.65}
+.lm-window-annecontext .lm-window-parcels{opacity:0}
+.lm-window-annetwist{opacity:.66}
+.lm-window-boundary .lm-window-outline{stroke:#8b917a;stroke-width:2}
+.lm-window-reflection{position:relative;border-bottom:1px solid #9aaa9022;border-radius:47% 47% 0 0;background:linear-gradient(125deg,transparent 22%,#c6d0ba0e 45%,transparent 69%)}
+.lm-window-reflection:before{content:"";position:absolute;inset:-5% -14% -8%;border:1px solid #9baa8f30;border-bottom:0;border-radius:48% 48% 0 0;pointer-events:none}
+.lm-window-reflection:after{content:"";position:absolute;left:7%;top:18%;width:23%;height:1px;background:#abb79f54;transform:rotate(-53deg);pointer-events:none}
+.lm-delivered-object{animation:none!important}
+.lm-delivered-object .sb-parcel{animation:none!important}
+
+/* The novel and the diary arrive as two bodies of evidence, then meet a claim. */
+.lm-evidence-board{position:relative}
+.lm-evidence-novel,.lm-evidence-window{position:relative}
+.lm-evidence-novel:before,.lm-evidence-window:before{content:"";position:absolute;left:0;right:0;top:-.55vh;height:1px;background:linear-gradient(90deg,#aab39500,#9aab8570,#aab39500)}
+.lm-evidence-window:before{background:linear-gradient(90deg,#c3ac7d00,#b79c6e80,#c3ac7d00)}
+.lm-evidence-confluence{position:absolute;left:34%;width:33%;bottom:-1.4vh;height:2.2vh;opacity:.55}
+.lm-evidence-confluence path{stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+.lm-novel-trace{stroke:#95a47a}.lm-window-trace{stroke:#b39a69}
+.lm-evidence-confluence circle{fill:#a69d74}
+
+@media(min-aspect-ratio:2/1){
+  .lm-page-tab{width:2.5vh;height:5.8vh;right:-1.4vw}
+  .lm-anne-window{height:46%;width:5.5%;right:1.8%}
+  .lm-memory-ribbon{height:5.4vh;font-size:2.5vh;width:31vh}
+}
+@media(max-aspect-ratio:1.3/1){
+  .lm-anne-window{width:6.6%;height:30%;right:.2%;top:38%;opacity:.4}
+  .lm-page-tab{right:-3vw}
+  .lm-comparison-bridge{width:38%;left:31%;height:2.6vh}
+  .lm-evidence-confluence{height:1.8vh;bottom:-1.1vh}
+}
+.lm-quiet .lm-causal-link *,.reduce-motion .lm-causal-link *,.lm-quiet .lm-protective-arc,.reduce-motion .lm-protective-arc{transition:none!important}
+.lm-quiet .lm-flying-icon,.lm-quiet .lm-flying-ribbon{display:none!important}
+@media(prefers-reduced-motion:reduce){
+  .lm-causal-link *,.lm-protective-arc{transition:none!important}
+  .lm-flying-icon,.lm-flying-ribbon{display:none!important}
+}

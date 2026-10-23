@@ -9,15 +9,18 @@
 <link rel="stylesheet" href="styles/base.css">
 <link rel="stylesheet" href="styles/storybook.css">
 <link rel="stylesheet" href="styles/scenery.css">
+<link rel="stylesheet" href="styles/learning-motion.css">
+<link rel="stylesheet" href="styles/story-director.css">
 <!-- Embedded Noto CJK subsets: assets/FONT-LICENSE.txt -->
 </head>
 <body>
-<main id="stage" aria-label="童年阅读课堂">
+<main id="stage" aria-label="童年阅读课堂" tabindex="-1">
   <div id="sceneRoot"></div>
   <div id="grain" aria-hidden="true"></div>
   <header class="folio-header" aria-hidden="true"><span class="folio-brand"><svg viewBox="0 0 30 34"><path d="M15 31V12M15 23C3 22 1 14 4 8c10 0 14 7 11 15ZM15 17C27 16 29 8 25 3c-9 1-13 7-10 14Z"/></svg>童年 · 阅读手记</span><span id="chapterLabel"></span></header>
   <div class="folio-footer"><span id="sceneLabel" aria-live="polite"></span><span id="sceneNumber" aria-hidden="true"></span></div>
   <nav id="controls" aria-label="课堂控制">
+    <span id="cueHint" class="cue-hint" aria-live="polite"></span>
     <button data-command="previous" title="上一步 ←" aria-label="上一步">←</button>
     <button data-command="menu" title="目录 M" aria-label="打开目录">☰</button>
     <button data-command="replay" title="重播本幕 R" aria-label="重播本幕">↺</button>
@@ -38,6 +41,8 @@
 <script src="scripts/lesson-data.js"></script>
 <script src="scripts/scenery.js"></script>
 <script src="scripts/input-policy.js"></script>
+<script src="scripts/story-flow.js"></script>
+<script src="scripts/learning-motion.js"></script>
 <script src="scripts/app.js"></script>
 </body>
 </html>
