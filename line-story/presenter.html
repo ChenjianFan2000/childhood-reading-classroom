@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>教师台 · 童年线条叙事</title>
+<link rel="stylesheet" href="styles/presenter.css">
+</head>
+<body>
+<header class="presenter-header"><div><p class="eyebrow">童年 · 线条叙事</p><h1>教师台</h1></div><div class="connection"><span id="connectionDot"></span><span id="connectionStatus" role="status">正在连接学生画面</span></div></header>
+<div class="setup-note" id="setupNote">请将学生窗口移到投影屏，教师台留在电脑屏。系统须选择“扩展显示”；镜像显示会同时投出两个窗口。</div>
+<main id="presenterMain" aria-busy="true">
+ <nav class="transport" aria-label="课堂控制"><button data-command="prev" title="← / PageUp">← 上一步</button><button data-command="next" class="primary" title="→ / 空格 / PageDown">下一步 →</button><button data-command="timer" id="timerButton" title="T">暂停计时</button><button data-command="motion" id="motionButton" title="A">暂停动作</button><button data-command="blank" id="blankButton" title="B">暂隐学生屏</button><button data-command="replay" title="R">重播当前动作</button><button data-command="reset-timer" title="Shift + R">重新计时</button></nav>
+ <section class="current-cue" aria-label="当前教师提示">
+  <div class="cue-top"><p id="cuePosition" class="eyebrow"></p><p id="cueTiming"></p></div>
+  <h2 id="cueTitle">从学生画面按 P 打开教师台</h2>
+  <div class="state-strip"><span id="motionStatus">等待连接</span><span id="screenStatus"></span></div>
+  <div id="teacherWords" class="teacher-words"></div>
+  <div class="cue-notes"><section><h3>画面与动作</h3><p id="cueAction"></p></section><section><h3>停留与推进</h3><p id="cueHold"></p><p id="cueNext"></p></section><section id="replySection" hidden><h3>按需承接</h3><p id="cueReply"></p></section></div>
+ </section>
+ <aside class="next-cue" aria-label="下一画面预览"><p class="eyebrow">下一步</p><h2 id="nextTitle">尚未连接</h2><div id="nextPreview" class="next-preview"></div><p id="nextAction" class="next-action"></p></aside>
+ <section class="clock-bar" aria-label="计时"><div><span>本次活动</span><strong id="activityClock">—</strong><small id="activityStatus">按教师节奏推进</small></div><div><span>课堂已用</span><strong id="lessonClock">00:00</strong><small>包含现场交流时间</small></div><div><span>40 分钟余量</span><strong id="remainingClock">40:00</strong><small>时间提示，不会自动翻页</small></div></section>
+ <section class="node-navigation"><div class="section-heading"><h2>十五个授课节点</h2><div><button data-command="previous-node" title="[">← 前一节点</button><button data-command="next-node" title="]">后一节点 →</button></div></div><div id="nodeList" class="node-list"></div></section>
+ <details class="more-controls"><summary>显示设置与精细节拍</summary><div class="settings"><button data-command="reduced" id="reducedButton" aria-pressed="false">简静动画</button><button data-command="contrast" id="contrastButton" aria-pressed="false">投影增强</button><button data-command="right-click" id="rightClickButton" aria-pressed="false">右键推进：关闭</button><button data-command="restart">重新开始本课</button></div><p>空白单击不翻页。右键推进只在显式开启后作用于全屏学生窗口。学生窗口按 F 全屏。</p><div id="cueList" class="cue-list"></div></details>
+</main>
+<div id="disconnected" class="disconnected" hidden><h2>暂未连接学生画面</h2><p>请保留学生窗口。若它已关闭，请重新打开课件，再按 P 打开教师台。</p><a href="index.html" target="_blank">打开课件</a></div>
+<footer>→ 推进　← 返回　T 活动计时　A 画面动作　B 暂隐　R 重播　Shift + R 重新计时　[ / ] 切换节点</footer>
+<script src="scripts/lesson-data.js"></script><script src="scripts/presenter.js"></script>
+</body>
+</html>

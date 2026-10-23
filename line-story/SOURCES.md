@@ -15,7 +15,7 @@
 | 窗边与表哥萨沙 | 第2章，第31页；米哈伊尔舅舅的儿子 |
 
 ## 原教案与旧网页
-以仓库提交 `b87b7d3ab4a60240308c3cbf3075ba4add625244` 的两个Word及 `scripts/lesson-data.js` 为课程底本。新版保留共同阅读、三轮个人游戏、一次小组讨论、退出卡与课后批注，重排为54节拍。
+以仓库提交 `b87b7d3ab4a60240308c3cbf3075ba4add625244` 的两个Word及 `scripts/lesson-data.js` 为课程底本。新版保留共同阅读、三轮个人游戏、一次小组讨论、退出卡与课后批注，本轮重排为57节拍、15个授课节点。
 
 ## haulers
 
@@ -37,6 +37,8 @@
 
 ## anne
 
+三处短引沿用仓库旧教师逐字稿中的课堂工作译文。本轮分别复核馆方出处，按独立段块呈现；正文背景是事实整理，不是日记原句。愿望句日期为1943年12月24日，不将其他两处也标为该日。
+
 ```json
 {
   "source_title": "EXTRA Freedom",
@@ -44,9 +46,37 @@
   "source_url": "https://www.annefrank.org/media/filer_public/d9/b4/d9b451a0-5471-4789-8ead-ea417eebeecb/afvd_werkblad_vo_5_vrijheid-en.pdf",
   "pdf_page": 1,
   "diary_entry_date": "1943-12-24",
-  "translation_status": "据安妮之家引英文所作课堂工作译文；中文末尾句号为截取片段的显示处理，不代表完整日记原句。",
+  "translation_status": "三处均沿用用户既有教师逐字稿中的短引课堂工作译文，分别排版；不是同一篇日记的连续段落，也不冒充已出版中文译本。diary_entry_date仅指最后的愿望句。",
   "helpers_source": "https://www.annefrank.org/en/anne-frank/main-characters/",
-  "teacher_background": "第二次世界大战期间，犹太女孩安妮·弗兰克为躲避纳粹迫害在荷兰阿姆斯特丹藏匿。1942—1944年，八名藏匿者依靠六位帮助者得到食物、衣物、书籍、杂志和报纸。这些帮助支持了生活，迫害仍使自由出行危险。不要加入原教案未使用的遇害结局。"
+  "teacher_background": "第二次世界大战期间，犹太女孩安妮·弗兰克为躲避纳粹迫害在荷兰阿姆斯特丹藏匿。1942—1944年，八名藏匿者依靠六位帮助者得到食物、衣物、书籍、杂志和报纸。这些帮助支持了生活，迫害仍使自由出行危险。不要加入原教案未使用的遇害结局。",
+  "excerpts": [
+    {
+      "passage_index": 0,
+      "text": "一滴水也不能放，不能上厕所，不能走动，一切都要安静。",
+      "source_title": "The Secret Annex — When the people in hiding had to be quiet, Otto Frank read Dickens",
+      "source_url": "https://www.annefrank.org/en/anne-frank/secret-annex/entrance/",
+      "written_date": "1943-08-06",
+      "diary_entry_date": "1943-08-23",
+      "date_note": "馆方注明短文写于8月6日，收入8月23日日记。"
+    },
+    {
+      "passage_index": 1,
+      "text": "外面，新鲜的空气和笑声！",
+      "source_title": "A typical day in the Secret Annex",
+      "source_url": "https://www.annefrank.org/en/anne-frank/go-in-depth/typical-day-secret-annex/",
+      "diary_entry_date": null,
+      "date_note": "旧教师稿未为此短句给出日期，不推定为12月24日。"
+    },
+    {
+      "passage_index": 2,
+      "text": "我渴望骑车、跳舞、吹口哨，看看世界，感受青春，知道自己是自由的。",
+      "source_title": "EXTRA Freedom",
+      "source_url": "https://www.annefrank.org/media/filer_public/d9/b4/d9b451a0-5471-4789-8ead-ea417eebeecb/afvd_werkblad_vo_5_vrijheid-en.pdf",
+      "diary_entry_date": "1943-12-24",
+      "pdf_page": 1
+    }
+  ],
+  "background_note": "anne_context为旧教师逐字稿附录二的背景整理，非安妮日记原文；三短引的课堂译文与之分屏。"
 }
 ```
 
@@ -102,3 +132,4 @@
 | yamen.webp | `a565021db9840abb4707b4c591e710f2aeb2a9af37b5097312f0fe275c919dd1` |
 
 课堂展示不等于获得任意再分发许可；商业使用或其他公开传播需另核对原权利人条款。两篇新闻材料为历史报道，不作为当前近况。安妮中文为课堂工作译文，不是完整日记段落或已出版译本。照片中的人、报道文字与教师推论明确区分。
+

@@ -5,6 +5,7 @@
 <meta name="color-scheme" content="light"><meta name="description" content="《童年》整本书阅读：用线条连接证据、思考与生活。40分钟，一键推进。">
 <title>童年里，什么值得被留下 · 线条叙事</title>
 <link rel="stylesheet" href="styles/story.css">
+<link rel="stylesheet" href="styles/world-motion.css">
 </head>
 <body>
 <main id="viewport" aria-label="童年阅读课堂">
@@ -19,19 +20,21 @@
   <div id="stamp" aria-hidden="true"></div>
  </div>
  <nav id="controls" aria-label="授课操作">
-  <button id="prev" title="上一页（← / PageUp）" aria-label="上一页">←</button>
+  <button id="prev" title="上一步（← / PageUp）" aria-label="上一步">←</button>
   <span id="position" aria-live="off"></span>
   <button id="menuBtn" title="目录（M）" aria-label="打开目录">目录</button>
-  <button id="notesBtn" title="教师提示（N）" aria-label="教师提示">讲稿</button>
+  <button id="notesBtn" title="独立教师台（P / N）" aria-label="打开独立教师台">教师台</button>
   <button id="fullBtn" title="全屏（F）" aria-label="全屏">全屏</button>
-  <button id="next" title="下一页（→ / 空格 / PageDown）" aria-label="下一页">下一页 <span>→</span></button>
+  <button id="next" title="下一步（→ / 空格 / PageDown）" aria-label="下一步">下一步 <span>→</span></button>
  </nav>
  <div id="panelBackdrop" hidden></div>
  <aside id="panel" aria-label="课堂辅助面板" role="dialog" aria-modal="true" hidden>
   <button id="closePanel" aria-label="关闭面板">×</button><div id="panelBody"></div>
  </aside>
  <div id="toast" role="status"></div>
+ <div id="blackout" aria-label="学生画面已暂隐，按 B 或 Esc 恢复" hidden></div>
  <noscript>请在浏览器中启用 JavaScript 后打开本课件。</noscript>
 </main>
 <script src="scripts/lesson-data.js"></script><script src="scripts/world.js"></script><script src="scripts/app.js"></script>
 </body></html>
+

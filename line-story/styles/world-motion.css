@@ -1,0 +1,121 @@
+/* The scene owns finite WAAPI motions, including pauses and instant restores.
+   No unregistered CSS transition may keep moving behind a reading or blank. */
+#world .zone,#world .zone g,#world .zone path,#world .zone circle,#world .zone use,
+#world #camera,#world #story-thread{transition:none!important}
+#world .focus-lens{transform-origin:0 0}
+#world .zone[data-reached=false]:not(.current){opacity:0}
+#world .wheel{transform-box:fill-box;transform-origin:center}
+#world .warm{stroke:var(--gold)}
+#world .cold{stroke:var(--cold);stroke-width:3.3}
+#world .dashed{stroke-dasharray:6 11;stroke-width:2.4}
+#world .detail{stroke-width:1.4;opacity:.6}
+#world .thick{stroke-width:4.4}
+#world .world-spine{stroke:var(--soft);stroke-width:1.25;opacity:.25}
+#story-thread{stroke:var(--ink);stroke-width:2.8;stroke-linecap:round;fill:none}
+#story-thread[data-kind=relation]{stroke:var(--gold);stroke-width:3.15}
+#story-thread[data-kind=reasoning]{stroke:var(--ink);stroke-dasharray:3 10;stroke-width:2.2}
+#story-thread[data-kind=quiet]{stroke:var(--soft);stroke-width:1.5}
+#thread-records .record-lines{opacity:0;stroke-width:7}
+#thread-records.cost-seen .record-cost,
+#thread-records.question-seen .record-question,
+#thread-records.choice-seen .record-choice{opacity:.55}
+#thread-records.quiet-records .record-lines{opacity:.14}
+.art-state #story-thread-layer,.photo-state #story-thread-layer{opacity:0}
+
+/* A window, a lamp and the same ordinary route recur as visual memories. */
+.zone-effects .window-memory{opacity:0}
+.zone-effects[data-state=window-reading] .effect-child,
+.zone-effects[data-state=window-reading] .hurt-lines,
+.zone-effects[data-state=window-reading] .warm-lines,
+.zone-effects[data-state=window-stay] .effect-child,
+.zone-effects[data-state=window-stay] .hurt-lines,
+.zone-effects[data-state=window-stay] .warm-lines{opacity:0}
+.zone-effects[data-state=window-reading] .window-memory{opacity:.35}
+.zone-effects[data-state=window-stay] .window-memory{opacity:1}
+.zone-effects[data-state=both] .window-memory{opacity:.3;transform:translate(340px,0) scale(.42);transform-origin:800px 820px}
+.zone-effects[data-state=both] .connection-book{opacity:0}
+.zone-effects .window-birds{opacity:0}
+.zone-effects[data-state=window-reading] .window-birds{opacity:.55}
+.zone-effects .window-children .person-body{transform-origin:0 0}
+.zone-effects .window-sasha .person-body{transform:translate(0,0)}
+.zone-effects .window-alyosha .person-body{transform:rotate(4deg);transform-origin:0 -35px}
+.zone-effects .companionship{stroke-width:3.7}
+.zone-effects .distant-city{opacity:.44;stroke-width:1.65}
+
+/* Hurt remains alongside connection; its strokes never become the warm line. */
+.zone-effects[data-state=connected] .hurt-lines{opacity:.42}
+.zone-effects[data-state=both] .hurt-lines{transform:none;opacity:.72}
+.zone-effects .ripple,.zone-effects .ripple2{opacity:.2}
+.zone-labor[data-state=contradiction] .labor-memory,
+.zone-labor[data-state=gap] .labor-memory{opacity:.28}
+.zone-logic .repair-trace .record-lines{opacity:0}
+.zone-logic[data-state=record1] .repair-trace .record-lines{opacity:1}
+.zone-logic[data-state=g2] .repair-trace,
+.zone-logic[data-state=arrows] .repair-trace,
+.zone-logic[data-state=cut] .repair-trace{opacity:.23;transform:translate(0,40px) scale(.88);transform-origin:800px 780px}
+.zone-logic[data-state=g2] .repair-trace .missing,
+.zone-logic[data-state=arrows] .repair-trace .missing,
+.zone-logic[data-state=cut] .repair-trace .missing,
+.zone-logic[data-state=g2] .repair-trace .record-lines,
+.zone-logic[data-state=arrows] .repair-trace .record-lines,
+.zone-logic[data-state=cut] .repair-trace .record-lines{opacity:1}
+
+/* The arm completes a small gesture. Cost is a quiet mark, never an assault. */
+.zone-protect .arm-moving{transform-origin:23px -102px}
+.zone-protect[data-state=cost] .arm-moving{transform:rotate(0deg)}
+.zone-protect[data-state=cost] .bond{opacity:1}
+.zone-protect[data-state=cost] .protector .person-body{transform:rotate(4deg)}
+.zone-protect .protection-cost{opacity:0}
+.zone-protect[data-state=cost] .protection-cost,
+.zone-protect[data-state=question] .protection-cost,
+.zone-protect[data-state=answer] .protection-cost,
+.zone-protect[data-state=wide] .protection-cost{opacity:1}
+.zone-protect .cost-marks{stroke-width:1.5;opacity:.8}
+.zone-protect .paper-gap{stroke:var(--paper);stroke-width:4.8}
+.zone-protect[data-state=arm] .protect-frame,
+.zone-protect[data-state=cost] .protect-frame{opacity:.06}
+.zone-protect[data-state=question] .protect-frame{opacity:.12}
+.zone-protect[data-state=wide] .protect-pair{transform:none}
+.zone-protect[data-state=wide] .protection-limits{opacity:.55}
+.zone-protect[data-state=answer] .protection-limits{opacity:.16}
+
+/* Help has its own route. Wish paths stop before the independent danger edge. */
+.zone-anne .help-hand{opacity:0}
+.zone-anne[data-state=help] .help-hand,
+.zone-anne[data-state=wishes] .help-hand,
+.zone-anne[data-state=blocked] .help-hand{opacity:1}
+.zone-anne[data-state=read] .help-hand{opacity:.25}
+.zone-anne .wish-stop{opacity:0;stroke-width:2.2}
+.zone-anne[data-state=blocked] .wish-stop{opacity:1}
+.zone-anne[data-state=blocked] .wish-bike .bike-parts{transform:none}
+.zone-anne .wish-dancer .person-body{transform-origin:0 -60px}
+.zone-anne .room-outline{stroke-width:2.4}
+.zone-anne .incoming{stroke-width:3.8}
+.zone-anne .outer-danger .danger-line{stroke-width:4.1}
+.zone-anne .help-objects>g{opacity:1}
+
+/* No answers are filled into the student's claim: only a completed mark stays. */
+.zone-discussion .evidence-lines circle{stroke-dasharray:2 9;stroke-width:1.6}
+.zone-author[data-state=roots] .roots{opacity:.2;transform:translate(0,24px)}
+.zone-reality[data-state=conditions] .school-memory,
+.zone-reality[data-state=conditions] .lamp-memory{opacity:1}
+.zone-reality[data-state=conditions] .reality-line{opacity:.45}
+
+/* The final world recalls the earlier objects before several hands support it. */
+.zone-finale .final-world,
+.zone-finale[data-state=reveal] .final-world,
+.zone-finale[data-state=support] .final-world{transform:none}
+.zone-finale .roof{opacity:.38}
+.zone-finale[data-state=pressure] .roof{transform:none}
+.zone-finale[data-state=support] .roof{opacity:.15;transform:translate(-104px,-104px) scale(1.13);transform-origin:0 0}
+.zone-finale .memory-link{stroke-width:2.7}
+.zone-finale .support-hand{opacity:1;transform:none}
+.zone-finale .support-join{stroke-width:3.6}
+.zone-finale[data-state=support] .adults{opacity:1}
+.zone-day[data-state=ending] .day-scenery{opacity:.55}
+.zone-day[data-state=ending] .desk-set{transform:translate(120px,0) scale(.93);transform-origin:1000px 750px}
+.zone-day[data-state=ending] .road-set{transform:translate(-110px,0) scale(.79);transform-origin:650px 750px}
+
+body.high-contrast #world .world-spine{opacity:.4}
+body.high-contrast #story-thread[data-kind=quiet]{opacity:.4!important}
+@media(max-width:700px){#story-thread-layer{opacity:.35}.zone-effects .window-memory{stroke-width:3.8}}
