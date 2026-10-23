@@ -1,0 +1,21 @@
+{
+  "version": "1.0",
+  "files": {
+    "QA.md": "c4c99a39529157b423a3e05340895c5eff4d915f084f413e9124ecd82b15d463",
+    "README.md": "284f8a7c5a8c7a77456d88ebaf56cc82ee9e0b53ed952a7fcbb90dbe9b9ee20d",
+    "SOURCES.md": "d745a7b84e00c6828e74b39adb06c1ccfb302bd50cc0af280557061f82bc2020",
+    "assets/haulers.jpg": "79eef6a3dd08c417208a42184d10e1254fc05591a1ed244b29f23dd55b3f38b1",
+    "assets/varvara.webp": "61d79f3da4017ff6ae2c33fd8724c0c547d5b9449d1cf3e5b38a898d49abb1e2",
+    "assets/yamen.webp": "a565021db9840abb4707b4c591e710f2aeb2a9af37b5097312f0fe275c919dd1",
+    "index.html": "51f42bf251c270cdd209a45e76ce42bdbb0b57883fee84f9f67ff30630de2185",
+    "scripts/app.js": "5ef63ee5f74515ad8a7600412b515fb55e44010cb84c9b7c7df151f4552a2389",
+    "scripts/lesson-data.js": "cde13bb8ed3f3b9a7d6430fe1f9dfb0fe9a814c6d29468c22b0f0699bc5b4667",
+    "scripts/world.js": "9a6575d294ba8410d8ff16c1a98f1b58d2198def81277e76ad372afcd8141383",
+    "styles/story.css": "b343522bc3726501639359c86283a27d38393e996af588935e718cf90f0ac776",
+    "teacher_script.docx": "205260dc4eea18828baaf643468fa90487da6f6530d9da3bd4558bbe78b4e645",
+    "teacher_script.md": "ebde85bf07610d029b1569e5a990c275fe5fc8b4c533b6d57638e4fcebe288fa",
+    "tests/browser_test.py": "90a79d6d04474fd6e4e618bcb9574299a443b26f3d66de790ebbe60907f0ca02",
+    "tests/content.test.cjs": "322c9eb3cf8cdf74f50812f1ffbcda8931163592ce7009dc7d0c9c9d6c0c92e3",
+    "tools/build_script.py": "9ad34218b754b4e9573b7cf7c554955e2dedff1ab1f2c6bf08770881eaf2d643"
+  }
+}
