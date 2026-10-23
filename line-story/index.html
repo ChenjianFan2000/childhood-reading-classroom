@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5f2e8"><title>童年里，什么值得被留下 · 线条叙事</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main id="stage" tabindex="-1" aria-label="童年阅读课堂">
+  <div id="canvas"><div id="art"></div><div class="chapter-mark" id="chapterMark"></div><section id="copy" aria-live="polite" aria-atomic="true"></section><div id="archive" aria-hidden="true"><figure><img id="materialImage" alt=""><figcaption id="materialText"></figcaption></figure></div><div class="paper-bottom" aria-hidden="true"></div></div>
+  <div id="liveStatus" class="sr-only" role="status"></div>
+  <nav id="controls" aria-label="课堂控制"><button id="prev" title="上一节拍（←）" aria-label="上一节拍">←</button><span id="counter"></span><button id="menuButton" title="目录（M）">目录</button><button id="noteButton" title="教师讲稿（N）">讲稿</button><button id="timerButton" title="暂停或继续计时（T）"><span id="clock">计时</span></button><button id="motionButton" title="切换简静动画" aria-pressed="false">简静</button><button id="fullButton" title="全屏（F）" aria-label="切换全屏">⛶</button><button id="next" title="下一节拍（→ / 空格）" aria-label="下一节拍">→</button></nav>
+  <div id="shade" hidden></div>
+  <aside id="notes" class="panel" role="dialog" aria-modal="true" aria-labelledby="notesTitle" hidden><button class="close" aria-label="关闭教师讲稿">×</button><h2 id="notesTitle">教师讲稿</h2><div id="notesBody"></div></aside>
+  <aside id="menu" class="panel" role="dialog" aria-modal="true" aria-labelledby="menuTitle" hidden><button class="close" aria-label="关闭目录">×</button><h2 id="menuTitle">课堂节拍</h2><p class="panel-hint">每次下一步只前进一个节拍；倒计时到零不会翻屏。</p><div id="cueList"></div></aside>
+  <div id="loadError" role="alert" hidden>课件未完整载入。请完整解压文件夹后，打开 index.html。</div>
+</main>
+<noscript>请在浏览器中启用 JavaScript 后打开本课件。</noscript>
+<script src="lesson-data.js"></script><script src="scenery.js"></script><script src="lesson.js"></script>
+</body></html>
